@@ -58,7 +58,19 @@
   .addrow button{flex:none;font-family:var(--display);font-weight:600;font-size:12px;border:1px solid var(--blue);background:var(--blue);color:#fff;border-radius:8px;padding:0 13px;cursor:pointer}
   .addrow button:hover{background:var(--blue-2)}
 
+  /* repeatable rows (anatomical target, trajectories) */
+  .reprow{display:flex;gap:7px;align-items:center;margin-bottom:7px}
+  .reprow .rn{font-family:var(--mono);font-size:11px;color:var(--blue-2);flex:none;width:16px;text-align:center}
+  .reprow select{flex:none;width:104px}
+  .reprow input{flex:1;min-width:0}
+  .reprow .rm{flex:none;background:transparent;border:none;color:#7e9bb4;cursor:pointer;font-size:17px;line-height:1;padding:0 2px}
+  .reprow .rm:hover{color:var(--tdt-hot)}
+  .addbtn{font-family:var(--display);font-weight:600;font-size:12px;border:1px dashed #2e5172;background:transparent;color:var(--blue-2);border-radius:8px;padding:7px 12px;cursor:pointer;width:100%;margin-top:2px}
+  .addbtn:hover{border-color:var(--blue);color:#fff;background:#13243a}
+
   .checks{display:flex;flex-direction:column;gap:2px}
+  .fu-subhdr{font-family:var(--display);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-2);font-weight:600;margin:9px 0 3px}
+  .fu-subhdr:first-child{margin-top:0}
   .chk{display:flex;align-items:flex-start;gap:9px;padding:6px 8px;border-radius:7px;cursor:pointer;font-size:12.5px;color:#cfe0ec;line-height:1.4}
   .chk:hover{background:#13243a}
   .chk input{appearance:none;width:16px;height:16px;border:1.5px solid #3a5e7e;border-radius:4px;flex:none;margin-top:1px;cursor:pointer;position:relative;background:#0c1a2a}
@@ -82,10 +94,16 @@
   .vidchip svg{color:var(--blue-2);flex:none}
   .vidchip .rm{margin-left:auto;background:transparent;border:none;color:#7e9bb4;cursor:pointer;font-size:16px}
 
-  .b-actions{position:sticky;bottom:0;background:#0c1a2a;border-top:1px solid #1d3650;padding:13px 22px;display:flex;gap:8px;z-index:5}
+  .b-actions{position:sticky;bottom:0;background:#0c1a2a;border-top:1px solid #1d3650;padding:13px 22px;display:flex;flex-direction:column;gap:8px;z-index:5}
   .bbtn{flex:1;font-family:var(--display);font-weight:600;font-size:12.5px;border-radius:9px;cursor:pointer;padding:11px 8px;border:1px solid #2e5172;background:#13243a;color:#eaf3f9;transition:.15s}
   .bbtn:hover{border-color:var(--blue);color:var(--blue-2)}
   .bbtn.primary{background:var(--blue);border-color:var(--blue);color:#fff}.bbtn.primary:hover{background:var(--blue-2)}
+  .aud-row{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .audbtn{font-family:var(--display);font-weight:600;font-size:12px;border-radius:9px;cursor:pointer;padding:10px 6px;border:1px solid #2e5172;background:#13243a;color:#cfe0ec;transition:.15s}
+  .audbtn:hover{border-color:var(--blue);color:#fff}
+  .audbtn[aria-pressed="true"]{background:var(--navy-2);border-color:var(--blue);color:#fff}
+  .act-row{display:flex;gap:8px}
+  .act-row .bbtn{flex:1}
   .savedwrap{display:flex;gap:8px;margin-top:10px}
   .savedwrap select{flex:1}
   .savedwrap button{flex:none;font-family:var(--display);font-weight:600;font-size:12px;border:1px solid #2e5172;background:#13243a;color:#cfe0ec;border-radius:8px;padding:0 13px;cursor:pointer}
@@ -106,14 +124,8 @@
   .brandrule{height:4px;background:linear-gradient(90deg,var(--navy),var(--blue) 60%,var(--blue-2))}
 
   .switchwrap{padding:20px 36px 0}
-  .swlabel{font-family:var(--display);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);font-weight:500;margin-bottom:9px}
-  .switch{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:5px;gap:4px}
-  .sw{flex:1;border:none;background:transparent;cursor:pointer;padding:10px 9px;border-radius:8px;font-family:var(--display);font-weight:500;color:var(--navy-3);transition:.16s;text-align:left}
-  .sw:hover{color:var(--navy)}
-  .sw .t{display:block;font-size:13px}
-  .sw .d{display:block;font-size:9.5px;color:var(--ink-3);margin-top:2px;font-weight:400}
-  .sw[aria-pressed="true"]{background:var(--navy);color:#fff}
-  .sw[aria-pressed="true"] .d{color:#A9C6DC}
+  .deckbar{margin:18px 36px 0;padding:14px 18px;border-radius:12px;background:var(--blue-pale);border:1px solid var(--blue-line);display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+  .deckbar .db-t{font-family:var(--display);font-size:13px;font-weight:600;color:var(--navy)}
 
   .leadstrip{margin:20px 36px 0;padding:18px 20px;border-radius:14px;color:#eaf3f9;background:linear-gradient(135deg,#15314D,#1d4163)}
   .leadstrip .ls-h{font-family:var(--display);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-2);font-weight:600;margin-bottom:13px;display:flex;align-items:center;gap:8px}
@@ -126,6 +138,9 @@
   .mcell{background:var(--paper);padding:13px 15px}
   .mcell .k{font-family:var(--display);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:500}
   .mcell .v{font-size:15px;color:var(--navy);font-weight:500;margin-top:4px;line-height:1.35}
+  .mcell-wide{grid-column:span 2}
+  .mcell .v .vsub{display:block;font-size:12.5px;color:var(--ink-2);font-weight:400;margin-top:2px}
+  @media(max-width:560px){.meta{grid-template-columns:repeat(2,1fr)}.mcell-wide{grid-column:span 2}}
   .meta-note{padding:11px 36px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
   .robo-chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--display);font-size:11px;font-weight:600;color:var(--navy);background:var(--blue-pale);border:1px solid var(--blue-line);padding:5px 11px;border-radius:20px}
   .robo-chip.off{color:var(--ink-2);background:var(--surface);border-color:var(--line)}
@@ -155,6 +170,16 @@
   .doc[data-view="referring"] .v-refpt,
   .doc[data-view="patient"] .v-refpt{display:block}
   .sec-off{display:none!important}
+  /* patient view: no thermometry video */
+  .doc[data-view="patient"] #videoSection{display:none!important}
+  /* print/export image gallery (all phases) — hidden on screen, shown in print */
+  #imgPrintAll{display:none}
+  #imgPrintAll .pphase{font-family:var(--display);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);font-weight:600;margin:14px 0 8px}
+  #imgPrintAll .pgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  #imgPrintAll figure{margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface);break-inside:avoid}
+  #imgPrintAll img{display:block;width:100%;height:auto;object-fit:contain;background:#06090d}
+  #imgPrintAll figcaption{font-size:11.5px;color:var(--ink-2);padding:7px 10px;line-height:1.4}
+  #imgPrintAll figcaption b{color:var(--navy)}
   .exportbar{display:flex;gap:9px;margin:16px 0 0;flex-wrap:wrap}
   .xbtn{font-family:var(--display);font-weight:600;font-size:12.5px;padding:10px 16px;border-radius:9px;border:1px solid var(--navy);background:#fff;color:var(--navy);cursor:pointer;transition:.15s}
   .xbtn:hover{background:var(--blue-pale)}
@@ -167,21 +192,6 @@
   #r_surgeon_sec .sg-list{margin:0 0 4px;padding-left:18px}
   #r_surgeon_sec .sg-list li{font-size:13.5px;line-height:1.5;color:var(--ink-2);margin-bottom:3px}
   #r_surgeon_sec .sg-note{font-size:13.5px;line-height:1.55;color:var(--ink);background:var(--blue-pale);border-left:3px solid var(--navy);border-radius:0 8px 8px 0;padding:9px 12px}
-  .phys-only{display:none}
-  .physician .phys-only{display:block}
-  .physician .b-head,.physician .b-actions{display:none!important}
-  .physician .b-body>*:not(.keep){display:none!important}
-  .physician .switchwrap{display:none!important}
-  .physician .builder{position:static;max-height:none}
-  .physcard{background:var(--navy);color:#fff;border-radius:12px;padding:14px 16px;margin-bottom:14px}
-  .physcard .pc-t{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#A9C6DC;margin-bottom:8px}
-  .physcard .pc-row{display:flex;justify-content:space-between;gap:10px;font-size:13px;padding:4px 0;border-top:1px solid rgba(255,255,255,.12)}
-  .physcard .pc-row:nth-of-type(1){border-top:none}
-  .physcard .pc-row span{color:#A9C6DC}
-  .physcard .pc-row b{color:#fff;text-align:right}
-  #physActions{margin-top:14px}
-  #physActions .bbtn{width:100%;justify-content:center}
-  .physician .chk{padding:11px 12px}
 
   .term{border-bottom:1.5px dotted var(--blue);cursor:pointer;color:var(--navy);font-weight:500;padding:0 1px}
   .term:hover{background:rgba(47,143,201,.10)}
@@ -309,10 +319,42 @@
     .stage{max-height:none;overflow:visible;padding:0;background:#fff}
     .doc{box-shadow:none;max-width:100%;border-radius:0}
     .zoomctl,.vhint,.imgtabs,.switchwrap,.pcontrols{display:none!important}
+    /* export the full image set, not just the active tab */
+    .viewer,#noimg,.legend{display:none!important}
+    #videoSection{display:none!important}
+    #imgPrintAll{display:block!important}
     section,.leadstrip,.meta,.sigwrap,.rx,.patient-legal,.fu-grid,.refs-list,.ref-item,.fu-card,.whybox{break-inside:avoid}
-    .viewer{break-inside:avoid}
+    #imgPrintAll figure{break-inside:avoid}
   }
-  @media (max-width:980px){.app{grid-template-columns:1fr}.builder{position:static;max-height:none}}
+  @media (max-width:980px){
+    .app{grid-template-columns:1fr}
+    .builder{position:static;max-height:none;max-width:520px;margin:0 auto;width:100%}
+    .b-actions{position:sticky}
+    .stage{max-height:none;overflow:visible;padding:18px 14px 60px}
+  }
+  /* phone */
+  @media (max-width:640px){
+    body{font-size:15px}
+    .masthead{padding:18px 18px 0}
+    .doctitle{font-size:23px}
+    .mh-top{gap:10px}
+    .switchwrap{padding:14px 18px 0}
+    .deckbar{margin:14px 18px 0;flex-direction:column;align-items:stretch}
+    .deckbar .xbtn{width:100%}
+    .leadstrip{margin:16px 18px 0;padding:15px 16px}
+    .ls-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+    .meta{margin:16px 18px 0;grid-template-columns:1fr 1fr}
+    .mcell-wide{grid-column:span 2}
+    .meta-note{padding:10px 18px 0}
+    section,.leadstrip{margin-left:18px;margin-right:18px}
+    section{padding:18px 16px}
+    .sigwrap,.rx,.patient-legal{margin-left:18px;margin-right:18px;padding:18px 16px}
+    .fu-grid{grid-template-columns:1fr}
+    .foot{margin:22px 18px 0}
+    .imgtabs{gap:6px}
+    .aud-row .audbtn{font-size:11.5px;padding:11px 6px}
+    #imgPrintAll .pgrid{grid-template-columns:1fr}
+  }
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
   :focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:4px}
 </style>
@@ -364,6 +406,15 @@
         </div>
       </div>
 
+      <!-- ANATOMICAL TARGET -->
+      <div class="group">
+        <div class="glabel">Anatomical target(s)</div>
+        <div style="font-family:var(--mono);font-size:10px;color:#5e7a93;margin:-4px 0 9px;line-height:1.4">List each brain region treated (side + region) and, optionally, what was addressed. Appears on the report and the deck.</div>
+        <div id="c_target"></div>
+        <button type="button" class="addbtn" id="addTargetBtn">+ Add region</button>
+        <div class="fld" style="margin-top:10px"><label>Anatomical detail / approach (optional)</label><textarea id="i_targetnote" rows="2" placeholder="e.g. ablation extended across the entire posterior and mid corpus callosum; fornix spared"></textarea></div>
+      </div>
+
       <!-- DEVICE / CONSOLE -->
       <div class="group">
         <div class="glabel">Device &amp; console</div>
@@ -383,9 +434,10 @@
           <div class="fld mono"><label>Energy kJ</label><input id="i_energy" value="13.5"></div>
           <div class="fld mono"><label>Pulses</label><input id="i_pulses" value="646"></div>
         </div>
-        <div class="two">
-          <div class="fld mono"><label>Targets</label><input id="i_targets" value="1"></div>
-          <div class="fld mono"><label>Trajectories</label><input id="i_traj" value="1"></div>
+        <div class="fld mono" style="max-width:46%"><label>Targets</label><input id="i_targets" value="1"></div>
+        <div class="fld"><label>Trajectories &amp; direction <span id="trajCount" style="color:var(--blue-2);font-family:var(--mono)"></span></label>
+          <div id="c_traj"></div>
+          <button type="button" class="addbtn" id="addTrajBtn">+ Add trajectory</button>
         </div>
       </div>
 
@@ -411,20 +463,19 @@
         <div class="checks" id="c_factors"></div>
       </div>
 
-      <!-- PHYSICIAN-MODE CASE HEADER (shown only in physician edition) -->
-      <div class="keep phys-only physcard" id="physCard"></div>
-
-      <!-- FROM THE PERFORMING SURGEON -->
-      <div class="group keep" id="surgeonPanel">
-        <div class="glabel">From the performing surgeon <span class="auto-pill">referring report</span></div>
-        <div style="font-family:var(--mono);font-size:10px;color:#5e7a93;margin:-4px 0 9px;line-height:1.4">Tap to add your own notes to the referring report. Nothing is sent anywhere; export the PDF when you are done.</div>
-        <div id="c_surgeon"></div>
-        <div class="fld" style="margin-top:12px"><label>Optional note (your words)</label><textarea id="i_surgeonnote" rows="3" placeholder="One or two sentences, optional"></textarea></div>
+      <!-- POST-LITT FOLLOW-UP (selectable, defaulted by indication) -->
+      <div class="group">
+        <div class="glabel">Post-LITT follow-up <span class="auto-pill">defaults by indication</span></div>
+        <div style="font-family:var(--mono);font-size:10px;color:#5e7a93;margin:-4px 0 9px;line-height:1.4">Pre-selected for this indication. Untick anything you don't want on the report.</div>
+        <div class="checks" id="c_followup"></div>
       </div>
 
-      <!-- PHYSICIAN-MODE EXPORT (shown only in physician edition) -->
-      <div class="keep phys-only" id="physActions">
-        <button class="bbtn primary" id="physExportBtn">Export PDF to share</button>
+      <!-- PROCEDURAL NOTES -->
+      <div class="group keep" id="surgeonPanel">
+        <div class="glabel">Procedural notes <span class="auto-pill">report</span></div>
+        <div style="font-family:var(--mono);font-size:10px;color:#5e7a93;margin:-4px 0 9px;line-height:1.4">Tick what applies; these render as plain bullets. Nothing is sent anywhere; export the PDF when you are done.</div>
+        <div id="c_surgeon"></div>
+        <div class="fld" style="margin-top:12px"><label>In your own words — each line becomes a bullet</label><textarea id="i_surgeonnote" rows="3" placeholder="Type freely. Press Enter for a new bullet."></textarea></div>
       </div>
 
       <!-- IMAGING -->
@@ -478,6 +529,7 @@
         <div class="glabel">Saved cases <span class="auto-pill">local</span></div>
         <div class="savedwrap">
           <select id="s_loadcase"><option value="">Load a saved case…</option></select>
+          <button id="saveBtn" title="Save to this browser">Save</button>
           <button id="delCaseBtn" title="Delete selected">Delete</button>
         </div>
       </div>
@@ -485,11 +537,16 @@
     </div>
 
     <div class="b-actions">
-      <button class="bbtn" id="saveBtn">Save case</button>
-      <button class="bbtn" id="presentBtn">Present</button>
-      <button class="bbtn primary" id="printBtn">Export PDF</button>
-      <button class="bbtn primary" id="deckBtn">Tumor board deck</button>
-      <button class="bbtn primary" id="physEditionBtn">Physician edition (mobile)</button>
+      <div class="aud-row" role="group" aria-label="Report audience">
+        <button class="audbtn" data-view="performing">Performing Physician</button>
+        <button class="audbtn" data-view="referring" aria-pressed="true">Referring Physician</button>
+        <button class="audbtn" data-view="tumorboard">Presentation Deck</button>
+        <button class="audbtn" data-view="patient">Patient</button>
+      </div>
+      <div class="act-row">
+        <button class="bbtn primary" id="printBtn">Export PDF</button>
+        <button class="bbtn" id="saveFileBtn">Save Case</button>
+      </div>
     </div>
   </aside>
 
@@ -518,18 +575,9 @@
       </div>
       <div class="brandrule"></div>
 
-      <div class="switchwrap">
-        <div class="swlabel">Read this as</div>
-        <div class="switch" role="group" aria-label="Report recipient">
-          <button class="sw" data-view="referring" aria-pressed="true"><span class="t">Referring</span><span class="d">how to read it</span></button>
-          <button class="sw" data-view="performing" aria-pressed="false"><span class="t">Performing</span><span class="d">clean record</span></button>
-          <button class="sw" data-view="tumorboard" aria-pressed="false"><span class="t">Tumor board</span><span class="d">case framing</span></button>
-          <button class="sw" data-view="patient" aria-pressed="false"><span class="t">Patient</span><span class="d">for the patient</span></button>
-        </div>
-        <div class="exportbar">
-          <button class="xbtn" id="printBtn2">Export PDF of this report</button>
-          <button class="xbtn primary" id="deckBtn2">Create tumor board deck (.pptx)</button>
-        </div>
+      <div class="deckbar v-tb" id="deckbar">
+        <div class="db-t">Tumor board presentation · build the slide deck from this case</div>
+        <button class="xbtn primary" id="deckExportBtn">Download as PowerPoint (.pptx)</button>
       </div>
       <div class="leadstrip">
         <div class="ls-h">Procedure data at a glance <span class="autodot">NeuroBlate console report</span></div>
@@ -550,9 +598,10 @@
         <div class="mcell"><div class="k">Indication</div><div class="v" id="r_ind"></div></div>
         <div class="mcell"><div class="k">Probe</div><div class="v" id="r_probe_full"></div></div>
         <div class="mcell"><div class="k">Date of procedure</div><div class="v" id="r_date"></div></div>
+        <div class="mcell"><div class="k">Robotic probe driver</div><div class="v" id="r_robotic_box"></div></div>
+        <div class="mcell mcell-wide"><div class="k">Anatomical target(s)</div><div class="v" id="r_target_box"></div></div>
       </div>
       <div class="meta-note">
-        <span class="robo-chip" id="r_robotic_chip"></span>
         <span class="cnote">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
           Probe and Laser parameters per NeuroBlate console report.
@@ -560,9 +609,9 @@
       </div>
 
       <!-- FROM THE PERFORMING SURGEON — referring report -->
-      <section class="v-ref sec-off" id="r_surgeon_sec">
-        <div class="eyebrow">From the performing surgeon</div>
-        <h2 class="sec">The procedure, in the surgeon's words</h2>
+      <section class="v-ref v-perf sec-off" id="r_surgeon_sec">
+        <div class="eyebrow">Procedural notes</div>
+        <h2 class="sec">Procedural Notes — in the surgeon's words</h2>
         <div id="r_surgeon_body"></div>
       </section>
 
@@ -579,6 +628,8 @@
         <div id="noimg" class="noimg" style="display:none">Drop one or more thermometry stills in the builder to populate this viewer.</div>
         <div class="legend" id="imgLegend"></div>
         <div class="cap" id="r_cap"></div>
+        <!-- print/export gallery: all images, every phase -->
+        <div id="imgPrintAll"></div>
       </section>
 
       <!-- VIDEO -->
@@ -796,10 +847,51 @@ const REFS = {
 const DEFAULT_CAVEAT="Most NeuroBlate evidence is prospective registry or cohort data (LAANTERN), not a randomized comparison against open surgery. References are provided as supporting context for selected-patient consideration, not as superiority claims.";
 
 const INSIGHTS = ["__TRAJ__","Ablation monitored under continuous real-time MR thermometry","Planned thermal-dose coverage achieved with critical structures kept outside the margin","Procedure completed according to the operative plan"];
+/* ---- Trajectories (count + per-trajectory direction) ---- */
+let trajRows=[""];
+function trajCountN(){ return Math.max(1, trajRows.length); }
+function trajDirList(){ return trajRows.map(d=>(d||"").trim()).filter(Boolean); }
+function renderTrajRows(){
+  const host=$("c_traj"); if(!host) return; host.innerHTML="";
+  trajRows.forEach((d,i)=>{
+    const row=document.createElement("div"); row.className="reprow";
+    row.innerHTML=`<span class="rn">${i+1}</span>`+
+      `<input data-i="${i}" class="tdir" placeholder="Direction / approach (e.g. left frontal entry, anterior–posterior)" value="${(d||'').replace(/"/g,'&quot;')}">`+
+      (trajRows.length>1?`<button type="button" class="rm" data-i="${i}" title="Remove">×</button>`:"");
+    host.appendChild(row);
+  });
+  host.querySelectorAll(".tdir").forEach(el=>el.oninput=e=>{ trajRows[+e.target.dataset.i]=e.target.value; render(); renderInsights(); });
+  host.querySelectorAll(".rm").forEach(b=>b.onclick=e=>{ trajRows.splice(+e.target.dataset.i,1); renderTrajRows(); render(); renderInsights(); });
+  const c=$("trajCount"); if(c) c.textContent=`· ${trajRows.length} ${trajRows.length===1?"trajectory":"trajectories"}`;
+}
+
+/* ---- Anatomical target(s) (side + region, repeatable) ---- */
+let targetRows=[{side:"",region:""}];
+const SIDES=["Left","Right","Midline","Bilateral"];
+function renderTargetRows(){
+  const host=$("c_target"); if(!host) return; host.innerHTML="";
+  targetRows.forEach((t,i)=>{
+    const row=document.createElement("div"); row.className="reprow";
+    const opts=`<option value="">Side…</option>`+SIDES.map(s=>`<option${t.side===s?" selected":""}>${s}</option>`).join("");
+    row.innerHTML=`<select data-i="${i}" class="tside">${opts}</select>`+
+      `<input data-i="${i}" class="treg" placeholder="Region (e.g. posterior + mid corpus callosum)" value="${(t.region||'').replace(/"/g,'&quot;')}">`+
+      (targetRows.length>1?`<button type="button" class="rm" data-i="${i}" title="Remove">×</button>`:"");
+    host.appendChild(row);
+  });
+  host.querySelectorAll(".tside").forEach(el=>el.onchange=e=>{ targetRows[+e.target.dataset.i].side=e.target.value; render(); });
+  host.querySelectorAll(".treg").forEach(el=>el.oninput=e=>{ targetRows[+e.target.dataset.i].region=e.target.value; render(); });
+  host.querySelectorAll(".rm").forEach(b=>b.onclick=e=>{ targetRows.splice(+e.target.dataset.i,1); renderTargetRows(); render(); });
+}
+function targetParts(){
+  return targetRows.map(t=>{ const s=(t.side||"").trim(), r=(t.region||"").trim();
+    if(!s&&!r) return ""; return (s&&r)?`${s} — ${r}`:(r||s); }).filter(Boolean);
+}
+
 function trajInsight(){
-  const n=parseInt($("i_traj").value,10)||1;
-  return n>1 ? `Planned coverage delivered across ${n} stereotactic trajectories`
-             : "Planned coverage delivered through a single stereotactic trajectory";
+  const n=trajCountN(), dirs=trajDirList();
+  const base = n>1 ? `Planned coverage delivered across ${n} stereotactic trajectories`
+                   : "Planned coverage delivered through a single stereotactic trajectory";
+  return dirs.length ? `${base} (${dirs.join("; ")})` : base;
 }
 function insightLabel(i){ return INSIGHTS[i]==="__TRAJ__" ? trajInsight() : INSIGHTS[i]; }
 
@@ -836,6 +928,19 @@ const POSTFU = {
       {key:"biopsy", factor:"Biopsy obtained", bullets:[{label:"Use tissue to guide next treatment", text:"Pathology and molecular findings should be integrated with post-LITT imaging and systemic-treatment planning."}]},
       {key:"priorrad", factor:"Prior radiation", bullets:[{label:"Separate recurrence from treatment effect cautiously", text:"Prior radiation can complicate MRI interpretation; serial imaging and clinical trajectory matter.", src:"medvid_2015"}]},
       {key:"trial", factor:"Clinical trial discussed", bullets:[{label:"Preserve trial timing", text:"Coordinate early with neuro-oncology so recovery, steroids, and imaging timing do not unintentionally delay trial screening."}]}
+    ]
+  },
+  newly_glioma:{
+    default:[
+      {label:"Establish the diagnosis first", text:"Integrate biopsy pathology and molecular markers (IDH, 1p/19q, grade) before finalizing the post-LITT treatment plan."},
+      {label:"Early MRI may show treatment-related change", text:"Rim enhancement, edema, and an evolving ablation-zone size should be interpreted in context rather than read as immediate progression.", src:"medvid_2015"},
+      {label:"LITT treats the targeted volume", text:"Glioma is infiltrative; ablation addresses the targeted lesion within an individualized plan, not microscopic disease throughout the brain."},
+      {label:"Plan the next step on biology", text:"Observation, radiation, systemic therapy, or further surgery should be guided by grade, molecular profile, location, and the imaging trend."},
+      {label:"Escalate concern if", text:"New or worsening neurologic deficit, rising steroid need, unexpected mass effect, or rapid progression outside the treated target."}
+    ],
+    triggers:[
+      {key:"biopsy", factor:"Biopsy obtained", bullets:[{label:"Use tissue to guide next treatment", text:"Pathology and molecular findings should be integrated with post-LITT imaging and the overall plan."}]},
+      {key:"eloquent", factor:"Deep / eloquent location", bullets:[{label:"Neurologic exam matters as much as imaging", text:"Small changes near eloquent anatomy may be clinically meaningful even when imaging changes are subtle."}]}
     ]
   },
   newly_gbm:{
@@ -924,6 +1029,20 @@ const INDICATIONS = {
       rennert_2020:"Documents the low peri-procedural complication profile relevant to re-treating a lesion in or near a prior surgical field."
     },
     emerging:"LITT temporarily increases peritumoral blood-brain barrier permeability. This was first demonstrated in humans (Leuthardt 2016), characterized mechanistically in preclinical models (Salehi 2020), and shown to persist for at least four weeks after ablation (Nielsen 2025). A local anti-tumor immune response has been observed following LITT (Chandar 2023). Early-phase trials are evaluating LITT combined with checkpoint blockade in high-grade glioma (Suryadevara 2026; phase 1/2b, NCT02311582; Hwang 2022).",
+    legitimacy:"Guideline and consensus context: the AANS-CNS Joint Section on Tumors position statement (2021) endorses MR-guided LITT as an option for adult CNS tumors, especially lesions unsuitable for or inaccessible to resection, and LITT appears in NCCN guidelines."
+  },
+  newly_glioma:{
+    label:"Newly diagnosed glioma (lower-grade)", detail:"Newly diagnosed lower-grade glioma",
+    diseaseTitle:"LITT in newly diagnosed lower-grade glioma",
+    diseasePhys:"In a newly diagnosed lower-grade or non-glioblastoma glioma, LITT is considered when the lesion is deep, small, or in an eloquent location where open resection carries meaningful risk, or when a patient is not a candidate for craniotomy. It provides minimally invasive cytoreduction of the targeted volume under continuous MR thermometry, and in the same trajectory can be paired with biopsy for tissue and molecular diagnosis. Because glioma is infiltrative, ablation addresses the targeted volume rather than microscopic disease, and is best framed as one component of an individualized plan that preserves future surgical, radiation, and systemic options.",
+    diseasePt:"A glioma is a tumor that grows from the brain's own supportive cells. When it is found in a place that is hard to reach with open surgery, the team may treat the targeted area with LITT — controlled, MRI-guided heat delivered through a tiny opening. A small tissue sample is often taken at the same time so the team learns exactly what type it is. LITT is usually one part of an overall plan.",
+    whyEvidence:"LITT was chosen to deliver minimally invasive cytoreduction of a deep or eloquently located lesion while obtaining tissue for diagnosis in a single trajectory, keeping resection, radiation, systemic therapy, and trials open. The supporting evidence: the prospective LAANTERN tumor registry reported short hospitalization and high discharge-to-home rates across ablated brain tumors (Kim 2020), with a low peri-procedural complication profile across centers (Rennert 2020). Most published LITT glioma data center on higher-grade disease, so lower-grade use is individualized to lesion location and patient factors.",
+    fu:FU_TUMOR, refs:["kim_2020","rennert_2020"],
+    refsCase:{
+      kim_2020:"Shows the short-stay, high-discharge-home profile this patient can expect from a minimally invasive ablation, supporting a quicker return to normal activity and the broader treatment plan.",
+      rennert_2020:"Documents the low peri-procedural complication profile relevant to treating a deep or eloquently located lesion without an open resection."
+    },
+    emerging:"LITT temporarily increases peritumoral blood-brain barrier permeability. This was first demonstrated in humans (Leuthardt 2016), characterized mechanistically in preclinical models (Salehi 2020), and shown to persist for at least four weeks after ablation (Nielsen 2025). A local anti-tumor immune response has been observed following LITT (Chandar 2023). These remain research directions and are not outcome claims for lower-grade glioma.",
     legitimacy:"Guideline and consensus context: the AANS-CNS Joint Section on Tumors position statement (2021) endorses MR-guided LITT as an option for adult CNS tumors, especially lesions unsuitable for or inaccessible to resection, and LITT appears in NCCN guidelines."
   },
   newly_gbm:{
@@ -1097,7 +1216,21 @@ function paintIndication(){
   fillLi($("r_fu_warrant"), ind.fu.warrant);
   $("r_fu_note").textContent=ind.fu.note;
   renderFactors();
+  buildFollowupChecks($("i_ind").value);
   paintAudience();
+}
+function buildFollowupChecks(key){
+  const host=$("c_followup"); if(!host) return; host.innerHTML="";
+  const pf=POSTFU[key]; if(!pf) return;
+  const gh=t=>{ const d=document.createElement("div"); d.className="fu-subhdr"; d.textContent=t; host.appendChild(d); };
+  const add=(grp,arr)=>arr.forEach((b,i)=>{
+    const lab=document.createElement("label"); lab.className="chk";
+    lab.innerHTML=`<input type="checkbox" data-fg="${grp}" data-i="${i}" checked><span>${b.label}</span>`;
+    lab.querySelector("input").addEventListener("change",renderFollowup);
+    host.appendChild(lab);
+  });
+  gh("General"); add("base",FOLLOWUP_BASE);
+  if(pf.default&&pf.default.length){ gh("For this indication"); add("def",pf.default); }
 }
 function srcChip(k){ if(!k||!REFS[k]) return ""; return `<span class="wsrc">${REFS[k].cite.split(".")[0]}</span>`; }
 function watchItem(b){ return `<div class="watch-item"><div class="wl">${b.label}</div><div class="wt">${b.text}${b.src?(" "+srcChip(b.src)):""}</div></div>`; }
@@ -1113,10 +1246,15 @@ function renderFactors(){
 }
 function renderFollowup(){
   const key=$("i_ind").value; const pf=POSTFU[key]; if(!pf) return;
-  let html='<div class="watch-grouphdr">General watch points</div>';
-  FOLLOWUP_BASE.forEach(b=> html+=watchItem(b));
-  html+='<div class="watch-grouphdr">For this indication</div>';
-  pf.default.forEach(b=> html+=watchItem(b));
+  const host=$("c_followup");
+  const sel=g=> host ? [...host.querySelectorAll(`input[data-fg="${g}"]`)].map(c=>c.checked) : [];
+  const baseSel=sel("base"), defSel=sel("def");
+  const on=(arr,i)=> arr.length? arr[i]!==false : true; // default to shown if checklist not built yet
+  let html="";
+  const baseItems=FOLLOWUP_BASE.filter((b,i)=>on(baseSel,i));
+  if(baseItems.length){ html+='<div class="watch-grouphdr">General watch points</div>'; baseItems.forEach(b=> html+=watchItem(b)); }
+  const defItems=pf.default.filter((b,i)=>on(defSel,i));
+  if(defItems.length){ html+='<div class="watch-grouphdr">For this indication</div>'; defItems.forEach(b=> html+=watchItem(b)); }
   let trigHtml=""; (pf.triggers||[]).forEach(t=>{ const c=$("f_"+t.key); if(c&&c.checked) t.bullets.forEach(b=> trigHtml+=watchItem(b)); });
   if(trigHtml) html+='<div class="watch-grouphdr">Case-specific</div>'+trigHtml;
   $("r_watch_body").innerHTML=html;
@@ -1181,7 +1319,7 @@ function txt(id,v){ const e=$(id); if(e) e.textContent=v; }
 function html(id,v){ const e=$(id); if(e) e.innerHTML=v; }
 function render(){
   const probe=$("i_probe").value, energy=$("i_energy").value, laser=$("i_laser").value,
-        pulses=$("i_pulses").value, targets=$("i_targets").value, traj=$("i_traj").value,
+        pulses=$("i_pulses").value, targets=$("i_targets").value, traj=trajCountN(),
         robotic=$("i_robotic").value;
   const perf = $("s_perf").value===ADD?"":$("s_perf").value;
   const ref = $("s_ref").value===ADD?"":$("s_ref").value;
@@ -1193,14 +1331,14 @@ function render(){
   txt("r_energy",energy); txt("r_laser",laser); txt("r_pulses",pulses); txt("r_tt",`${targets}·${traj}`);
   txt("r_facility",fac); txt("r_perf",perf); txt("r_ref",ref);
   txt("r_ind",$("i_inddetail").value); txt("r_date",$("i_date").value);
-  // robotic chip
-  const chip=$("r_robotic_chip"); const used=robotic==="Used";
-  chip.classList.toggle("off",!used);
-  chip.innerHTML = used
-    ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg> Robotic probe driver used'
-    : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/></svg> Manual probe placement (no robotic driver)';
+  // robotic driver (metadata box)
+  txt("r_robotic_box", robotic==="Used" ? "Used — robotic probe driver" : "Manual placement (no robotic driver)");
+  // anatomical target(s) (metadata box)
+  const tparts=targetParts(), tnote=($("i_targetnote").value||"").trim();
+  const tbox=$("r_target_box");
+  if(tbox){ tbox.innerHTML = (tparts.length ? tparts.join("; ") : "—") + (tnote?`<span class="vsub">${tnote.replace(/&/g,"&amp;").replace(/</g,"&lt;")}</span>`:""); }
   // narrative
-  html("t_probe1",`${probe}`); txt("t_traj1",traj==="1"?"a single":`${traj}`);
+  html("t_probe1",`${probe}`); txt("t_traj1",traj===1?"a single":`${traj}`);
   html("t_energy1",`${energy}&nbsp;kJ`); html("t_laser1",laserWords(laser)); html("t_pulses1",`${pulses}&nbsp;pulses`);
   txt("t_date_p",$("i_date").value); txt("t_facility_p",fac);
   txt("r_signname",$("i_signname").value); txt("r_signmeta",$("i_signmeta").value);
@@ -1209,10 +1347,11 @@ function render(){
   txt("r_liaison_title",$("i_liaison_title").value);
   liaison={name:$("i_liaison_name").value,title:$("i_liaison_title").value}; LS.set(LIA_KEY,liaison);
 }
-["i_caseref","i_mrn","i_inddetail","i_date","i_laser","i_energy","i_pulses","i_targets","i_traj","i_signname","i_signmeta","i_liaison_name","i_liaison_title"].forEach(id=>$(id).addEventListener("input",render));
-$("i_traj").addEventListener("input",()=>{ const sp=$("c_insights").querySelector(".chk span"); if(sp) sp.textContent=trajInsight(); renderInsights(); });
+["i_caseref","i_mrn","i_inddetail","i_date","i_laser","i_energy","i_pulses","i_targets","i_targetnote","i_signname","i_signmeta","i_liaison_name","i_liaison_title"].forEach(id=>$(id).addEventListener("input",render));
 ["i_probe","i_robotic"].forEach(id=>$(id).addEventListener("change",render));
 $("i_emerging").addEventListener("change",renderRefs);
+$("addTrajBtn").onclick=()=>{ trajRows.push(""); renderTrajRows(); render(); renderInsights(); };
+$("addTargetBtn").onclick=()=>{ targetRows.push({side:"",region:""}); renderTargetRows(); render(); };
 
 /* ===================== IMAGING ===================== */
 let images=SAMPLE.map(s=>({...s})), activeImg=0;
@@ -1227,7 +1366,7 @@ function renderImaging(){
     : `<div class="lz"><span class="sw2 y"></span> Yellow contour — lower-dose TDT line (≈43°C for 2 min): where thermal injury is developing</div>
        <div class="lz"><span class="sw2 b"></span> Blue contour — higher-dose TDT line (≈43°C for 10 min): more confident zone of irreversible ablation</div>`;
   }
-  if(!images.length){ viewer.style.display="none"; noimg.style.display="block"; $("r_cap").innerHTML=""; return; }
+  if(!images.length){ viewer.style.display="none"; noimg.style.display="block"; $("r_cap").innerHTML=""; renderPrintImages(isPt); return; }
   viewer.style.display=""; noimg.style.display="none";
   images.forEach((im,i)=>{
     const lbl = (isPt && im.patientLabel) ? im.patientLabel : (im.label||`View ${i+1}`);
@@ -1239,6 +1378,29 @@ function renderImaging(){
   const cur=images[Math.min(activeImg,images.length-1)];
   $("vimg").src=cur.src;
   $("r_cap").innerHTML = isPt ? (cur.patientCaption||"") : (cur.caption||"");
+  renderPrintImages(isPt);
+}
+// Build the print/export gallery: every image, every phase (grouped for clinicians; one set for patients)
+const PHASE_TITLE={pre:"Pre-operative imaging",intra:"Intra-operative thermometry",post:"Post-operative imaging"};
+function figureFor(im,i,isPt){
+  const lbl=(isPt&&im.patientLabel)?im.patientLabel:(im.label||`View ${i+1}`);
+  const cap=(isPt?(im.patientCaption||""):(im.caption||"")).replace(/<[^>]+>/g,"");
+  return `<figure><img src="${im.src}" alt="${lbl.replace(/"/g,'&quot;')}"><figcaption><b>${lbl}</b>${cap?` — ${cap}`:""}</figcaption></figure>`;
+}
+function renderPrintImages(isPt){
+  const host=$("imgPrintAll"); if(!host) return;
+  if(!images.length){ host.innerHTML=""; return; }
+  if(isPt){
+    host.innerHTML=`<div class="pgrid">`+images.map((im,i)=>figureFor(im,i,true)).join("")+`</div>`;
+    return;
+  }
+  let html="";
+  ["pre","intra","post"].forEach(ph=>{
+    const set=images.map((im,i)=>({im,i})).filter(o=>(o.im.phase||"intra")===ph);
+    if(!set.length) return;
+    html+=`<div class="pphase">${PHASE_TITLE[ph]}</div><div class="pgrid">`+set.map(o=>figureFor(o.im,o.i,false)).join("")+`</div>`;
+  });
+  host.innerHTML=html;
 }
 let zoom=1,ox=0,oy=0,dragging=false,sx=0,sy=0;
 const viewer=$("viewer"),vimg=$("vimg");
@@ -1326,12 +1488,13 @@ track.onclick=e=>{ if(!vid.duration) return; const r=track.getBoundingClientRect
 /* ===================== VIEW SWITCH + GLOSSARY ===================== */
 const EYEBROWS={referring:"Procedure summary · for the referring physician",performing:"Procedure summary · performing-physician record",tumorboard:"Procedure summary · tumor board framing",patient:"Procedure summary · for patient & family"};
 function setView(v){
-  document.querySelectorAll(".sw").forEach(x=>x.setAttribute("aria-pressed", x.dataset.view===v?"true":"false"));
+  document.querySelectorAll(".audbtn").forEach(x=>x.setAttribute("aria-pressed", x.dataset.view===v?"true":"false"));
   $("doc").dataset.view=v;
   $("r_eyebrow").textContent=EYEBROWS[v]||"";
   paintAudience(); renderImaging(); updateVideoNote(); hidePop();
+  $("doc").scrollIntoView({behavior:"smooth",block:"start"});
 }
-document.querySelectorAll(".sw").forEach(b=>b.onclick=()=>setView(b.dataset.view));
+document.querySelectorAll(".audbtn").forEach(b=>b.onclick=()=>setView(b.dataset.view));
 const pop=$("pop");
 function hidePop(){ pop.classList.remove("show"); document.querySelectorAll(".term.on").forEach(t=>t.classList.remove("on")); }
 document.addEventListener("click",e=>{
@@ -1352,9 +1515,12 @@ function gatherCase(){
   return {
     facility:$("s_facility").value, perf:$("s_perf").value, ref:$("s_ref").value,
     caseref:$("i_caseref").value, mrn:$("i_mrn").value, ind:$("i_ind").value, inddetail:$("i_inddetail").value, date:$("i_date").value,
-    probe:$("i_probe").value, robotic:$("i_robotic").value, laser:$("i_laser").value, energy:$("i_energy").value, pulses:$("i_pulses").value, targets:$("i_targets").value, traj:$("i_traj").value,
+    probe:$("i_probe").value, robotic:$("i_robotic").value, laser:$("i_laser").value, energy:$("i_energy").value, pulses:$("i_pulses").value, targets:$("i_targets").value,
+    traj:trajRows.slice(), targetRows:targetRows.map(t=>({...t})), targetnote:$("i_targetnote").value,
     insights:readChecks($("c_insights")), insightnote:$("i_insightnote").value,
     emerging:$("i_emerging").checked, factors:[...document.querySelectorAll('#c_factors input')].map(c=>c.checked),
+    followup:{base:[...document.querySelectorAll('#c_followup input[data-fg="base"]')].map(c=>c.checked),
+              def:[...document.querySelectorAll('#c_followup input[data-fg="def"]')].map(c=>c.checked)},
     surgeon:surg, surgeonnote:$("i_surgeonnote").value,
     signname:$("i_signname").value, signmeta:$("i_signmeta").value,
     liaison:{name:$("i_liaison_name").value,title:$("i_liaison_title").value},
@@ -1372,7 +1538,12 @@ function applyCase(c){
   $("i_inddetail").value=c.inddetail||""; $("i_date").value=c.date||"";
   if(c.probe) $("i_probe").value=c.probe; if(c.robotic) $("i_robotic").value=c.robotic;
   $("i_laser").value=c.laser||""; $("i_energy").value=c.energy||"";
-  $("i_pulses").value=c.pulses||""; $("i_targets").value=c.targets||""; $("i_traj").value=c.traj||"";
+  $("i_pulses").value=c.pulses||""; $("i_targets").value=c.targets||"";
+  if(Array.isArray(c.traj)) trajRows=c.traj.length?c.traj.slice():[""];
+  else { const n=Math.max(1,parseInt(c.traj,10)||1); trajRows=Array.from({length:n},()=>""); }
+  targetRows=(Array.isArray(c.targetRows)&&c.targetRows.length)?c.targetRows.map(t=>({side:t.side||"",region:t.region||""})):[{side:"",region:""}];
+  $("i_targetnote").value=c.targetnote||"";
+  renderTrajRows(); renderTargetRows();
   buildChecks($("c_insights"),INSIGHTS,c.insights||[0,1,2,3]);
   $("i_insightnote").value=c.insightnote||"";
   $("i_signname").value=c.signname||""; $("i_signmeta").value=c.signmeta||"";
@@ -1382,6 +1553,8 @@ function applyCase(c){
   if(c.images && c.images.length){ images=c.images.map(x=>({...x})); activeImg=0; }
   paintIndication();
   if(c.factors){ const fb=[...document.querySelectorAll('#c_factors input')]; c.factors.forEach((v,i)=>{ if(fb[i]) fb[i].checked=v; }); }
+  if(c.followup){ const setg=(g,arr)=>{ if(!arr) return; const el=[...document.querySelectorAll(`#c_followup input[data-fg="${g}"]`)]; arr.forEach((v,i)=>{ if(el[i]) el[i].checked=v; }); };
+    setg("base",c.followup.base); setg("def",c.followup.def); }
   renderSurgeonControls();
   if(c.surgeon){ SURGEON.forEach(g=>{ const arr=c.surgeon[g.key]||[]; document.querySelectorAll(`#c_surgeon input[data-g="${g.key}"]`).forEach((cb,i)=>cb.checked=!!arr[i]); }); }
   renderInsights(); renderThumbs(); renderImaging(); renderFollowup(); renderSurgeon(); render();
@@ -1402,7 +1575,6 @@ $("delCaseBtn").onclick=()=>{ const k=$("s_loadcase").value; if(k&&savedCases[k]
 let toastT;
 function toast(msg){ const t=$("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove("show"),1900); }
 $("printBtn").onclick=()=>window.print();
-$("presentBtn").onclick=()=>{ document.body.classList.toggle("present"); $("presentBtn").textContent=document.body.classList.contains("present")?"Edit":"Present"; };
 
 /* ===================== TUMOR BOARD DECK (PPTX) ===================== */
 function deckState(){
@@ -1410,7 +1582,8 @@ function deckState(){
   return { key:k, ind,
     facility:g("s_facility")===ADD?"":g("s_facility"), perf:g("s_perf")===ADD?"":g("s_perf"), ref:g("s_ref")===ADD?"":g("s_ref"),
     caseref:g("i_caseref"), mrn:g("i_mrn"), detail:g("i_inddetail"), date:g("i_date"),
-    probe:g("i_probe"), robotic:g("i_robotic"), laser:g("i_laser"), energy:g("i_energy"), pulses:g("i_pulses"), targets:g("i_targets"), traj:g("i_traj"),
+    probe:g("i_probe"), robotic:g("i_robotic"), laser:g("i_laser"), energy:g("i_energy"), pulses:g("i_pulses"), targets:g("i_targets"),
+    traj:trajCountN(), trajDirs:trajDirList(), targetParts:targetParts(), targetnote:($("i_targetnote").value||"").trim(),
     insights:readChecks($("c_insights")).map(i=>INSIGHTS[i]), insightnote:$("i_insightnote").value.trim(),
     emergingOn:$("i_emerging").checked, liaison:{name:g("i_liaison_name"),title:g("i_liaison_title")},
     surgeonnote:$("i_surgeonnote").value.trim(), images:images.map(im=>({...im})) };
@@ -1496,11 +1669,17 @@ function buildDeck(){
   s=p.addSlide(); s.background={color:"FFFFFF"}; header(s,"Operative record","Procedural Notes");
   s.addShape(p.ShapeType.roundRect,{x:0.62,y:1.6,w:12.1,h:1.45,rectRadius:0.06,fill:{color:"F4F8FB"},line:{color:LINE,width:1}});
   s.addText("RECORDED FROM THE CONSOLE",{x:0.85,y:1.74,w:11,h:0.25,fontFace:MONO,fontSize:8.5,color:BLUE,charSpacing:1.5});
-  const md=[["Probe",S.probe],["Energy",S.energy+" kJ"],["Laser-on",S.laser],["Pulses",S.pulses],["Targets / traj.",S.targets+" / "+S.traj],["Probe driver",(S.robotic==="Used"?"Robotic":"Manual")]];
+  const trajCell=S.traj+(S.trajDirs&&S.trajDirs.length?" ("+S.trajDirs.join("; ")+")":"");
+  const md=[["Probe",S.probe],["Energy",S.energy+" kJ"],["Laser-on",S.laser],["Pulses",S.pulses],["Targets / traj.",S.targets+" / "+trajCell],["Probe driver",(S.robotic==="Used"?"Robotic":"Manual")]];
   md.forEach((m,i)=>{ const cx=0.85+(i%3)*4.0, cy=2.06+Math.floor(i/3)*0.45;
     s.addText([{text:m[0]+"   ",options:{color:GREY}},{text:(m[1]||"—"),options:{color:INK,bold:true}}],{x:cx,y:cy,w:3.9,h:0.35,fontFace:MONO,fontSize:11,valign:"middle"}); });
+  // anatomical target(s)
+  let ny=3.22;
+  if((S.targetParts&&S.targetParts.length)||S.targetnote){
+    const tline=(S.targetParts||[]).join(";  ")+(S.targetnote?("  —  "+S.targetnote):"");
+    s.addText([{text:"Anatomical target(s).  ",options:{bold:true,color:NAVY}},{text:tline,options:{color:INK2}}],{x:0.62,y:ny,w:12.1,h:0.4,fontFace:BODY,fontSize:12,valign:"top",lineSpacingMultiple:1.1}); ny+=0.5;
+  }
   // procedure insights as bullets
-  let ny=3.3;
   const insightsTxt=(S.insights||[]).map(t=> t==="__TRAJ__" ? trajInsight() : t).filter(Boolean);
   insightsTxt.forEach(t=>{ s.addText([{text:"•  ",options:{color:BLUE,bold:true}},{text:t,options:{color:INK}}],{x:0.62,y:ny,w:12.1,h:0.4,fontFace:BODY,fontSize:12,valign:"top",lineSpacingMultiple:1.1}); ny+=0.42; });
   if(S.insightnote){ s.addText([{text:"Note.  ",options:{bold:true,color:NAVY}},{text:S.insightnote,options:{color:INK2}}],{x:0.62,y:ny,w:12.1,h:0.4,fontFace:BODY,fontSize:12,valign:"top"}); ny+=0.5; }
@@ -1514,7 +1693,7 @@ function buildDeck(){
   F(s);
 
   // ===== DATA & RECOMMENDATION (white): position LITT as an option =====
-  const GLREFS={ recurrent_glioma:["aans_cns_2021"], newly_gbm:["aans_cns_2021"],
+  const GLREFS={ recurrent_glioma:["aans_cns_2021"], newly_glioma:["aans_cns_2021"], newly_gbm:["aans_cns_2021"],
     brain_met:["cns_2025","aans_cns_2021","remaster_2022"], radiation_necrosis:["cns_2025","aans_cns_2021","remaster_2022"], mtle:[], dre_other:[] };
   const gl=GLREFS[S.key]||[];
   s=p.addSlide(); s.background={color:"FFFFFF"}; header(s,"The evidence","Data & recommendation");
@@ -1542,7 +1721,8 @@ function buildDeck(){
   const pf=POSTFU[S.key]; let wy=1.65;
   const wrow=(b)=>{ s.addText([{text:b.label+".  ",options:{bold:true,color:NAVY}},{text:b.text,options:{color:INK2}}],
       {x:0.62,y:wy,w:12.1,h:0.5,fontFace:BODY,fontSize:12,valign:"top",lineSpacingMultiple:1.12}); wy+=0.58; };
-  (pf.default||[]).forEach(wrow);
+  const defChecks=[...document.querySelectorAll('#c_followup input[data-fg="def"]')].map(c=>c.checked);
+  (pf.default||[]).forEach((b,i)=>{ if(defChecks.length===0||defChecks[i]!==false) wrow(b); });
   let trg=[]; (pf.triggers||[]).forEach(t=>{ const c=$("f_"+t.key); if(c&&c.checked) t.bullets.forEach(b=>trg.push(b)); });
   if(trg.length){ s.addText("CASE-SPECIFIC",{x:0.62,y:wy+0.02,w:5,h:0.22,fontFace:MONO,fontSize:8.5,color:BLUE,charSpacing:1.5}); wy+=0.3; trg.forEach(wrow); }
   s.addText(FOLLOWUP_SAFEGUARD,{x:0.62,y:6.55,w:12.1,h:0.35,fontFace:BODY,fontSize:8.5,italic:true,color:GREY,valign:"top"}); F(s);
@@ -1550,14 +1730,12 @@ function buildDeck(){
   const safe=(S.caseref||"case").replace(/[^A-Za-z0-9_-]/g,"_");
   p.writeFile({fileName:"LITT_TumorBoard_"+safe+".pptx"}).then(()=>toast("Tumor board deck downloaded")).catch(()=>toast("Deck export failed"));
 }
-$("deckBtn").onclick=buildDeck;
-$("printBtn2").onclick=()=>window.print();
-$("deckBtn2").onclick=buildDeck;
+$("deckExportBtn").onclick=buildDeck;
 
 /* ===================== SURGEON CONTRIBUTION + PHYSICIAN EDITION ===================== */
 const SURGEON=[
   {key:"went",label:"How it went",opts:["Procedure went as planned","Went well overall, with a minor intra-operative variation","Trajectory adjusted intra-operatively to optimize coverage"]},
-  {key:"hi",label:"Highlights to note",opts:["Target covered to plan","Single trajectory, no repositioning","Critical or eloquent structures preserved","Biopsy obtained in the same trajectory","Patient tolerated the procedure well"]},
+  {key:"hi",label:"Highlights to note",opts:["Target covered to plan","No intra-operative repositioning required","Critical or eloquent structures preserved","Biopsy obtained in the same trajectory","Patient tolerated the procedure well"]},
   {key:"fu",label:"Follow-up I recommend",opts:["Routine surveillance MRI","Repeat MRI at the planned interval","Continue current steroid plan, taper as tolerated","Coordinate next steps with the oncology team","Coordinate next steps with the epilepsy team","I will continue to follow the patient directly"]}
 ];
 function renderSurgeonControls(){
@@ -1572,50 +1750,48 @@ function renderSurgeonControls(){
   });
 }
 function renderSurgeon(){
-  let any=false, html="";
+  const esc=t=>t.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+  let bullets=[], fu=[];
   SURGEON.forEach(g=>{
     const checked=[...document.querySelectorAll(`#c_surgeon input[data-g="${g.key}"]`)].filter(c=>c.checked).map(c=>g.opts[+c.dataset.i]);
-    if(checked.length){ any=true; html+=`<div class="sg-rh">${g.label}</div><ul class="sg-list">`+checked.map(t=>`<li>${t}</li>`).join("")+`</ul>`; }
+    if(g.key==="fu") fu.push(...checked); else bullets.push(...checked);
   });
+  // free-text note becomes one or more bullets (split on blank lines / new lines)
   const note=($("i_surgeonnote").value||"").trim();
-  if(note){ any=true; html+=`<div class="sg-rh">Note</div><p class="sg-note">${note.replace(/&/g,"&amp;").replace(/</g,"&lt;")}</p>`; }
+  if(note) note.split(/\n+/).map(s=>s.trim()).filter(Boolean).forEach(s=>bullets.push(esc(s)));
+  let html="";
+  if(bullets.length) html+=`<ul class="sg-list">`+bullets.map(t=>`<li>${t}</li>`).join("")+`</ul>`;
+  if(fu.length) html+=`<div class="sg-rh">Recommended follow-up</div><ul class="sg-list">`+fu.map(t=>`<li>${t}</li>`).join("")+`</ul>`;
   $("r_surgeon_body").innerHTML=html;
-  $("r_surgeon_sec").classList.toggle("sec-off", !any);
+  $("r_surgeon_sec").classList.toggle("sec-off", !(bullets.length||fu.length));
 }
-function physCard(){
-  const ind=INDICATIONS[$("i_ind").value];
-  const fac=$("s_facility").value!==ADD?$("s_facility").value:"";
-  $("physCard").innerHTML=`<div class="pc-t">Referring report · for completion</div>
-    <div class="pc-row"><span>Facility</span><b>${fac||"—"}</b></div>
-    <div class="pc-row"><span>Indication</span><b>${ind.detail||"—"}</b></div>
-    <div class="pc-row"><span>Date</span><b>${$("i_date").value||"—"}</b></div>`;
-}
-function enterPhysician(){ document.body.classList.add("physician"); setView("referring"); physCard(); }
-function exportPhysicianEdition(){
+// Save Case → download a self-contained copy of the whole app with this case embedded.
+// Opens as the full, mobile-optimized builder on any laptop or phone — no install, no server.
+function savePortable(){
   const c=gatherCase();
   let doc="<!DOCTYPE html>\n"+document.documentElement.outerHTML;
-  const inj="<script>window.__CASE__="+JSON.stringify(c).replace(/<\/(script)/gi,"<\\/$1")+";window.__PHYSICIAN__=true;<\/script>";
+  const inj="<script>window.__CASE__="+JSON.stringify(c).replace(/<\/(script)/gi,"<\\/$1")+";<\/script>";
   doc=doc.replace("</head>",inj+"\n</head>");
   const blob=new Blob([doc],{type:"text/html;charset=utf-8"});
   const a=document.createElement("a"); a.href=URL.createObjectURL(blob);
-  a.download="LITT_Physician_"+((c.caseref||"case").replace(/[^A-Za-z0-9_-]/g,"_"))+".html";
+  a.download="LITT_Case_"+((c.caseref||"case").replace(/[^A-Za-z0-9_-]/g,"_"))+".html";
   document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),2000);
-  toast("Physician edition exported");
+  toast("Case saved to your device");
 }
-$("physExportBtn").onclick=()=>window.print();
-$("physEditionBtn").onclick=exportPhysicianEdition;
+$("saveFileBtn").onclick=savePortable;
 
 /* ===================== INIT ===================== */
 $("i_liaison_name").value=liaison.name; $("i_liaison_title").value=liaison.title;
 refreshFacilities("Westchester Medical Center");
 $("s_perf").value="Dr. Hanft"; $("s_ref").value="Dr. Tatyana Gitlevich";
 buildChecks($("c_insights"),INSIGHTS,[0,1,2,3]);
+renderTrajRows(); renderTargetRows();
 renderSurgeonControls();
 applyIndication();
 renderInsights(); renderThumbs(); renderImaging(); clearVideo(); renderSurgeon();
 render();
 if(window.__CASE__){ try{ applyCase(window.__CASE__); }catch(e){} }
-if(window.__PHYSICIAN__){ enterPhysician(); }
+setView($("doc").dataset.view||"referring");
 </script>
 </body>
 </html>

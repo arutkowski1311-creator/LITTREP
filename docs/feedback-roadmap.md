@@ -1,48 +1,50 @@
 # Feedback roadmap
 
-Running list of requested changes to `index.html`, captured from review notes.
+Review notes on `index.html` and their status.
 
 ## Indications & clinical content
-1. **Newly diagnosed glioma** — confirm/extend indications. (Note: a *Newly diagnosed
-   glioblastoma* option already exists; open question is whether a separate
-   newly-diagnosed / lower-grade glioma indication is wanted.)
-2. **More epilepsy foci** — beyond MTLE and "drug-resistant epilepsy (other)," support
-   additional/explicit seizure foci.
-3. **Anatomical target(s)** — let the report state the brain region(s) being treated
-   (location + anatomical reference, e.g. "left posterior + mid corpus callosum") and what
-   the issue is. Example case: entire left posterior and mid corpus callosum ablated for
-   epilepsy.
+1. ✅ **Newly diagnosed glioma** — added a separate *Newly diagnosed glioma (lower-grade)*
+   indication (distinct from the existing *Newly diagnosed glioblastoma*), with its own
+   clinical context, evidence, refs, and follow-up.
+2. ✅ **More epilepsy foci** — handled via the new anatomical-target field (decision: keep
+   MTLE + "drug-resistant epilepsy (other)" and let the target capture name the focus,
+   e.g. corpus callosum).
+3. ✅ **Anatomical target(s)** — new builder section: repeatable **Side + Region** rows plus
+   a free-text "anatomical detail / approach" box. Renders as an "Anatomical target(s)"
+   metadata box on the report and a line on the deck.
 
 ## Device / procedure capture
-4. **Trajectories** — replace the single "single trajectory" checkbox with a real choice of
-   the **number of trajectories** and the **direction** of each.
-5. **Robotic probe driver** — stop rendering it as a standalone pill; make it a normal
-   metadata box like Indication, Probe, and Date.
+4. ✅ **Trajectories** — replaced the single-trajectory checkbox with a repeatable
+   **count + per-trajectory direction** list. Flows into the leadstrip (`targets·traj`),
+   narrative, procedure insights, and the deck.
+5. ✅ **Robotic probe driver** — now a normal metadata box alongside Indication / Probe /
+   Date, not a standalone pill.
 
 ## Report
-6. **Imaging in PDF export** — print/export must include **all** images, not just the
-   currently selected (yellow/blue line) view.
-7. **Post-LITT follow-up** — make it a list of **optional, selectable** items the surgeon
-   can toggle, **defaulted based on the indication**.
-8. **Patient presentation** — single image set only, **no video**.
+6. ✅ **Imaging in PDF export** — a print-only gallery renders **all** images (pre/intra/post)
+   with captions; the interactive viewer is hidden in print.
+7. ✅ **Post-LITT follow-up** — now a builder checklist, pre-checked per indication; the
+   report and deck render only the checked items. Case-factor triggers still add
+   case-specific points.
+8. ✅ **Patient presentation** — single image set; thermometry video hidden in patient view.
 
-## Physician edition (currently unprofessional — restructure)
-9. Sections should be:
-   - **Procedural Notes** (replaces "From the performing surgeon"), in the surgeon's own
-     words.
-   - The list of bullets — **no subtitles**.
-   - **Recommended follow-up** — keep this subtitle.
-   - A **free-text** spot that adds one or more bullets.
-10. Physician edition should have **everything the regular report builder has**, just
-    **mobile-optimized**.
+## Physician edition (restructured)
+9. ✅ **Procedural Notes** — renamed from "From the performing surgeon"; flat bullets (no
+   subtitles), a kept **Recommended follow-up** subtitle, and a free-text box where each
+   line becomes a bullet. Visible to performing + referring audiences.
+10. ✅ **Full parity, mobile-optimized** — the stripped-down "physician mode" was removed.
+    *Save Case* now downloads a self-contained copy of the whole app with the case
+    embedded; it opens as the full, responsive builder on any phone or laptop.
 
 ## Builder UX
-11. Remove the "Read this as" switch from the report level. The builder should already
-    contain everything; add a row of audience buttons —
-    **Performing Physician · Referring Physician · Presentation Deck · Patient** —
-    then a second row: **Export PDF · Save Case** (save the file to the local
-    computer/phone).
-12. **Cross-platform** — must work on both laptop and phone.
+11. ✅ Removed the "Read this as" switch from the report. Builder bottom bar is now two rows:
+    **Performing Physician · Referring Physician · Presentation Deck · Patient**, then
+    **Export PDF · Save Case**. The `.pptx` deck export is a contextual button shown in the
+    Presentation Deck view. *Save* (to this browser) lives in the Saved cases group.
+12. ✅ **Cross-platform** — responsive layout for phone + laptop; smoke-tested headless.
 
-## Distribution (open question)
-- How to get this tool into physicians' hands so they can use it.
+## Distribution — options (see README / discussion)
+- Host `index.html` as a static page (GitHub Pages, Netlify, internal server) — it's a
+  single self-contained file, so this is the lowest-friction path.
+- Share the self-contained HTML directly (email / file) — *Save Case* produces exactly this.
+- Optionally wrap as an installable PWA later for an app-like home-screen experience.
