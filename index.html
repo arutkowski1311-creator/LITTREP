@@ -138,7 +138,7 @@
   .mcell{background:var(--paper);padding:13px 15px}
   .mcell .k{font-family:var(--display);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:500}
   .mcell .v{font-size:15px;color:var(--navy);font-weight:500;margin-top:4px;line-height:1.35}
-  .mcell-wide{grid-column:span 2}
+  .mcell-wide{grid-column:1/-1}
   .mcell .v .vsub{display:block;font-size:12.5px;color:var(--ink-2);font-weight:400;margin-top:2px}
   @media(max-width:560px){.meta{grid-template-columns:repeat(2,1fr)}.mcell-wide{grid-column:span 2}}
   .meta-note{padding:11px 36px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
@@ -598,7 +598,6 @@
         <div class="mcell"><div class="k">Indication</div><div class="v" id="r_ind"></div></div>
         <div class="mcell"><div class="k">Probe</div><div class="v" id="r_probe_full"></div></div>
         <div class="mcell"><div class="k">Date of procedure</div><div class="v" id="r_date"></div></div>
-        <div class="mcell"><div class="k">Robotic probe driver</div><div class="v" id="r_robotic_box"></div></div>
         <div class="mcell mcell-wide"><div class="k">Anatomical target(s)</div><div class="v" id="r_target_box"></div></div>
       </div>
       <div class="meta-note">
@@ -1327,12 +1326,10 @@ function render(){
   const now=new Date();
   const stamp=now.toLocaleDateString("en-US",{month:"2-digit",day:"2-digit",year:"numeric"})+" "+now.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"});
   txt("r_caseref",`Case ref ${$("i_caseref").value} · MRN ${$("i_mrn").value} · generated ${stamp}`);
-  txt("r_probe",probeDiameter(probe)); txt("r_probe_full",probe);
+  txt("r_probe",probeDiameter(probe)); txt("r_probe_full",(robotic==="Used"?"Robotically Controlled ":"")+probe);
   txt("r_energy",energy); txt("r_laser",laser); txt("r_pulses",pulses); txt("r_tt",`${targets}·${traj}`);
   txt("r_facility",fac); txt("r_perf",perf); txt("r_ref",ref);
   txt("r_ind",$("i_inddetail").value); txt("r_date",$("i_date").value);
-  // robotic driver (metadata box)
-  txt("r_robotic_box", robotic==="Used" ? "Used — robotic probe driver" : "Manual placement (no robotic driver)");
   // anatomical target(s) (metadata box)
   const tparts=targetParts(), tnote=($("i_targetnote").value||"").trim();
   const tbox=$("r_target_box");
@@ -1670,7 +1667,8 @@ function buildDeck(){
   s.addShape(p.ShapeType.roundRect,{x:0.62,y:1.6,w:12.1,h:1.45,rectRadius:0.06,fill:{color:"F4F8FB"},line:{color:LINE,width:1}});
   s.addText("RECORDED FROM THE CONSOLE",{x:0.85,y:1.74,w:11,h:0.25,fontFace:MONO,fontSize:8.5,color:BLUE,charSpacing:1.5});
   const trajCell=S.traj+(S.trajDirs&&S.trajDirs.length?" ("+S.trajDirs.join("; ")+")":"");
-  const md=[["Probe",S.probe],["Energy",S.energy+" kJ"],["Laser-on",S.laser],["Pulses",S.pulses],["Targets / traj.",S.targets+" / "+trajCell],["Probe driver",(S.robotic==="Used"?"Robotic":"Manual")]];
+  const probeCell=(S.robotic==="Used"?"Robotically Controlled ":"")+S.probe;
+  const md=[["Probe",probeCell],["Energy",S.energy+" kJ"],["Laser-on",S.laser],["Pulses",S.pulses],["Targets / traj.",S.targets+" / "+trajCell]];
   md.forEach((m,i)=>{ const cx=0.85+(i%3)*4.0, cy=2.06+Math.floor(i/3)*0.45;
     s.addText([{text:m[0]+"   ",options:{color:GREY}},{text:(m[1]||"—"),options:{color:INK,bold:true}}],{x:cx,y:cy,w:3.9,h:0.35,fontFace:MONO,fontSize:11,valign:"middle"}); });
   // anatomical target(s)
