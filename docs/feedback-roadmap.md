@@ -43,6 +43,19 @@ Review notes on `index.html` and their status.
     Presentation Deck view. *Save* (to this browser) lives in the Saved cases group.
 12. ✅ **Cross-platform** — responsive layout for phone + laptop; smoke-tested headless.
 
+## Round 3 — structure overhaul
+- ✅ **Indications** replaced with the 12-item list (newly/recurrent glioblastoma,
+  newly/recurrent lower-grade glioma, brain metastasis, radiation necrosis, meningioma,
+  other intracranial tumor, MTLE, hypothalamic hamartoma, focal epilepsy, corpus callosotomy).
+- ✅ **Target location** rebuilt: multi-select **Region** (20, grouped), single **Side**
+  (Left/Right/Bilateral/Midline), multi **Orientation** (18), multi **Functional descriptor**
+  (8). Renders as a 4-line block on the report + deck.
+- ✅ **Removed** Procedure insights, Emerging science, Post-LITT follow-up watch list, and
+  Case factors (builder, report, deck).
+- ✅ **Procedure summary** added: Procedure (one of three), Technical highlights (checkboxes),
+  Immediate outcome (checkboxes) — on report + deck.
+- ✅ **Additional observations** replaces Procedural notes: free text, each line a bullet.
+
 ## Distribution — options (see README / discussion)
 - Host `index.html` as a static page (GitHub Pages, Netlify, internal server) — it's a
   single self-contained file, so this is the lowest-friction path.

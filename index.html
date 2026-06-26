@@ -71,9 +71,18 @@
   .checks{display:flex;flex-direction:column;gap:2px}
   .fu-subhdr{font-family:var(--display);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-2);font-weight:600;margin:9px 0 3px}
   .fu-subhdr:first-child{margin-top:0}
+  .csub{font-family:var(--display);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-2);font-weight:600;margin:12px 0 6px}
+  .csub:first-of-type{margin-top:2px}
+  .chipwrap{display:flex;flex-wrap:wrap;gap:6px}
+  .chip2{font-size:11.5px;color:#cfe0ec;background:#13243a;border:1px solid #25425b;border-radius:14px;padding:5px 11px;cursor:pointer;transition:.12s;user-select:none}
+  .chip2:hover{border-color:var(--blue)}
+  .chip2[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
+  .chipgrouphdr{width:100%;font-family:var(--mono);font-size:9px;color:#6f8aa3;margin:7px 0 1px;letter-spacing:.06em;text-transform:uppercase}
+  .chipgrouphdr:first-child{margin-top:0}
   .chk{display:flex;align-items:flex-start;gap:9px;padding:6px 8px;border-radius:7px;cursor:pointer;font-size:12.5px;color:#cfe0ec;line-height:1.4}
   .chk:hover{background:#13243a}
   .chk input{appearance:none;width:16px;height:16px;border:1.5px solid #3a5e7e;border-radius:4px;flex:none;margin-top:1px;cursor:pointer;position:relative;background:#0c1a2a}
+  .chk input[type="radio"]{border-radius:50%}
   .chk input:checked{background:var(--blue);border-color:var(--blue)}
   .chk input:checked::after{content:"";position:absolute;left:4.5px;top:1px;width:4px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
 
@@ -139,6 +148,16 @@
   .mcell .k{font-family:var(--display);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:500}
   .mcell .v{font-size:15px;color:var(--navy);font-weight:500;margin-top:4px;line-height:1.35}
   .mcell-wide{grid-column:1/-1}
+  .rep-subh{font-family:var(--display);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--blue-2);font-weight:600;margin:14px 0 5px}
+  .rep-subh:first-child{margin-top:2px}
+  .rep-list{margin:0 0 4px;padding-left:18px}
+  .rep-list li{font-size:13.5px;line-height:1.5;color:var(--ink-2);margin-bottom:3px}
+  .rep-lead{font-size:15.5px;color:var(--navy);font-weight:600;margin:2px 0 2px}
+  .targetcard{margin:14px 36px 0;padding:14px 18px;border:1px solid var(--blue-line);background:var(--blue-pale);border-radius:12px}
+  .targetcard .tc-h{font-family:var(--display);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);font-weight:600;margin-bottom:8px}
+  .targetcard .tl{display:flex;gap:8px;font-size:14px;color:var(--ink);padding:3px 0;line-height:1.45}
+  .targetcard .tl .tk{font-family:var(--display);font-weight:600;color:var(--navy);min-width:148px;flex:none}
+  @media(max-width:640px){.targetcard{margin:14px 18px 0}.targetcard .tl{flex-direction:column;gap:1px}.targetcard .tl .tk{min-width:0}}
   .mcell .v .vsub{display:block;font-size:12.5px;color:var(--ink-2);font-weight:400;margin-top:2px}
   @media(max-width:560px){.meta{grid-template-columns:repeat(2,1fr)}.mcell-wide{grid-column:span 2}}
   .meta-note{padding:11px 36px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
@@ -406,13 +425,18 @@
         </div>
       </div>
 
-      <!-- ANATOMICAL TARGET -->
+      <!-- TARGET LOCATION -->
       <div class="group">
-        <div class="glabel">Anatomical target(s)</div>
-        <div style="font-family:var(--mono);font-size:10px;color:#5e7a93;margin:-4px 0 9px;line-height:1.4">List each brain region treated (side + region) and, optionally, what was addressed. Appears on the report and the deck.</div>
-        <div id="c_target"></div>
-        <button type="button" class="addbtn" id="addTargetBtn">+ Add region</button>
-        <div class="fld" style="margin-top:10px"><label>Anatomical detail / approach (optional)</label><textarea id="i_targetnote" rows="2" placeholder="e.g. ablation extended across the entire posterior and mid corpus callosum; fornix spared"></textarea></div>
+        <div class="glabel">Target location</div>
+        <div style="font-family:var(--mono);font-size:10px;color:#5e7a93;margin:-4px 0 9px;line-height:1.4">Tap to select. Region and orientation accept multiple; side is one. Appears on the report and the deck.</div>
+        <div class="csub">Target location</div>
+        <div id="c_region"></div>
+        <div class="csub">Side</div>
+        <div id="c_side"></div>
+        <div class="csub">Orientation</div>
+        <div id="c_orient"></div>
+        <div class="csub">Functional descriptor <span style="color:#5e7a93;text-transform:none;letter-spacing:0">· optional</span></div>
+        <div id="c_func"></div>
       </div>
 
       <!-- DEVICE / CONSOLE -->
@@ -441,41 +465,22 @@
         </div>
       </div>
 
-      <!-- PROCEDURE INSIGHTS -->
+      <!-- PROCEDURE SUMMARY -->
       <div class="group">
-        <div class="glabel">Procedure insights <span class="auto-pill">referring report</span></div>
-        <div style="font-family:var(--mono);font-size:10px;color:#5e7a93;margin:-4px 0 9px;line-height:1.4">Defaults reflect an uncomplicated case. Untick anything that did not apply.</div>
-        <div class="checks" id="c_insights"></div>
-        <div class="fld" style="margin-top:10px"><label>Optional note</label><input id="i_insightnote" placeholder="e.g. amygdalohippocampal complex covered"></div>
+        <div class="glabel">Procedure summary <span class="auto-pill">report + deck</span></div>
+        <div class="csub">Procedure <span style="color:#5e7a93;text-transform:none;letter-spacing:0">· choose one</span></div>
+        <div class="checks" id="c_ps_proc"></div>
+        <div class="csub">Technical highlights</div>
+        <div class="checks" id="c_ps_tech"></div>
+        <div class="csub">Immediate outcome</div>
+        <div class="checks" id="c_ps_out"></div>
       </div>
 
-      <!-- EMERGING SCIENCE TOGGLE -->
-      <div class="group">
-        <div class="glabel">Emerging science <span class="auto-pill">referring + tumor board</span></div>
-        <div style="font-family:var(--mono);font-size:10px;color:#5e7a93;margin:-4px 0 9px;line-height:1.4">Off by default. Turn on only when combination or systemic-therapy context is relevant. Tumor indications only; never appears on the patient or performing report.</div>
-        <div class="checks"><label class="chk"><input type="checkbox" id="i_emerging"><span>Include emerging-science section (BBB delivery window, immune and combination research)</span></label></div>
-      </div>
-
-      <!-- CASE FACTORS (drive follow-up watch points) -->
-      <div class="group">
-        <div class="glabel">Case factors <span class="auto-pill">referring + deck</span></div>
-        <div style="font-family:var(--mono);font-size:10px;color:#5e7a93;margin:-4px 0 9px;line-height:1.4">Tick what applies. Each adds a targeted post-LITT watch point to the referring report and the tumor board deck.</div>
-        <div class="checks" id="c_factors"></div>
-      </div>
-
-      <!-- POST-LITT FOLLOW-UP (selectable, defaulted by indication) -->
-      <div class="group">
-        <div class="glabel">Post-LITT follow-up <span class="auto-pill">defaults by indication</span></div>
-        <div style="font-family:var(--mono);font-size:10px;color:#5e7a93;margin:-4px 0 9px;line-height:1.4">Pre-selected for this indication. Untick anything you don't want on the report.</div>
-        <div class="checks" id="c_followup"></div>
-      </div>
-
-      <!-- PROCEDURAL NOTES -->
+      <!-- ADDITIONAL OBSERVATIONS -->
       <div class="group keep" id="surgeonPanel">
-        <div class="glabel">Procedural notes <span class="auto-pill">report</span></div>
-        <div style="font-family:var(--mono);font-size:10px;color:#5e7a93;margin:-4px 0 9px;line-height:1.4">Tick what applies; these render as plain bullets. Nothing is sent anywhere; export the PDF when you are done.</div>
-        <div id="c_surgeon"></div>
-        <div class="fld" style="margin-top:12px"><label>In your own words — each line becomes a bullet</label><textarea id="i_surgeonnote" rows="3" placeholder="Type freely. Press Enter for a new bullet."></textarea></div>
+        <div class="glabel">Additional observations <span class="auto-pill">report + deck</span></div>
+        <div style="font-family:var(--mono);font-size:10px;color:#5e7a93;margin:-4px 0 9px;line-height:1.4">Free text in the surgeon's own words. Each new line becomes a bullet. Optional.</div>
+        <div class="fld"><textarea id="i_surgeonnote" rows="4" placeholder="Type freely. Press Enter for a new bullet."></textarea></div>
       </div>
 
       <!-- IMAGING -->
@@ -598,7 +603,10 @@
         <div class="mcell"><div class="k">Indication</div><div class="v" id="r_ind"></div></div>
         <div class="mcell"><div class="k">Probe</div><div class="v" id="r_probe_full"></div></div>
         <div class="mcell"><div class="k">Date of procedure</div><div class="v" id="r_date"></div></div>
-        <div class="mcell mcell-wide"><div class="k">Anatomical target(s)</div><div class="v" id="r_target_box"></div></div>
+      </div>
+      <div class="targetcard" id="r_target_card" style="display:none">
+        <div class="tc-h">Target location</div>
+        <div id="r_target_lines"></div>
       </div>
       <div class="meta-note">
         <span class="cnote">
@@ -607,10 +615,10 @@
         </span>
       </div>
 
-      <!-- FROM THE PERFORMING SURGEON — referring report -->
-      <section class="v-ref v-perf sec-off" id="r_surgeon_sec">
-        <div class="eyebrow">Procedural notes</div>
-        <h2 class="sec">Procedural Notes — in the surgeon's words</h2>
+      <!-- ADDITIONAL OBSERVATIONS -->
+      <section class="v-ref v-perf v-tb sec-off" id="r_surgeon_sec">
+        <div class="eyebrow">Additional observations</div>
+        <h2 class="sec">Additional observations</h2>
         <div id="r_surgeon_body"></div>
       </section>
 
@@ -667,12 +675,11 @@
         </div>
       </section>
 
-      <!-- PROCEDURE INSIGHTS (referring) -->
-      <section class="v-ref">
-        <div class="eyebrow">Procedure insights</div>
-        <h2 class="sec">What the intra-operative record shows</h2>
-        <ul class="insights-list" id="r_insights"></ul>
-        <div class="insight-note" id="r_insightnote" style="display:none"></div>
+      <!-- PROCEDURE SUMMARY -->
+      <section class="v-ref v-perf v-tb sec-off" id="r_ps_sec">
+        <div class="eyebrow">Procedure summary</div>
+        <h2 class="sec">Procedure summary</h2>
+        <div id="r_ps_body"></div>
       </section>
 
       <!-- CLINICAL CONTEXT (all views) -->
@@ -686,29 +693,11 @@
         </div>
       </section>
 
-      <!-- EMERGING SCIENCE — referring + tumor board (tumor indications only) -->
-      <section class="v-reftb" id="r_emerging_sec">
-        <div class="eyebrow">Emerging science</div>
-        <h2 class="sec">Emerging science</h2>
-        <div class="narrative"><p id="r_emerging_body"></p></div>
-      </section>
-
       <!-- GUIDELINE & CONSENSUS — tumor board only -->
       <section class="v-tb" id="r_legit_sec">
         <div class="eyebrow">Guideline &amp; consensus</div>
         <h2 class="sec">Where LITT sits in guidelines</h2>
         <div class="narrative"><p id="r_legit_body"></p></div>
-      </section>
-
-      <!-- POST-LITT WATCH LIST — referring report -->
-      <section class="v-ref" id="r_watch_sec">
-        <div class="eyebrow">Post-LITT follow-up</div>
-        <h2 class="sec">What to watch</h2>
-        <div id="r_watch_body"></div>
-        <div class="ref-caveat" style="margin-top:14px">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink-3)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-          <span id="r_watch_safeguard"></span>
-        </div>
       </section>
 
       <!-- FOLLOW-UP IMAGING — performing + tumor board -->
@@ -845,7 +834,6 @@ const REFS = {
 };
 const DEFAULT_CAVEAT="Most NeuroBlate evidence is prospective registry or cohort data (LAANTERN), not a randomized comparison against open surgery. References are provided as supporting context for selected-patient consideration, not as superiority claims.";
 
-const INSIGHTS = ["__TRAJ__","Ablation monitored under continuous real-time MR thermometry","Planned thermal-dose coverage achieved with critical structures kept outside the margin","Procedure completed according to the operative plan"];
 /* ---- Trajectories (count + per-trajectory direction) ---- */
 let trajRows=[""];
 function trajCountN(){ return Math.max(1, trajRows.length); }
@@ -859,32 +847,53 @@ function renderTrajRows(){
       (trajRows.length>1?`<button type="button" class="rm" data-i="${i}" title="Remove">×</button>`:"");
     host.appendChild(row);
   });
-  host.querySelectorAll(".tdir").forEach(el=>el.oninput=e=>{ trajRows[+e.target.dataset.i]=e.target.value; render(); renderInsights(); });
-  host.querySelectorAll(".rm").forEach(b=>b.onclick=e=>{ trajRows.splice(+e.target.dataset.i,1); renderTrajRows(); render(); renderInsights(); });
+  host.querySelectorAll(".tdir").forEach(el=>el.oninput=e=>{ trajRows[+e.target.dataset.i]=e.target.value; render(); });
+  host.querySelectorAll(".rm").forEach(b=>b.onclick=e=>{ trajRows.splice(+e.target.dataset.i,1); renderTrajRows(); render(); });
   const c=$("trajCount"); if(c) c.textContent=`· ${trajRows.length} ${trajRows.length===1?"trajectory":"trajectories"}`;
 }
 
-/* ---- Anatomical target(s) (side + region, repeatable) ---- */
-let targetRows=[{side:"",region:""}];
-const SIDES=["Left","Right","Midline","Bilateral"];
-function renderTargetRows(){
-  const host=$("c_target"); if(!host) return; host.innerHTML="";
-  targetRows.forEach((t,i)=>{
-    const row=document.createElement("div"); row.className="reprow";
-    const opts=`<option value="">Side…</option>`+SIDES.map(s=>`<option${t.side===s?" selected":""}>${s}</option>`).join("");
-    row.innerHTML=`<select data-i="${i}" class="tside">${opts}</select>`+
-      `<input data-i="${i}" class="treg" placeholder="Region (e.g. posterior + mid corpus callosum)" value="${(t.region||'').replace(/"/g,'&quot;')}">`+
-      (targetRows.length>1?`<button type="button" class="rm" data-i="${i}" title="Remove">×</button>`:"");
-    host.appendChild(row);
+/* ---- Target location (region multi · side single · orientation multi · functional multi) ---- */
+const REGION_GROUPS=[
+  {h:"Cortical lobes", items:["Frontal lobe","Parietal lobe","Temporal lobe","Occipital lobe","Insula"]},
+  {h:"Deep structures", items:["Thalamus","Basal ganglia","Corpus callosum","Internal capsule"]},
+  {h:"Mesial temporal", items:["Amygdala","Hippocampus","Mesial temporal structures"]},
+  {h:"Brainstem", items:["Midbrain","Pons","Medulla"]},
+  {h:"Cerebellum", items:["Cerebellum"]},
+  {h:"Other", items:["Ventricular system","Hypothalamus","Pineal region","Skull base"]}
+];
+const SIDES=["Left","Right","Bilateral","Midline"];
+const ORIENTATIONS=["Anterior","Posterior","Superior","Inferior","Medial","Lateral","Deep-seated","Cortical","Subcortical","Periventricular","Intraventricular","Juxtaventricular","Mesial","Basal","Parasagittal","Perisylvian","Convexity","Skull base"];
+const FUNCTIONALS=["Dominant hemisphere","Non-dominant hemisphere","Eloquent location","Motor region","Language region","Visual pathway","Brainstem adjacent","Ventricular adjacent"];
+let tgtRegions=new Set(), tgtSide="", tgtOrient=new Set(), tgtFunc=new Set();
+function chipBtn(label,on){ return `<button type="button" class="chip2" data-v="${label.replace(/"/g,'&quot;')}" aria-pressed="${on?"true":"false"}">${label}</button>`; }
+function renderChips(hostId, items, sel, opts){
+  const host=$(hostId); if(!host) return; host.className="chipwrap"; opts=opts||{};
+  let html="";
+  if(opts.grouped){ items.forEach(g=>{ html+=`<div class="chipgrouphdr">${g.h}</div>`+g.items.map(it=>chipBtn(it, sel.has(it))).join(""); }); }
+  else { html=items.map(it=> chipBtn(it, opts.single ? sel===it : sel.has(it))).join(""); }
+  host.innerHTML=html;
+  host.querySelectorAll(".chip2").forEach(b=>b.onclick=()=>{
+    const v=b.dataset.v;
+    if(opts.single){ tgtSide=(tgtSide===v)?"":v; renderChips("c_side",SIDES,tgtSide,{single:true}); }
+    else { if(sel.has(v)) sel.delete(v); else sel.add(v); b.setAttribute("aria-pressed", sel.has(v)?"true":"false"); }
+    render();
   });
-  host.querySelectorAll(".tside").forEach(el=>el.onchange=e=>{ targetRows[+e.target.dataset.i].side=e.target.value; render(); });
-  host.querySelectorAll(".treg").forEach(el=>el.oninput=e=>{ targetRows[+e.target.dataset.i].region=e.target.value; render(); });
-  host.querySelectorAll(".rm").forEach(b=>b.onclick=e=>{ targetRows.splice(+e.target.dataset.i,1); renderTargetRows(); render(); });
 }
-function targetParts(){
-  return targetRows.map(t=>{ const s=(t.side||"").trim(), r=(t.region||"").trim();
-    if(!s&&!r) return ""; return (s&&r)?`${s} — ${r}`:(r||s); }).filter(Boolean);
+function renderTargetUI(){
+  renderChips("c_region",REGION_GROUPS,tgtRegions,{grouped:true});
+  renderChips("c_side",SIDES,tgtSide,{single:true});
+  renderChips("c_orient",ORIENTATIONS,tgtOrient,{});
+  renderChips("c_func",FUNCTIONALS,tgtFunc,{});
 }
+function targetLines(){
+  const L=[];
+  if(tgtRegions.size) L.push(["Target location",[...tgtRegions].join(", ")]);
+  if(tgtSide) L.push(["Side",tgtSide]);
+  if(tgtOrient.size) L.push(["Orientation",[...tgtOrient].join(", ")]);
+  if(tgtFunc.size) L.push(["Functional descriptor",[...tgtFunc].join(", ")]);
+  return L;
+}
+function targetSummaryText(){ return targetLines().map(([k,v])=>`${k}: ${v}`).join(" · "); }
 
 function trajInsight(){
   const n=trajCountN(), dirs=trajDirList();
@@ -892,7 +901,50 @@ function trajInsight(){
                    : "Planned coverage delivered through a single stereotactic trajectory";
   return dirs.length ? `${base} (${dirs.join("; ")})` : base;
 }
-function insightLabel(i){ return INSIGHTS[i]==="__TRAJ__" ? trajInsight() : INSIGHTS[i]; }
+
+/* ---- Procedure summary (one procedure + technical highlights + immediate outcome) ---- */
+const PS_PROC=["Completed as planned","Minor intraoperative modification","Treatment intentionally modified to optimize safety"];
+const PS_TECH=["Planned target adequately treated","Real-time MR thermometry guided treatment","Biopsy obtained","Critical adjacent anatomy preserved"];
+const PS_OUT=["Neurologically stable","Recovery as expected","No immediate procedure-related complication"];
+let psProc=0, psTech=new Set([0,1,3]), psOut=new Set([0,1,2]);
+function fillCheck(hostId,items,sel){
+  const h=$(hostId); if(!h) return; h.className="checks";
+  h.innerHTML=items.map((o,i)=>`<label class="chk"><input type="checkbox" data-i="${i}" ${sel.has(i)?"checked":""}><span>${o}</span></label>`).join("");
+  h.querySelectorAll("input").forEach(inp=>inp.onchange=e=>{ const i=+e.target.dataset.i; if(e.target.checked) sel.add(i); else sel.delete(i); renderProcSummary(); });
+}
+function renderPSUI(){
+  const hp=$("c_ps_proc");
+  if(hp){ hp.className="checks";
+    hp.innerHTML=PS_PROC.map((o,i)=>`<label class="chk"><input type="radio" name="ps_proc" data-i="${i}" ${psProc===i?"checked":""}><span>${o}</span></label>`).join("");
+    hp.querySelectorAll("input").forEach(inp=>inp.onchange=e=>{ psProc=+e.target.dataset.i; renderProcSummary(); });
+  }
+  fillCheck("c_ps_tech",PS_TECH,psTech);
+  fillCheck("c_ps_out",PS_OUT,psOut);
+}
+function psData(){
+  return { proc:PS_PROC[psProc],
+    tech:[...psTech].sort((a,b)=>a-b).map(i=>PS_TECH[i]),
+    out:[...psOut].sort((a,b)=>a-b).map(i=>PS_OUT[i]) };
+}
+function renderProcSummary(){
+  const d=psData(); let html=`<div class="rep-lead">${d.proc}</div>`;
+  if(d.tech.length){ html+=`<div class="rep-subh">Technical highlights</div><ul class="rep-list">`+d.tech.map(t=>`<li>${t}</li>`).join("")+`</ul>`; }
+  if(d.out.length){ html+=`<div class="rep-subh">Immediate outcome</div><ul class="rep-list">`+d.out.map(t=>`<li>${t}</li>`).join("")+`</ul>`; }
+  const b=$("r_ps_body"); if(b) b.innerHTML=html;
+  const s=$("r_ps_sec"); if(s) s.classList.remove("sec-off");
+}
+
+/* ---- Additional observations (free text → bullets) ---- */
+function obsBullets(){
+  const note=($("i_surgeonnote").value||"").trim();
+  return note ? note.split(/\n+/).map(s=>s.trim()).filter(Boolean) : [];
+}
+function renderObservations(){
+  const esc=t=>t.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+  const b=obsBullets();
+  const host=$("r_surgeon_body"); if(host) host.innerHTML = b.length?`<ul class="rep-list">`+b.map(x=>`<li>${esc(x)}</li>`).join("")+`</ul>`:"";
+  const s=$("r_surgeon_sec"); if(s) s.classList.toggle("sec-off", !b.length);
+}
 
 const FU_TUMOR = {
   expected:["Transient enlargement of the treated lesion","Increased or ring-like enhancement around the ablation zone","Treatment cavity formation","Surrounding (perilesional) edema"],
@@ -905,224 +957,185 @@ const FU_EPILEPSY = {
   note:"Continue anti-seizure medications unless the treating team adjusts them; seizure freedom is judged over months, not at the first scan."
 };
 
-// ---- Post-LITT "What to Watch" rules engine (referring report + tumor board deck slide) ----
-const FOLLOWUP_BASE = [
-  {label:"Interpret early MRI in context", text:"Post-ablation imaging may evolve over time; enhancement, ablation-zone size, and edema should be correlated with timing from LITT, symptoms, steroid use, and serial imaging.", src:"medvid_2015"},
-  {label:"Monitor neurologic status closely", text:"New or worsening neurologic deficit, seizure, worsening headache, or change in mental status should prompt clinical reassessment."},
-  {label:"Track steroid requirement when relevant", text:"Persistent or increasing steroid need may be as clinically meaningful as the MRI appearance."},
-  {label:"Use serial imaging, not a single scan", text:"One post-LITT MRI may be hard to interpret without the pre-treatment baseline, the immediate post-treatment study, and the clinical trend.", src:"medvid_2015"},
-  {label:"Coordinate next steps with the treating team", text:"LITT documents treatment of the targeted volume; further management depends on disease biology, pathology, symptoms, and the broader care plan."}
-];
-const FOLLOWUP_SAFEGUARD = "These follow-up points support interpretation of the post-procedure course and do not replace the treating physician's clinical judgment, operative report, pathology review, or institution-specific follow-up protocol.";
-const POSTFU = {
-  recurrent_glioma:{
-    default:[
-      {label:"Early MRI may look worse before it looks better", text:"Transient ablation-zone enlargement, rim enhancement, and edema may reflect post-ablation evolution rather than immediate tumor progression.", src:"medvid_2015"},
-      {label:"Do not overcall one scan", text:"Interpret imaging together with neurologic status, steroid requirement, timing from LITT, and the serial MRI trend."},
-      {label:"Remember the biology", text:"LITT treats the targeted enhancing volume; glioma remains infiltrative and can progress outside the ablation zone.", src:"de_groot_2022"},
-      {label:"Neuro-oncology planning remains central", text:"Systemic therapy, re-irradiation, trial eligibility, or additional intervention should be guided by pathology, molecular profile, performance status, and imaging trend."},
-      {label:"Escalate concern if", text:"Neurologic decline, rising steroid need, unexpected mass effect, rapid progression outside the treated target, or an imaging and clinical mismatch."}
-    ],
-    triggers:[
-      {key:"biopsy", factor:"Biopsy obtained", bullets:[{label:"Use tissue to guide next treatment", text:"Pathology and molecular findings should be integrated with post-LITT imaging and systemic-treatment planning."}]},
-      {key:"priorrad", factor:"Prior radiation", bullets:[{label:"Separate recurrence from treatment effect cautiously", text:"Prior radiation can complicate MRI interpretation; serial imaging and clinical trajectory matter.", src:"medvid_2015"}]},
-      {key:"trial", factor:"Clinical trial discussed", bullets:[{label:"Preserve trial timing", text:"Coordinate early with neuro-oncology so recovery, steroids, and imaging timing do not unintentionally delay trial screening."}]}
-    ]
-  },
-  newly_glioma:{
-    default:[
-      {label:"Establish the diagnosis first", text:"Integrate biopsy pathology and molecular markers (IDH, 1p/19q, grade) before finalizing the post-LITT treatment plan."},
-      {label:"Early MRI may show treatment-related change", text:"Rim enhancement, edema, and an evolving ablation-zone size should be interpreted in context rather than read as immediate progression.", src:"medvid_2015"},
-      {label:"LITT treats the targeted volume", text:"Glioma is infiltrative; ablation addresses the targeted lesion within an individualized plan, not microscopic disease throughout the brain."},
-      {label:"Plan the next step on biology", text:"Observation, radiation, systemic therapy, or further surgery should be guided by grade, molecular profile, location, and the imaging trend."},
-      {label:"Escalate concern if", text:"New or worsening neurologic deficit, rising steroid need, unexpected mass effect, or rapid progression outside the treated target."}
-    ],
-    triggers:[
-      {key:"biopsy", factor:"Biopsy obtained", bullets:[{label:"Use tissue to guide next treatment", text:"Pathology and molecular findings should be integrated with post-LITT imaging and the overall plan."}]},
-      {key:"eloquent", factor:"Deep / eloquent location", bullets:[{label:"Neurologic exam matters as much as imaging", text:"Small changes near eloquent anatomy may be clinically meaningful even when imaging changes are subtle."}]}
-    ]
-  },
-  newly_gbm:{
-    default:[
-      {label:"Main priority is transition to standard GBM therapy", text:"Post-LITT recovery should support timely radiation and temozolomide when clinically appropriate."},
-      {label:"Early MRI may show treatment-related change", text:"Rim enhancement, edema, and an evolving ablation-zone size should be interpreted in context.", src:"medvid_2015"},
-      {label:"Pathology and molecular markers drive next steps", text:"IDH, MGMT, and the final diagnosis should guide the broader neuro-oncology plan."},
-      {label:"LITT is not standalone GBM treatment", text:"It is cytoreduction of the targeted lesion within a multimodal pathway."},
-      {label:"Escalate concern if", text:"Delayed recovery, persistent or worsening edema symptoms, inability to taper steroids enough for planned therapy, a wound or procedural concern, or delay to chemoradiation."}
-    ],
-    triggers:[
-      {key:"subtotal", factor:"Subtotal / partial ablation", bullets:[{label:"Track residual enhancing disease deliberately", text:"Future imaging should distinguish treated-target evolution from untreated residual tumor."}]},
-      {key:"eloquent", factor:"Deep / eloquent location", bullets:[{label:"Neurologic exam matters as much as imaging", text:"Small changes near eloquent anatomy may be clinically meaningful even when imaging changes are subtle."}]},
-      {key:"steroid", factor:"High steroid need", bullets:[{label:"Steroid dependence can affect treatment timing", text:"Persistent steroid requirement should be communicated early to neuro-oncology and radiation oncology."}]}
-    ]
-  },
-  brain_met:{
-    default:[
-      {label:"Clarify what progression means", text:"After SRS, an enlarging enhancing lesion may represent viable tumor, radiation effect, or a mixed process.", src:"medvid_2015"},
-      {label:"Biopsy matters when obtained", text:"Tissue diagnosis should guide coordination with medical oncology and radiation oncology."},
-      {label:"Early MRI may be difficult to interpret", text:"Post-LITT change, prior SRS effect, edema, and tumor biology can overlap.", src:"medvid_2015"},
-      {label:"Steroid status is a key clinical marker", text:"Symptoms and steroid dose should be tracked alongside imaging."},
-      {label:"Escalate concern if", text:"Worsening edema symptoms, new neurologic deficit, uncontrolled steroid need, systemic progression affecting options, or discordance between pathology and imaging behavior."}
-    ],
-    triggers:[
-      {key:"priorsrs", factor:"Prior SRS", bullets:[{label:"Expect diagnostic ambiguity", text:"Recurrence and radiation effect can overlap after SRS; serial imaging and clinical course remain important.", src:"medvid_2015"}]},
-      {key:"systemic", factor:"Systemic therapy planned", bullets:[{label:"Coordinate return to systemic therapy", text:"Timing should be individualized based on recovery, steroid requirement, pathology, and the medical-oncology plan."}]},
-      {key:"immuno", factor:"Immunotherapy planned", bullets:[{label:"Steroid minimization may matter", text:"When clinically safe, steroid reduction may be relevant because corticosteroids can affect immunotherapy strategies. This is care coordination, not an outcome claim.", src:"haskell_mendoza_2024"}]}
-    ]
-  },
-  radiation_necrosis:{
-    default:[
-      {label:"MRI alone can mislead", text:"Radiation necrosis and tumor recurrence can overlap radiographically, especially after SRS.", src:"medvid_2015"},
-      {label:"Clinical course is central", text:"Symptoms, steroid dose, neurologic exam, and edema burden should be interpreted with imaging."},
-      {label:"Steroid taper is often a major follow-up goal", text:"Tapering should be individualized on symptoms, imaging, and physician judgment.", src:"chan_2023"},
-      {label:"Residual enhancement or edema may persist", text:"Post-treatment MRI changes should not automatically be labeled treatment failure.", src:"medvid_2015"},
-      {label:"Escalate concern if", text:"Steroid requirement rises, symptoms worsen, mass effect progresses, seizures increase, or imaging evolves outside the expected post-ablation pattern."}
-    ],
-    triggers:[
-      {key:"biopsyrn", factor:"Biopsy-proven RN", bullets:[{label:"Tissue diagnosis strengthens interpretation", text:"Biopsy-proven RN supports the treated diagnosis, but surveillance remains necessary because recurrence and treatment effect may coexist.", src:"chan_2023"}]},
-      {key:"nobiopsy", factor:"No biopsy", bullets:[{label:"Maintain diagnostic caution", text:"Without tissue confirmation, follow-up should preserve the possibility of viable tumor, radiation effect, or mixed pathology."}]},
-      {key:"bev", factor:"Bevacizumab considered", bullets:[{label:"Coordinate medical management", text:"Steroid taper, bevacizumab consideration, and imaging follow-up should be aligned with radiation oncology and medical oncology."}]}
-    ]
-  },
-  mtle:{
-    default:[
-      {label:"Do not judge success immediately", text:"Seizure outcomes after epilepsy LITT are assessed longitudinally over months, not days.", src:"landazuri_2025"},
-      {label:"Continue seizure tracking", text:"Seizure diary, aura reporting, and event characterization remain important after ablation."},
-      {label:"Anti-seizure medications usually continue initially", text:"Medication changes should be made by the epilepsy team based on seizure control, side effects, and longitudinal follow-up."},
-      {label:"Neuropsych follow-up may matter", text:"Memory, language, and cognitive follow-up are particularly relevant for dominant-temporal procedures or pre-existing concerns."},
-      {label:"Escalate concern if", text:"New memory or language deficit, a visual-field concern, unexpected seizure worsening, medication toxicity, or new focal neurologic symptoms."}
-    ],
-    triggers:[
-      {key:"dominant", factor:"Dominant temporal lobe", bullets:[{label:"Monitor language and verbal memory", text:"Dominant-temporal treatment may warrant closer neuropsychological follow-up."}]},
-      {key:"nondominant", factor:"Nondominant temporal lobe", bullets:[{label:"Monitor visual/spatial memory and field symptoms", text:"Follow-up should be individualized to the treated anatomy."}]},
-      {key:"taper", factor:"Patient asks about medication taper", bullets:[{label:"Avoid early medication assumptions", text:"Seizure freedom does not automatically mean immediate medication reduction."}]}
-    ]
-  },
-  dre_other:{
-    default:[
-      {label:"Follow-up depends on the seizure focus", text:"Temporal, hypothalamic, cortical, insular, periventricular, and other targets may require different monitoring."},
-      {label:"Track seizure response longitudinally", text:"Effectiveness should be assessed over time using standard epilepsy outcome frameworks, not immediate post-procedure status."},
-      {label:"Medication management remains with epilepsy neurology", text:"Do not imply early medication withdrawal."},
-      {label:"Function-specific follow-up may be needed", text:"Motor, language, visual, memory, behavioral, or neuropsychological assessment may be relevant depending on target location."},
-      {label:"Escalate concern if", text:"New focal deficit, seizure worsening, an unexpected imaging concern, cognitive or behavioral decline, or medication toxicity."}
-    ],
-    triggers:[
-      {key:"hh", factor:"Hypothalamic hamartoma", bullets:[{label:"Monitor endocrine/autonomic symptoms when relevant", text:"Follow-up should reflect the lesion's hypothalamic location and baseline syndrome."}]},
-      {key:"fcd", factor:"Cortical dysplasia", bullets:[{label:"Residual epileptogenic network may matter", text:"Seizure persistence does not necessarily mean procedural failure; network localization and ablation coverage should be reviewed."}]},
-      {key:"insular", factor:"Insular / opercular focus", bullets:[{label:"Monitor subtle neurologic symptoms carefully", text:"Speech, swallowing, sensory, autonomic, or motor symptoms may be relevant depending on trajectory and target."}]}
-    ]
-  }
-};
-
 const INDICATIONS = {
-  recurrent_glioma:{
-    label:"Recurrent glioma", detail:"Recurrent right frontal glioma",
-    diseaseTitle:"LITT in recurrent glioma",
-    diseasePhys:"Recurrent glioma after prior therapy presents a familiar problem: the lesion is often deep, in or near prior surgical fields, and re-resection carries cumulative risk. LITT offers focal cytoreduction of the enhancing target through a single stereotactic trajectory under continuous MR thermometry. Because glioma is infiltrative, ablation addresses the targeted volume rather than microscopic disease throughout the brain, and is best framed as one tool within a multimodal plan that preserves future options.",
-    diseasePt:"A glioma is a tumor that grows from the brain's own supportive cells. When it comes back after earlier treatment, reaching it with open surgery can be difficult. LITT treats the targeted area with controlled heat through a tiny opening, guided by live MRI. It focuses on the planned target and is usually one part of an overall treatment plan.",
-    whyEvidence:"LITT was chosen to deliver focal cytoreduction of the enhancing recurrence through a single minimally invasive trajectory under real-time thermometry, while keeping re-resection, re-irradiation, systemic therapy, and trials on the table. The supporting evidence: in the LAANTERN glioblastoma analysis, which included recurrent IDH-wildtype patients, post-procedure survival fell within the range of published series (de Groot 2022), with short hospitalization across the tumor registry (Kim 2020).",
-    fu:FU_TUMOR, refs:["de_groot_2022","kim_2020","rennert_2020"],
-    refsCase:{
-      de_groot_2022:"Includes recurrent IDH-wildtype glioblastoma, supporting LITT as a cytoreductive option with post-procedure survival in the range of published series.",
-      kim_2020:"Shows the short-stay, high-discharge-home profile this patient can expect, supporting a quicker return to systemic therapy or trials.",
-      rennert_2020:"Documents the low peri-procedural complication profile relevant to re-treating a lesion in or near a prior surgical field."
-    },
-    emerging:"LITT temporarily increases peritumoral blood-brain barrier permeability. This was first demonstrated in humans (Leuthardt 2016), characterized mechanistically in preclinical models (Salehi 2020), and shown to persist for at least four weeks after ablation (Nielsen 2025). A local anti-tumor immune response has been observed following LITT (Chandar 2023). Early-phase trials are evaluating LITT combined with checkpoint blockade in high-grade glioma (Suryadevara 2026; phase 1/2b, NCT02311582; Hwang 2022).",
-    legitimacy:"Guideline and consensus context: the AANS-CNS Joint Section on Tumors position statement (2021) endorses MR-guided LITT as an option for adult CNS tumors, especially lesions unsuitable for or inaccessible to resection, and LITT appears in NCCN guidelines."
-  },
-  newly_glioma:{
-    label:"Newly diagnosed glioma (lower-grade)", detail:"Newly diagnosed lower-grade glioma",
-    diseaseTitle:"LITT in newly diagnosed lower-grade glioma",
-    diseasePhys:"In a newly diagnosed lower-grade or non-glioblastoma glioma, LITT is considered when the lesion is deep, small, or in an eloquent location where open resection carries meaningful risk, or when a patient is not a candidate for craniotomy. It provides minimally invasive cytoreduction of the targeted volume under continuous MR thermometry, and in the same trajectory can be paired with biopsy for tissue and molecular diagnosis. Because glioma is infiltrative, ablation addresses the targeted volume rather than microscopic disease, and is best framed as one component of an individualized plan that preserves future surgical, radiation, and systemic options.",
-    diseasePt:"A glioma is a tumor that grows from the brain's own supportive cells. When it is found in a place that is hard to reach with open surgery, the team may treat the targeted area with LITT — controlled, MRI-guided heat delivered through a tiny opening. A small tissue sample is often taken at the same time so the team learns exactly what type it is. LITT is usually one part of an overall plan.",
-    whyEvidence:"LITT was chosen to deliver minimally invasive cytoreduction of a deep or eloquently located lesion while obtaining tissue for diagnosis in a single trajectory, keeping resection, radiation, systemic therapy, and trials open. The supporting evidence: the prospective LAANTERN tumor registry reported short hospitalization and high discharge-to-home rates across ablated brain tumors (Kim 2020), with a low peri-procedural complication profile across centers (Rennert 2020). Most published LITT glioma data center on higher-grade disease, so lower-grade use is individualized to lesion location and patient factors.",
-    fu:FU_TUMOR, refs:["kim_2020","rennert_2020"],
-    refsCase:{
-      kim_2020:"Shows the short-stay, high-discharge-home profile this patient can expect from a minimally invasive ablation, supporting a quicker return to normal activity and the broader treatment plan.",
-      rennert_2020:"Documents the low peri-procedural complication profile relevant to treating a deep or eloquently located lesion without an open resection."
-    },
-    emerging:"LITT temporarily increases peritumoral blood-brain barrier permeability. This was first demonstrated in humans (Leuthardt 2016), characterized mechanistically in preclinical models (Salehi 2020), and shown to persist for at least four weeks after ablation (Nielsen 2025). A local anti-tumor immune response has been observed following LITT (Chandar 2023). These remain research directions and are not outcome claims for lower-grade glioma.",
-    legitimacy:"Guideline and consensus context: the AANS-CNS Joint Section on Tumors position statement (2021) endorses MR-guided LITT as an option for adult CNS tumors, especially lesions unsuitable for or inaccessible to resection, and LITT appears in NCCN guidelines."
-  },
   newly_gbm:{
     label:"Newly diagnosed glioblastoma", detail:"Newly diagnosed IDH-wildtype glioblastoma",
     diseaseTitle:"LITT in newly diagnosed glioblastoma",
-    diseasePhys:"In newly diagnosed IDH-wildtype glioblastoma, LITT is considered when location, depth, or patient factors make open resection unsafe or undesirable. It provides minimally invasive cytoreduction of the targeted volume under real-time thermometry, creating a treatment pathway for patients who might otherwise receive biopsy alone. As with all GBM, ablation targets the treated volume and is integrated with standard chemoradiation rather than replacing it.",
+    diseasePhys:"In newly diagnosed IDH-wildtype glioblastoma, LITT is considered when location, depth, or patient factors make open resection unsafe or undesirable. It provides minimally invasive cytoreduction of the targeted volume under real-time thermometry, creating a treatment pathway for patients who might otherwise receive biopsy alone. Ablation targets the treated volume and is integrated with standard chemoradiation rather than replacing it.",
     diseasePt:"Glioblastoma is an aggressive brain tumor. Sometimes its location makes open surgery risky. LITT uses controlled, MRI-guided heat through a small opening to treat the targeted area, and is combined with the usual radiation and chemotherapy as part of the full plan.",
-    whyEvidence:"LITT was chosen to achieve minimally invasive cytoreduction where open resection was unfavorable, keeping the patient on track for standard chemoradiation. The supporting evidence: selected newly diagnosed GBM in LAANTERN showed survival within published resection ranges (de Groot 2022), with greater ablation extent and completed chemoradiation associated with longer survival (Kaisman-Elbaz 2023), and short hospitalization with high discharge-home rates across the registry (Kim 2020).",
+    whyEvidence:"LITT was chosen to achieve minimally invasive cytoreduction where open resection was unfavorable, keeping the patient on track for standard chemoradiation. Selected newly diagnosed GBM in LAANTERN showed survival within published resection ranges (de Groot 2022), with greater ablation extent and completed chemoradiation associated with longer survival (Kaisman-Elbaz 2023), and short hospitalization across the registry (Kim 2020).",
     fu:FU_TUMOR, refs:["de_groot_2022","kaisman_elbaz_2023","kim_2020","rennert_2020"],
     refsCase:{
-      de_groot_2022:"Supports LITT as a cytoreductive option in selected newly diagnosed GBM; in this cohort, newly diagnosed patients who received post-LITT chemoradiation reached a median overall survival of about 16 months.",
-      kaisman_elbaz_2023:"Most directly relevant here: in upfront LITT for newly diagnosed GBM, greater ablation extent and completing chemoradiation tracked with longer survival.",
+      de_groot_2022:"Supports LITT as a cytoreductive option in selected newly diagnosed GBM, with post-LITT chemoradiation reaching survival in the range of published series.",
+      kaisman_elbaz_2023:"Most directly relevant: in upfront LITT for newly diagnosed GBM, greater ablation extent and completing chemoradiation tracked with longer survival.",
       kim_2020:"Short hospitalization and high discharge-home rates keep this patient on schedule for standard chemoradiation.",
       rennert_2020:"Low peri-procedural complication profile supports a minimally invasive route when craniotomy is high-risk."
     },
-    emerging:"LITT temporarily increases peritumoral blood-brain barrier permeability. This was first demonstrated in humans (Leuthardt 2016), characterized mechanistically in preclinical models (Salehi 2020), and shown to persist for at least four weeks after ablation (Nielsen 2025). A local anti-tumor immune response has been observed following LITT (Chandar 2023). Early-phase trials are evaluating LITT combined with checkpoint blockade in high-grade glioma (Suryadevara 2026; phase 1/2b, NCT02311582; Hwang 2022).",
-    legitimacy:"Guideline and consensus context: the AANS-CNS Joint Section on Tumors position statement (2021) endorses MR-guided LITT as an option for adult CNS tumors, especially lesions unsuitable for or inaccessible to resection, and LITT appears in NCCN guidelines."
+    emerging:null,
+    legitimacy:"The AANS-CNS Joint Section on Tumors position statement (2021) endorses MR-guided LITT as an option for adult CNS tumors, especially lesions unsuitable for or inaccessible to resection; LITT appears in NCCN guidelines."
+  },
+  recurrent_gbm:{
+    label:"Recurrent glioblastoma", detail:"Recurrent IDH-wildtype glioblastoma",
+    diseaseTitle:"LITT in recurrent glioblastoma",
+    diseasePhys:"Recurrent glioblastoma is often deep, in or near a prior surgical field, and re-resection carries cumulative risk. LITT offers focal cytoreduction of the enhancing recurrence through a single stereotactic trajectory under continuous MR thermometry, while preserving re-irradiation, systemic therapy, and trial options. Because glioblastoma is infiltrative, ablation addresses the targeted volume rather than microscopic disease.",
+    diseasePt:"Glioblastoma can return after earlier treatment, often in a place that is hard to reach again with open surgery. LITT treats the targeted area with controlled, MRI-guided heat through a small opening, and is usually one part of an overall plan.",
+    whyEvidence:"LITT was chosen to deliver focal cytoreduction of the enhancing recurrence through one minimally invasive trajectory while keeping further options open. The LAANTERN glioblastoma analysis, which included recurrent IDH-wildtype patients, reported post-procedure survival within the range of published series (de Groot 2022), with short hospitalization across the tumor registry (Kim 2020) and a low complication profile (Rennert 2020).",
+    fu:FU_TUMOR, refs:["de_groot_2022","kim_2020","rennert_2020"],
+    refsCase:{
+      de_groot_2022:"Includes recurrent IDH-wildtype glioblastoma, supporting LITT as a cytoreductive option with survival in the range of published series.",
+      kim_2020:"Short-stay, high-discharge-home profile supports a quicker return to systemic therapy or trials.",
+      rennert_2020:"Low peri-procedural complication profile relevant to re-treating a lesion in or near a prior surgical field."
+    },
+    emerging:null,
+    legitimacy:"The AANS-CNS Joint Section on Tumors position statement (2021) endorses MR-guided LITT for adult CNS tumors, especially lesions unsuitable for or inaccessible to resection; LITT appears in NCCN guidelines."
+  },
+  newly_lgg:{
+    label:"Newly diagnosed lower-grade glioma", detail:"Newly diagnosed lower-grade glioma",
+    diseaseTitle:"LITT in newly diagnosed lower-grade glioma",
+    diseasePhys:"In a newly diagnosed lower-grade glioma, LITT is considered when the lesion is deep, small, or eloquently located and open resection carries meaningful risk, or when a patient is not a craniotomy candidate. It provides minimally invasive cytoreduction under thermometry and can pair biopsy for molecular diagnosis in the same trajectory. Most published LITT glioma data center on higher-grade disease, so lower-grade use is individualized to location and patient factors.",
+    diseasePt:"A glioma grows from the brain's own supportive cells. When it sits in a place that is hard to reach with open surgery, the team may treat it with LITT — controlled, MRI-guided heat through a tiny opening — often taking a small tissue sample at the same time. It is usually one part of an overall plan.",
+    whyEvidence:"LITT was chosen for minimally invasive cytoreduction of a deep or eloquently located lesion while obtaining tissue for diagnosis. The LAANTERN tumor registry reported short hospitalization and high discharge-home rates across ablated brain tumors (Kim 2020), with a low complication profile across centers (Rennert 2020).",
+    fu:FU_TUMOR, refs:["kim_2020","rennert_2020"],
+    refsCase:{
+      kim_2020:"Short-stay, high-discharge-home profile this patient can expect from a minimally invasive ablation.",
+      rennert_2020:"Low complication profile relevant to treating a deep or eloquently located lesion without an open resection."
+    },
+    emerging:null,
+    legitimacy:"The AANS-CNS Joint Section on Tumors position statement (2021) endorses MR-guided LITT for adult CNS tumors, especially lesions unsuitable for or inaccessible to resection."
+  },
+  recurrent_lgg:{
+    label:"Recurrent lower-grade glioma", detail:"Recurrent lower-grade glioma",
+    diseaseTitle:"LITT in recurrent lower-grade glioma",
+    diseasePhys:"A recurrent lower-grade glioma is frequently in or near a prior surgical field, where re-resection adds cumulative risk. LITT offers focal cytoreduction of the targeted lesion through one stereotactic trajectory under thermometry, with the option to biopsy for updated molecular and grade assessment. It is best framed within an individualized plan that preserves future surgical, radiation, and systemic options.",
+    diseasePt:"A lower-grade glioma can return after earlier treatment. When reaching it with open surgery is difficult, LITT treats the targeted area with controlled, MRI-guided heat through a small opening, often with a tissue sample taken at the same time.",
+    whyEvidence:"LITT was chosen to deliver focal cytoreduction of the recurrence through a minimally invasive trajectory while obtaining tissue and keeping further options open. The LAANTERN tumor registry reported short hospitalization and high discharge-home rates (Kim 2020) with a low complication profile (Rennert 2020).",
+    fu:FU_TUMOR, refs:["kim_2020","rennert_2020"],
+    refsCase:{
+      kim_2020:"Short-stay profile supports a quicker return to surveillance and the broader plan.",
+      rennert_2020:"Low complication profile relevant to re-treating a lesion in or near a prior surgical field."
+    },
+    emerging:null,
+    legitimacy:"The AANS-CNS Joint Section on Tumors position statement (2021) endorses MR-guided LITT for adult CNS tumors, especially lesions unsuitable for or inaccessible to resection."
   },
   brain_met:{
-    label:"Progressive brain metastasis", detail:"Progressive brain metastasis",
-    diseaseTitle:"LITT for progressive brain metastasis",
-    diseasePhys:"A growing lesion after treatment for brain metastasis raises the question of viable tumor versus treatment effect. LITT allows minimally invasive ablation of the progressive target, often pairing biopsy with treatment in a single trajectory under thermometry. The minimally invasive profile supports a quicker return to systemic therapy in appropriately selected patients.",
-    diseasePt:"A brain metastasis is a tumor that spread to the brain from cancer elsewhere. When a treated spot grows, the team may treat it with LITT, which uses focused, MRI-guided heat through a small opening. It is a minimally invasive option used as part of the overall cancer care plan.",
-    whyEvidence:"LITT was chosen for focal ablation of the progressive target, with the option to biopsy in the same trajectory, preserving the systemic-therapy timeline. The supporting evidence: pooled outcomes for recurrent metastases after SRS were better when adjuvant therapy followed ablation (Almeida 2025); the tumor cohort showed short hospitalization and high discharge-home rates (Kim 2020) with a low peri-procedural complication profile (Rennert 2020); where recurrence versus necrosis is unclear, the post-SRS pathway applies (Chan 2023).",
+    label:"Brain metastasis", detail:"Progressive brain metastasis",
+    diseaseTitle:"LITT for brain metastasis",
+    diseasePhys:"A growing lesion after treatment for brain metastasis raises the question of viable tumor versus treatment effect. LITT allows minimally invasive ablation of the target, often pairing biopsy with treatment in a single trajectory under thermometry. The minimally invasive profile supports a quicker return to systemic therapy in appropriately selected patients.",
+    diseasePt:"A brain metastasis is a tumor that spread to the brain from cancer elsewhere. When a treated spot grows, the team may treat it with LITT — focused, MRI-guided heat through a small opening — as part of the overall cancer care plan.",
+    whyEvidence:"LITT was chosen for focal ablation of the target, with the option to biopsy in the same trajectory, preserving the systemic-therapy timeline. Pooled outcomes for recurrent metastases after SRS were better when adjuvant therapy followed ablation (Almeida 2025); the tumor cohort showed short hospitalization and high discharge-home rates (Kim 2020) with a low complication profile (Rennert 2020); where recurrence versus necrosis is unclear, the post-SRS pathway applies (Chan 2023).",
     fu:FU_TUMOR, refs:["almeida_2025","haskell_mendoza_2024","chan_2023","shah_2025","kim_2020","rennert_2020"],
     refsCase:{
-      almeida_2025:"Pooled review of recurrent brain metastases after SRS supports LITT here, with better survival when adjuvant systemic therapy follows ablation.",
-      haskell_mendoza_2024:"Relevant if immunotherapy is planned: combining LITT with checkpoint blockade gave high local control and let steroids be tapered quickly.",
+      almeida_2025:"Pooled review of recurrent brain metastases after SRS supports LITT, with better survival when adjuvant systemic therapy follows ablation.",
+      haskell_mendoza_2024:"Relevant if immunotherapy is planned: combining LITT with checkpoint blockade gave high local control and let steroids taper quickly.",
       chan_2023:"Covers the radiation-necrosis half of the post-SRS dilemma, where the same trajectory pairs biopsy with ablation.",
-      shah_2025:"Recent landscape reference for framing LITT in brain metastases and the recurrence-versus-necrosis question.",
-      kim_2020:"Short-stay, high-discharge-home profile supports a quick return to systemic therapy.",
-      rennert_2020:"Low peri-procedural complication profile in a population that often cannot tolerate a large craniotomy."
+      shah_2025:"Recent landscape reference for LITT in brain metastases and the recurrence-versus-necrosis question.",
+      kim_2020:"Short-stay profile supports a quick return to systemic therapy.",
+      rennert_2020:"Low complication profile in a population that often cannot tolerate a large craniotomy."
     },
-    emerging:"In progressive brain metastases, LITT combined with immune checkpoint blockade achieved high local control and allowed rapid steroid discontinuation, which matters because steroids blunt immunotherapy (Haskell-Mendoza 2024). LITT also temporarily opens the peritumoral blood-brain barrier, a window studied for the delivery of systemic agents (Leuthardt 2016; Nielsen 2025).",
-    legitimacy:"Guideline and consensus context: the 2025 CNS evidence-based guideline (AANS/CNS endorsed, reflected in NCCN) states that for imaging progression after SRS due to tumor, LITT may be considered equivalent to craniotomy, individualized by location and clinical status. This is a Level III recommendation based on two Class III studies (Huntoon 2025); the randomized REMASTer trial (NCT05124912) is underway to provide Level I evidence. The AANS-CNS position statement (2021) separately endorses LITT for CNS tumors.",
-    caveat:"For post-SRS progression, the 2025 CNS guideline places LITT as equivalent to craniotomy at Level III, and the randomized REMASTer trial is in progress. Most other NeuroBlate evidence remains prospective registry or cohort data, not a randomized comparison against open surgery. References support selected-patient consideration, not superiority claims."
+    emerging:null,
+    legitimacy:"The 2025 CNS evidence-based guideline (AANS/CNS endorsed, reflected in NCCN) states that for imaging progression after SRS due to tumor, LITT may be considered equivalent to craniotomy, individualized by location and clinical status (Level III, two Class III studies; Huntoon 2025); the randomized REMASTer trial (NCT05124912) is underway. The AANS-CNS position statement (2021) separately endorses LITT for CNS tumors.",
+    caveat:"For post-SRS progression, the 2025 CNS guideline places LITT as equivalent to craniotomy at Level III, and the randomized REMASTer trial is in progress. Most other NeuroBlate evidence remains prospective registry or cohort data. References support selected-patient consideration, not superiority claims."
   },
   radiation_necrosis:{
-    label:"Radiation necrosis after SRS", detail:"Biopsy-proven radiation necrosis after SRS",
+    label:"Radiation necrosis", detail:"Biopsy-proven radiation necrosis after SRS",
     diseaseTitle:"LITT for radiation necrosis after SRS",
-    diseasePhys:"After SRS for brain metastases, MRI progression cannot reliably distinguish tumor recurrence from radiation necrosis. LITT addresses this dilemma directly: a single trajectory can pair biopsy for tissue diagnosis with ablation of the symptomatic lesion, frequently enabling rapid corticosteroid reduction. This is one of the cleaner value stories because radiation oncology, medical oncology, and neurosurgery all share the problem.",
+    diseasePhys:"After SRS, MRI progression cannot reliably distinguish tumor recurrence from radiation necrosis. LITT addresses this directly: a single trajectory can pair biopsy for tissue diagnosis with ablation of the symptomatic lesion, frequently enabling rapid corticosteroid reduction. Radiation oncology, medical oncology, and neurosurgery all share the problem.",
     diseasePt:"Radiation necrosis is irritated or dying tissue caused by earlier radiation. On MRI it can look like the tumor came back, even when it didn't. LITT lets the team take a small tissue sample and treat the area in the same procedure. Steroid medicines are managed by the care team as part of follow-up.",
-    whyEvidence:"LITT was chosen to resolve the recurrence-versus-necrosis question by pairing biopsy with ablation in one trajectory, with rapid steroid reduction as the goal. The supporting evidence: in the multicenter biopsy-proven radiation-necrosis cohort, median time to corticosteroid cessation was about 13 days (Chan 2023), and pooled post-SRS data help when imaging cannot separate necrosis from recurrence (Almeida 2025), with the short-stay, low-morbidity profile seen across LAANTERN (Rennert 2020).",
+    whyEvidence:"LITT was chosen to resolve the recurrence-versus-necrosis question by pairing biopsy with ablation in one trajectory, with rapid steroid reduction as the goal. In the multicenter biopsy-proven radiation-necrosis cohort, median time to corticosteroid cessation was about 13 days (Chan 2023); pooled post-SRS data help when imaging cannot separate necrosis from recurrence (Almeida 2025), with a short-stay, low-morbidity profile across LAANTERN (Rennert 2020).",
     fu:{expected:FU_TUMOR.expected, warrant:FU_TUMOR.warrant, note:"Early post-LITT changes frequently reflect expected post-ablation evolution. A planned corticosteroid taper is common — coordinate timing and imaging interpretation with the treating team."},
     refs:["chan_2023","almeida_2025","shah_2025","rennert_2020"],
     refsCase:{
       chan_2023:"Directly on point: in biopsy-proven radiation necrosis after SRS, LITT paired tissue diagnosis with ablation and enabled rapid steroid reduction.",
-      almeida_2025:"Addresses the recurrent-tumor half of the post-SRS dilemma, helping when imaging cannot separate necrosis from recurrence.",
+      almeida_2025:"Addresses the recurrent-tumor half of the post-SRS dilemma when imaging cannot separate necrosis from recurrence.",
       shah_2025:"Landscape reference for the recurrence-versus-necrosis problem this case turns on.",
       rennert_2020:"Low-morbidity, short-stay profile relevant to a previously irradiated, often fragile patient."
     },
     emerging:null,
-    legitimacy:"Guideline and consensus context: the 2025 CNS evidence-based guideline (AANS/CNS endorsed, reflected in NCCN) states that for imaging progression after SRS due to radiation necrosis, LITT may be considered equivalent to medical management, individualized by location and clinical status. This is a Level III recommendation based on two Class III studies (Huntoon 2025); the randomized REMASTer trial (NCT05124912) is underway. The AANS-CNS position statement (2021) endorses LITT for radiation necrosis.",
-    caveat:"For post-SRS progression, the 2025 CNS guideline places LITT as equivalent to medical management for radiation necrosis at Level III, and the randomized REMASTer trial is in progress. Most other NeuroBlate evidence remains prospective registry or cohort data, not a randomized comparison. References support selected-patient consideration, not superiority claims."
+    legitimacy:"The 2025 CNS evidence-based guideline (AANS/CNS endorsed, reflected in NCCN) states that for imaging progression after SRS due to radiation necrosis, LITT may be considered equivalent to medical management, individualized by location and clinical status (Level III; Huntoon 2025); the randomized REMASTer trial (NCT05124912) is underway. The AANS-CNS position statement (2021) endorses LITT for radiation necrosis.",
+    caveat:"For post-SRS progression, the 2025 CNS guideline places LITT as equivalent to medical management for radiation necrosis at Level III, and the randomized REMASTer trial is in progress. Most other NeuroBlate evidence remains prospective registry or cohort data. References support selected-patient consideration, not superiority claims."
+  },
+  meningioma:{
+    label:"Meningioma", detail:"Recurrent or surgically difficult meningioma",
+    diseaseTitle:"LITT for meningioma",
+    diseasePhys:"LITT for meningioma is a less-established, individualized use, considered for recurrent, deep, or surgically difficult lesions, or for patients who are poor open-surgery candidates. It provides minimally invasive thermal ablation of the targeted lesion under continuous MR thermometry. Evidence is limited to small series and case reports, and the approach should be framed within a multidisciplinary plan alongside resection and radiation options.",
+    diseasePt:"A meningioma grows from the layers covering the brain. Most are treated with surgery or radiation, but some are hard to reach or come back. In selected cases, the team may use LITT — controlled, MRI-guided heat through a small opening — to treat the targeted area.",
+    whyEvidence:"LITT was chosen as a minimally invasive option for a lesion that was difficult or risky to resect, under real-time thermometry. Supporting context is limited: prospective multicenter registry data document the short-stay, low-morbidity profile of MR-guided ablation across intracranial lesions (Kim 2020; Rennert 2020). Dedicated meningioma evidence remains small-series and individualized.",
+    fu:FU_TUMOR, refs:["kim_2020","rennert_2020"],
+    refsCase:{
+      kim_2020:"Documents the short-stay, high-discharge-home profile of MR-guided ablation across intracranial lesions.",
+      rennert_2020:"Low peri-procedural complication profile relevant to a deep or previously treated lesion."
+    },
+    emerging:null,
+    legitimacy:"The AANS-CNS Joint Section on Tumors position statement (2021) endorses MR-guided LITT for adult CNS tumors, especially lesions unsuitable for or inaccessible to resection. Meningioma-specific evidence is limited and use is individualized."
+  },
+  other_tumor:{
+    label:"Other intracranial tumor", detail:"Other intracranial tumor",
+    diseaseTitle:"LITT for an intracranial tumor",
+    diseasePhys:"For an intracranial tumor that is deep, small, or eloquently located, LITT provides minimally invasive thermal ablation of the targeted volume under continuous MR thermometry, often with the option to biopsy in the same trajectory. It is considered when open resection is unsafe or undesirable and is integrated within an individualized, multidisciplinary plan.",
+    diseasePt:"This procedure treated a brain tumor using LITT — controlled, MRI-guided heat delivered through a small opening — instead of open surgery. A small tissue sample is often taken at the same time. LITT is usually one part of an overall treatment plan.",
+    whyEvidence:"LITT was chosen for minimally invasive ablation of a targeted lesion under real-time thermometry. Prospective multicenter registry data document short hospitalization and high discharge-home rates across ablated brain tumors (Kim 2020) with a low complication profile across centers (Rennert 2020).",
+    fu:FU_TUMOR, refs:["kim_2020","rennert_2020"],
+    refsCase:{
+      kim_2020:"Short-stay, high-discharge-home profile across ablated brain tumors.",
+      rennert_2020:"Low peri-procedural complication profile across centers."
+    },
+    emerging:null,
+    legitimacy:"The AANS-CNS Joint Section on Tumors position statement (2021) endorses MR-guided LITT for adult CNS tumors, especially lesions unsuitable for or inaccessible to resection."
   },
   mtle:{
     label:"Mesial temporal lobe epilepsy", detail:"Drug-resistant mesial temporal lobe epilepsy",
     diseaseTitle:"LITT for mesial temporal lobe epilepsy",
-    diseasePhys:"In mesial temporal lobe epilepsy, anterior temporal lobectomy remains the historical benchmark, but many candidates decline open surgery. LITT provides a minimally invasive ablation of the mesial temporal target under thermometry. The strongest argument is not that LITT outperforms ATL, but that it may move more appropriately selected patients toward effective surgical treatment earlier, with outcomes that are durable in registry follow-up.",
-    diseasePt:"In this type of epilepsy, seizures start deep in the temporal lobe. The traditional operation removes part of that area. LITT instead treats the small target with MRI-guided heat through a tiny opening, which many people find easier to accept than open surgery. Seizure results are judged over months.",
-    whyEvidence:"LITT was chosen to offer a minimally invasive route to the mesial temporal target for a patient for whom open temporal surgery was undesirable, with coverage of the mesial structures as the driver of outcome. The supporting evidence: the largest prospective MTLE cohort reported durable two-year Engel I near 58% (Landazuri 2025), and targeting and coverage shape results (Wu 2019).",
+    diseasePhys:"In mesial temporal lobe epilepsy, anterior temporal lobectomy remains the historical benchmark, but many candidates decline open surgery. LITT provides minimally invasive ablation of the mesial temporal target under thermometry. The argument is not that LITT outperforms ATL, but that it may move appropriately selected patients toward effective surgical treatment earlier, with outcomes durable in registry follow-up.",
+    diseasePt:"In this type of epilepsy, seizures start deep in the temporal lobe. The traditional operation removes part of that area. LITT instead treats the small target with MRI-guided heat through a tiny opening, which many people find easier to accept. Seizure results are judged over months.",
+    whyEvidence:"LITT was chosen to offer a minimally invasive route to the mesial temporal target for a patient for whom open temporal surgery was undesirable, with coverage of the mesial structures as the driver of outcome. The largest prospective MTLE cohort reported durable two-year Engel I near 58% (Landazuri 2025), and targeting and coverage shape results (Wu 2019).",
     fu:FU_EPILEPSY, refs:["landazuri_2025","wu_2019","landazuri_2020","rennert_2020"],
     refsCase:{
       landazuri_2025:"Largest prospective MTLE cohort; supports durable two-year seizure freedom for selected patients who decline open temporal surgery.",
-      wu_2019:"Shows targeting and coverage of the mesial structures drive outcome, which is why trajectory and coverage were planned carefully.",
-      landazuri_2020:"Broader drug-resistant-epilepsy data with strong patient preference for a minimally invasive approach.",
+      wu_2019:"Shows targeting and coverage of the mesial structures drive outcome.",
+      landazuri_2020:"Broader drug-resistant-epilepsy data with strong preference for a minimally invasive approach.",
       rennert_2020:"Short-stay, low-morbidity profile that lowers the barrier to surgical treatment."
     },
     emerging:null, legitimacy:null
   },
-  dre_other:{
-    label:"Drug-resistant epilepsy (other)", detail:"Drug-resistant focal epilepsy",
-    diseaseTitle:"LITT for drug-resistant epilepsy",
-    diseasePhys:"In drug-resistant epilepsy, the persistent problem is under-referral: many patients remain on medication for years despite low odds of seizure freedom after two failed agents. A minimally invasive option can lower the emotional barrier to surgical evaluation. LITT enables targeted ablation of the seizure focus under thermometry, with meaningful seizure and quality-of-life outcomes in selected patients.",
-    diseasePt:"Drug-resistant epilepsy means seizures continue after trying at least two medicines. Surgery can help, but many people are hesitant about open brain surgery. LITT treats the small area causing seizures using MRI-guided heat through a tiny opening, which is often easier to consider. Seizure results are judged over months.",
-    whyEvidence:"LITT was chosen to provide a minimally invasive surgical option for a well-localized seizure focus, lowering the barrier to effective surgery. The supporting evidence: a prospective multicenter cohort reported about 64% one-year Engel I with strong patient preference for minimally invasive surgery (Landazuri 2020); complete coverage of the focus drives outcomes (Wu 2019).",
+  hypothalamic_hamartoma:{
+    label:"Hypothalamic hamartoma", detail:"Hypothalamic hamartoma with drug-resistant epilepsy",
+    diseaseTitle:"LITT for hypothalamic hamartoma",
+    diseasePhys:"Hypothalamic hamartomas cause gelastic and other drug-resistant seizures and sit in a deep, surgically hazardous location. LITT enables targeted ablation or disconnection of the lesion under continuous MR thermometry, minimizing manipulation of adjacent hypothalamic and vascular structures. It is widely regarded as a preferred minimally invasive option for these deep lesions, individualized to anatomy and baseline syndrome.",
+    diseasePt:"A hypothalamic hamartoma is a small, non-cancerous lesion deep in the brain that can cause seizures, including laughing seizures. Because of its location, open surgery is risky. LITT treats it with MRI-guided heat through a tiny opening. Seizure and hormonal effects are followed over time.",
+    whyEvidence:"LITT was chosen to reach a deep, surgically hazardous lesion through a minimally invasive trajectory with real-time thermal monitoring of adjacent structures. Supporting context comes from prospective drug-resistant-epilepsy data showing meaningful seizure freedom and strong preference for minimally invasive surgery (Landazuri 2020), with coverage of the target driving outcome (Wu 2019).",
     fu:FU_EPILEPSY, refs:["landazuri_2020","wu_2019","rennert_2020"],
     refsCase:{
-      landazuri_2020:"Prospective multicenter drug-resistant-epilepsy data supporting meaningful seizure freedom and a strong preference for minimally invasive surgery.",
-      wu_2019:"Establishes that coverage of the seizure focus drives outcome, a targeting principle that applies to any focal ablation including this case.",
+      landazuri_2020:"Prospective drug-resistant-epilepsy data supporting meaningful seizure freedom and preference for a minimally invasive approach.",
+      wu_2019:"Establishes that coverage of the target drives outcome, a principle central to disconnecting a deep lesion.",
+      rennert_2020:"Short-stay, low-morbidity profile relevant to a deep midline target."
+    },
+    emerging:null, legitimacy:null
+  },
+  focal_epilepsy:{
+    label:"Focal epilepsy", detail:"Drug-resistant focal epilepsy",
+    diseaseTitle:"LITT for drug-resistant focal epilepsy",
+    diseasePhys:"In drug-resistant focal epilepsy, the persistent problem is under-referral: many patients remain on medication for years despite low odds of seizure freedom after two failed agents. LITT enables targeted ablation of a well-localized seizure focus under thermometry, lowering the barrier to surgical evaluation, with meaningful seizure and quality-of-life outcomes in selected patients. Follow-up is individualized to the focus and its functional anatomy.",
+    diseasePt:"Drug-resistant epilepsy means seizures continue after trying at least two medicines. Surgery can help, but many people are hesitant about open brain surgery. LITT treats the small area causing seizures using MRI-guided heat through a tiny opening, which is often easier to consider. Seizure results are judged over months.",
+    whyEvidence:"LITT was chosen to provide a minimally invasive surgical option for a well-localized seizure focus. A prospective multicenter cohort reported about 64% one-year Engel I with strong preference for minimally invasive surgery (Landazuri 2020); complete coverage of the focus drives outcomes (Wu 2019).",
+    fu:FU_EPILEPSY, refs:["landazuri_2020","wu_2019","rennert_2020"],
+    refsCase:{
+      landazuri_2020:"Prospective multicenter drug-resistant-epilepsy data supporting meaningful seizure freedom and preference for minimally invasive surgery.",
+      wu_2019:"Establishes that coverage of the seizure focus drives outcome.",
       rennert_2020:"Short hospitalization and low complication profile that make surgical evaluation easier to accept."
+    },
+    emerging:null, legitimacy:null
+  },
+  corpus_callosotomy:{
+    label:"Corpus callosotomy", detail:"LITT corpus callosotomy for drug-resistant epilepsy",
+    diseaseTitle:"LITT corpus callosotomy",
+    diseasePhys:"LITT corpus callosotomy is a palliative disconnection procedure, most often for drug-resistant generalized epilepsy with drop attacks (atonic or tonic seizures) when a resective target is not available. Stereotactic laser ablation of the callosal fibers achieves disconnection through small trajectories under continuous MR thermometry, avoiding an open interhemispheric approach. Coverage of the intended callosal segment is the key determinant of seizure benefit.",
+    diseasePt:"A corpus callosotomy treats certain severe seizures — especially sudden falls — by interrupting the band of fibers connecting the two halves of the brain. Instead of open surgery, LITT uses MRI-guided heat through small openings to make this disconnection. It is a palliative procedure aimed at reducing the most dangerous seizures.",
+    whyEvidence:"LITT was chosen to achieve callosal disconnection through minimally invasive trajectories with real-time thermal monitoring, avoiding an open interhemispheric approach. Supporting context comes from prospective drug-resistant-epilepsy data showing meaningful benefit and preference for minimally invasive surgery (Landazuri 2020), with coverage of the intended target driving outcome (Wu 2019).",
+    fu:FU_EPILEPSY, refs:["landazuri_2020","wu_2019","rennert_2020"],
+    refsCase:{
+      landazuri_2020:"Prospective drug-resistant-epilepsy data supporting a minimally invasive approach and meaningful benefit.",
+      wu_2019:"Coverage of the intended target drives outcome — directly relevant to completeness of callosal disconnection.",
+      rennert_2020:"Short-stay, low-morbidity profile relevant to a palliative disconnection procedure."
     },
     emerging:null, legitimacy:null
   }
@@ -1196,7 +1209,7 @@ document.querySelectorAll(".addrow button").forEach(b=>b.onclick=()=>{
 (function initInd(){
   const sel=$("i_ind");
   Object.entries(INDICATIONS).forEach(([k,v])=>{ const o=document.createElement("option"); o.value=k; o.textContent=v.label; sel.appendChild(o); });
-  sel.value="recurrent_glioma";
+  sel.value="newly_gbm";
 })();
 function applyIndication(){
   const ind=INDICATIONS[$("i_ind").value];
@@ -1214,50 +1227,7 @@ function paintIndication(){
   fillLi($("r_fu_expected"), ind.fu.expected);
   fillLi($("r_fu_warrant"), ind.fu.warrant);
   $("r_fu_note").textContent=ind.fu.note;
-  renderFactors();
-  buildFollowupChecks($("i_ind").value);
   paintAudience();
-}
-function buildFollowupChecks(key){
-  const host=$("c_followup"); if(!host) return; host.innerHTML="";
-  const pf=POSTFU[key]; if(!pf) return;
-  const gh=t=>{ const d=document.createElement("div"); d.className="fu-subhdr"; d.textContent=t; host.appendChild(d); };
-  const add=(grp,arr)=>arr.forEach((b,i)=>{
-    const lab=document.createElement("label"); lab.className="chk";
-    lab.innerHTML=`<input type="checkbox" data-fg="${grp}" data-i="${i}" checked><span>${b.label}</span>`;
-    lab.querySelector("input").addEventListener("change",renderFollowup);
-    host.appendChild(lab);
-  });
-  gh("General"); add("base",FOLLOWUP_BASE);
-  if(pf.default&&pf.default.length){ gh("For this indication"); add("def",pf.default); }
-}
-function srcChip(k){ if(!k||!REFS[k]) return ""; return `<span class="wsrc">${REFS[k].cite.split(".")[0]}</span>`; }
-function watchItem(b){ return `<div class="watch-item"><div class="wl">${b.label}</div><div class="wt">${b.text}${b.src?(" "+srcChip(b.src)):""}</div></div>`; }
-function renderFactors(){
-  const key=$("i_ind").value; const host=$("c_factors"); host.innerHTML="";
-  const trg=(POSTFU[key]&&POSTFU[key].triggers)||[];
-  trg.forEach(t=>{
-    const lab=document.createElement("label"); lab.className="chk";
-    lab.innerHTML=`<input type="checkbox" id="f_${t.key}"><span>${t.factor}</span>`;
-    lab.querySelector("input").addEventListener("change",renderFollowup);
-    host.appendChild(lab);
-  });
-}
-function renderFollowup(){
-  const key=$("i_ind").value; const pf=POSTFU[key]; if(!pf) return;
-  const host=$("c_followup");
-  const sel=g=> host ? [...host.querySelectorAll(`input[data-fg="${g}"]`)].map(c=>c.checked) : [];
-  const baseSel=sel("base"), defSel=sel("def");
-  const on=(arr,i)=> arr.length? arr[i]!==false : true; // default to shown if checklist not built yet
-  let html="";
-  const baseItems=FOLLOWUP_BASE.filter((b,i)=>on(baseSel,i));
-  if(baseItems.length){ html+='<div class="watch-grouphdr">General watch points</div>'; baseItems.forEach(b=> html+=watchItem(b)); }
-  const defItems=pf.default.filter((b,i)=>on(defSel,i));
-  if(defItems.length){ html+='<div class="watch-grouphdr">For this indication</div>'; defItems.forEach(b=> html+=watchItem(b)); }
-  let trigHtml=""; (pf.triggers||[]).forEach(t=>{ const c=$("f_"+t.key); if(c&&c.checked) t.bullets.forEach(b=> trigHtml+=watchItem(b)); });
-  if(trigHtml) html+='<div class="watch-grouphdr">Case-specific</div>'+trigHtml;
-  $("r_watch_body").innerHTML=html;
-  $("r_watch_safeguard").textContent=FOLLOWUP_SAFEGUARD;
 }
 function renderRefs(){
   const ind=INDICATIONS[$("i_ind").value];
@@ -1272,10 +1242,6 @@ function renderRefs(){
     d.innerHTML=`<div class="num">${i+1}</div><div><div class="rc">${r.cite}</div><div class="rn">${r.note}</div>${cse}</div>`;
     rl.appendChild(d);
   });
-  const es=$("r_emerging_sec");
-  const emergingOn = $("i_emerging") && $("i_emerging").checked;
-  if(ind.emerging && emergingOn){ $("r_emerging_body").textContent=ind.emerging; es.classList.remove("sec-off"); }
-  else es.classList.add("sec-off");
   const ls=$("r_legit_sec");
   if(ind.legitimacy){ $("r_legit_body").textContent=ind.legitimacy; ls.classList.remove("sec-off"); }
   else ls.classList.add("sec-off");
@@ -1286,30 +1252,7 @@ function paintAudience(){
   const view=$("doc").dataset.view;
   $("r_disease_body").textContent = (view==="patient") ? ind.diseasePt : ind.diseasePhys;
   renderRefs();
-  renderFollowup();
 }
-
-/* ===================== PROCEDURE INSIGHTS ===================== */
-function buildChecks(host, items, checkedIdx){
-  host.innerHTML="";
-  items.forEach((label,i)=>{
-    const text=(label==="__TRAJ__")?trajInsight():label;
-    const row=document.createElement("label"); row.className="chk";
-    row.innerHTML=`<input type="checkbox" ${checkedIdx.includes(i)?"checked":""}><span>${text}</span>`;
-    host.appendChild(row);
-  });
-  host.querySelectorAll("input").forEach(inp=>inp.addEventListener("change",renderInsights));
-}
-function readChecks(host){ return [...host.querySelectorAll("input")].map((inp,i)=>inp.checked?i:-1).filter(i=>i>=0); }
-function renderInsights(){
-  const ins=readChecks($("c_insights"));
-  const host=$("r_insights"); host.innerHTML="";
-  ins.forEach(i=>{ const li=document.createElement("li"); li.textContent=insightLabel(i); host.appendChild(li); });
-  const note=$("i_insightnote").value.trim();
-  $("r_insightnote").style.display=note?"block":"none";
-  $("r_insightnote").textContent=note?("Note: "+note):"";
-}
-$("i_insightnote").addEventListener("input",renderInsights);
 
 /* ===================== MAIN RENDER ===================== */
 function probeDiameter(label){ const m=label.match(/(\d(?:\.\d)?)\s*mm/i); return m?m[1]:label; }
@@ -1330,10 +1273,13 @@ function render(){
   txt("r_energy",energy); txt("r_laser",laser); txt("r_pulses",pulses); txt("r_tt",`${targets}·${traj}`);
   txt("r_facility",fac); txt("r_perf",perf); txt("r_ref",ref);
   txt("r_ind",$("i_inddetail").value); txt("r_date",$("i_date").value);
-  // anatomical target(s) (metadata box)
-  const tparts=targetParts(), tnote=($("i_targetnote").value||"").trim();
-  const tbox=$("r_target_box");
-  if(tbox){ tbox.innerHTML = (tparts.length ? tparts.join("; ") : "—") + (tnote?`<span class="vsub">${tnote.replace(/&/g,"&amp;").replace(/</g,"&lt;")}</span>`:""); }
+  // target location card
+  const tlines=targetLines(), card=$("r_target_card");
+  if(card){
+    if(tlines.length){ card.style.display="";
+      $("r_target_lines").innerHTML=tlines.map(([k,v])=>`<div class="tl"><span class="tk">${k}</span><span>${v}</span></div>`).join("");
+    } else card.style.display="none";
+  }
   // narrative
   html("t_probe1",`${probe}`); txt("t_traj1",traj===1?"a single":`${traj}`);
   html("t_energy1",`${energy}&nbsp;kJ`); html("t_laser1",laserWords(laser)); html("t_pulses1",`${pulses}&nbsp;pulses`);
@@ -1344,11 +1290,10 @@ function render(){
   txt("r_liaison_title",$("i_liaison_title").value);
   liaison={name:$("i_liaison_name").value,title:$("i_liaison_title").value}; LS.set(LIA_KEY,liaison);
 }
-["i_caseref","i_mrn","i_inddetail","i_date","i_laser","i_energy","i_pulses","i_targets","i_targetnote","i_signname","i_signmeta","i_liaison_name","i_liaison_title"].forEach(id=>$(id).addEventListener("input",render));
+["i_caseref","i_mrn","i_inddetail","i_date","i_laser","i_energy","i_pulses","i_targets","i_signname","i_signmeta","i_liaison_name","i_liaison_title"].forEach(id=>$(id).addEventListener("input",render));
 ["i_probe","i_robotic"].forEach(id=>$(id).addEventListener("change",render));
-$("i_emerging").addEventListener("change",renderRefs);
-$("addTrajBtn").onclick=()=>{ trajRows.push(""); renderTrajRows(); render(); renderInsights(); };
-$("addTargetBtn").onclick=()=>{ targetRows.push({side:"",region:""}); renderTargetRows(); render(); };
+$("i_surgeonnote").addEventListener("input",renderObservations);
+$("addTrajBtn").onclick=()=>{ trajRows.push(""); renderTrajRows(); render(); };
 
 /* ===================== IMAGING ===================== */
 let images=SAMPLE.map(s=>({...s})), activeImg=0;
@@ -1508,17 +1453,14 @@ document.addEventListener("click",e=>{
 
 /* ===================== SAVE / LOAD ===================== */
 function gatherCase(){
-  const surg={}; SURGEON.forEach(g=>surg[g.key]=[...document.querySelectorAll(`#c_surgeon input[data-g="${g.key}"]`)].map(c=>c.checked));
   return {
     facility:$("s_facility").value, perf:$("s_perf").value, ref:$("s_ref").value,
     caseref:$("i_caseref").value, mrn:$("i_mrn").value, ind:$("i_ind").value, inddetail:$("i_inddetail").value, date:$("i_date").value,
     probe:$("i_probe").value, robotic:$("i_robotic").value, laser:$("i_laser").value, energy:$("i_energy").value, pulses:$("i_pulses").value, targets:$("i_targets").value,
-    traj:trajRows.slice(), targetRows:targetRows.map(t=>({...t})), targetnote:$("i_targetnote").value,
-    insights:readChecks($("c_insights")), insightnote:$("i_insightnote").value,
-    emerging:$("i_emerging").checked, factors:[...document.querySelectorAll('#c_factors input')].map(c=>c.checked),
-    followup:{base:[...document.querySelectorAll('#c_followup input[data-fg="base"]')].map(c=>c.checked),
-              def:[...document.querySelectorAll('#c_followup input[data-fg="def"]')].map(c=>c.checked)},
-    surgeon:surg, surgeonnote:$("i_surgeonnote").value,
+    traj:trajRows.slice(),
+    target:{regions:[...tgtRegions], side:tgtSide, orient:[...tgtOrient], func:[...tgtFunc]},
+    ps:{proc:psProc, tech:[...psTech], out:[...psOut]},
+    surgeonnote:$("i_surgeonnote").value,
     signname:$("i_signname").value, signmeta:$("i_signmeta").value,
     liaison:{name:$("i_liaison_name").value,title:$("i_liaison_title").value},
     images:images.map(im=>({src:im.src,label:im.label||"",caption:im.caption||"",phase:im.phase||"intra",patientLabel:im.patientLabel||"",patientCaption:im.patientCaption||""}))
@@ -1531,30 +1473,24 @@ function applyCase(c){
   LS.set(DIR_KEY,directory);
   refreshFacilities(c.facility); refreshPhysicians(c.perf,c.ref);
   $("i_caseref").value=c.caseref||""; $("i_mrn").value=c.mrn||"";
-  $("i_ind").value=c.ind||"recurrent_glioma";
+  $("i_ind").value=INDICATIONS[c.ind]?c.ind:"newly_gbm";
   $("i_inddetail").value=c.inddetail||""; $("i_date").value=c.date||"";
   if(c.probe) $("i_probe").value=c.probe; if(c.robotic) $("i_robotic").value=c.robotic;
   $("i_laser").value=c.laser||""; $("i_energy").value=c.energy||"";
   $("i_pulses").value=c.pulses||""; $("i_targets").value=c.targets||"";
   if(Array.isArray(c.traj)) trajRows=c.traj.length?c.traj.slice():[""];
   else { const n=Math.max(1,parseInt(c.traj,10)||1); trajRows=Array.from({length:n},()=>""); }
-  targetRows=(Array.isArray(c.targetRows)&&c.targetRows.length)?c.targetRows.map(t=>({side:t.side||"",region:t.region||""})):[{side:"",region:""}];
-  $("i_targetnote").value=c.targetnote||"";
-  renderTrajRows(); renderTargetRows();
-  buildChecks($("c_insights"),INSIGHTS,c.insights||[0,1,2,3]);
-  $("i_insightnote").value=c.insightnote||"";
+  const t=c.target||{};
+  tgtRegions=new Set(t.regions||[]); tgtSide=t.side||""; tgtOrient=new Set(t.orient||[]); tgtFunc=new Set(t.func||[]);
+  const ps=c.ps||{};
+  psProc=Number.isInteger(ps.proc)?ps.proc:0; psTech=new Set(ps.tech||[0,1,3]); psOut=new Set(ps.out||[0,1,2]);
+  renderTrajRows(); renderTargetUI(); renderPSUI();
   $("i_signname").value=c.signname||""; $("i_signmeta").value=c.signmeta||"";
-  $("i_emerging").checked=!!c.emerging;
   if(c.liaison){ $("i_liaison_name").value=c.liaison.name||liaison.name; $("i_liaison_title").value=c.liaison.title||liaison.title; }
   $("i_surgeonnote").value=c.surgeonnote||"";
   if(c.images && c.images.length){ images=c.images.map(x=>({...x})); activeImg=0; }
   paintIndication();
-  if(c.factors){ const fb=[...document.querySelectorAll('#c_factors input')]; c.factors.forEach((v,i)=>{ if(fb[i]) fb[i].checked=v; }); }
-  if(c.followup){ const setg=(g,arr)=>{ if(!arr) return; const el=[...document.querySelectorAll(`#c_followup input[data-fg="${g}"]`)]; arr.forEach((v,i)=>{ if(el[i]) el[i].checked=v; }); };
-    setg("base",c.followup.base); setg("def",c.followup.def); }
-  renderSurgeonControls();
-  if(c.surgeon){ SURGEON.forEach(g=>{ const arr=c.surgeon[g.key]||[]; document.querySelectorAll(`#c_surgeon input[data-g="${g.key}"]`).forEach((cb,i)=>cb.checked=!!arr[i]); }); }
-  renderInsights(); renderThumbs(); renderImaging(); renderFollowup(); renderSurgeon(); render();
+  renderProcSummary(); renderObservations(); renderThumbs(); renderImaging(); render();
 }
 function refreshCaseList(sel){
   const s=$("s_loadcase"); s.innerHTML='<option value="">Load a saved case…</option>';
@@ -1580,10 +1516,10 @@ function deckState(){
     facility:g("s_facility")===ADD?"":g("s_facility"), perf:g("s_perf")===ADD?"":g("s_perf"), ref:g("s_ref")===ADD?"":g("s_ref"),
     caseref:g("i_caseref"), mrn:g("i_mrn"), detail:g("i_inddetail"), date:g("i_date"),
     probe:g("i_probe"), robotic:g("i_robotic"), laser:g("i_laser"), energy:g("i_energy"), pulses:g("i_pulses"), targets:g("i_targets"),
-    traj:trajCountN(), trajDirs:trajDirList(), targetParts:targetParts(), targetnote:($("i_targetnote").value||"").trim(),
-    insights:readChecks($("c_insights")).map(i=>INSIGHTS[i]), insightnote:$("i_insightnote").value.trim(),
-    emergingOn:$("i_emerging").checked, liaison:{name:g("i_liaison_name"),title:g("i_liaison_title")},
-    surgeonnote:$("i_surgeonnote").value.trim(), images:images.map(im=>({...im})) };
+    traj:trajCountN(), trajDirs:trajDirList(), targetLines:targetLines(),
+    ps:psData(), obs:obsBullets(),
+    liaison:{name:g("i_liaison_name"),title:g("i_liaison_title")},
+    images:images.map(im=>({...im})) };
 }
 function buildDeck(){
   if(typeof PptxGenJS==="undefined"){ toast("Deck library not loaded — connect to the internet and retry"); return; }
@@ -1662,8 +1598,8 @@ function buildDeck(){
   imgSlide("intra","Imaging · Intra-operative","Treated area under MR thermometry","Add intra-operative thermometry stills in the builder to populate this slide.");
   imgSlide("post","Imaging · Post-operative","Post-operative imaging","Add post-operative imaging in the builder to populate this slide.");
 
-  // ===== PROCEDURAL NOTES (white): auto-filled facts + narrative space =====
-  s=p.addSlide(); s.background={color:"FFFFFF"}; header(s,"Operative record","Procedural Notes");
+  // ===== PROCEDURE SUMMARY (white): console facts + target + summary + observations =====
+  s=p.addSlide(); s.background={color:"FFFFFF"}; header(s,"Operative record","Procedure summary");
   s.addShape(p.ShapeType.roundRect,{x:0.62,y:1.6,w:12.1,h:1.45,rectRadius:0.06,fill:{color:"F4F8FB"},line:{color:LINE,width:1}});
   s.addText("RECORDED FROM THE CONSOLE",{x:0.85,y:1.74,w:11,h:0.25,fontFace:MONO,fontSize:8.5,color:BLUE,charSpacing:1.5});
   const trajCell=S.traj+(S.trajDirs&&S.trajDirs.length?" ("+S.trajDirs.join("; ")+")":"");
@@ -1671,28 +1607,30 @@ function buildDeck(){
   const md=[["Probe",probeCell],["Energy",S.energy+" kJ"],["Laser-on",S.laser],["Pulses",S.pulses],["Targets / traj.",S.targets+" / "+trajCell]];
   md.forEach((m,i)=>{ const cx=0.85+(i%3)*4.0, cy=2.06+Math.floor(i/3)*0.45;
     s.addText([{text:m[0]+"   ",options:{color:GREY}},{text:(m[1]||"—"),options:{color:INK,bold:true}}],{x:cx,y:cy,w:3.9,h:0.35,fontFace:MONO,fontSize:11,valign:"middle"}); });
-  // anatomical target(s)
-  let ny=3.22;
-  if((S.targetParts&&S.targetParts.length)||S.targetnote){
-    const tline=(S.targetParts||[]).join(";  ")+(S.targetnote?("  —  "+S.targetnote):"");
-    s.addText([{text:"Anatomical target(s).  ",options:{bold:true,color:NAVY}},{text:tline,options:{color:INK2}}],{x:0.62,y:ny,w:12.1,h:0.4,fontFace:BODY,fontSize:12,valign:"top",lineSpacingMultiple:1.1}); ny+=0.5;
-  }
-  // procedure insights as bullets
-  const insightsTxt=(S.insights||[]).map(t=> t==="__TRAJ__" ? trajInsight() : t).filter(Boolean);
-  insightsTxt.forEach(t=>{ s.addText([{text:"•  ",options:{color:BLUE,bold:true}},{text:t,options:{color:INK}}],{x:0.62,y:ny,w:12.1,h:0.4,fontFace:BODY,fontSize:12,valign:"top",lineSpacingMultiple:1.1}); ny+=0.42; });
-  if(S.insightnote){ s.addText([{text:"Note.  ",options:{bold:true,color:NAVY}},{text:S.insightnote,options:{color:INK2}}],{x:0.62,y:ny,w:12.1,h:0.4,fontFace:BODY,fontSize:12,valign:"top"}); ny+=0.5; }
-  // surgeon narrative area
-  const noteTop=Math.max(ny+0.15,4.7);
-  s.addText("SURGEON'S NARRATIVE",{x:0.62,y:noteTop,w:6,h:0.24,fontFace:MONO,fontSize:8.5,color:BLUE,charSpacing:1.5});
-  s.addShape(p.ShapeType.roundRect,{x:0.62,y:noteTop+0.3,w:12.1,h:6.85-(noteTop+0.3),rectRadius:0.08,fill:{color:"FCFDFE"},line:{color:LINE,width:1}});
-  if(S.surgeonnote){ s.addText(S.surgeonnote,{x:0.9,y:noteTop+0.45,w:11.5,h:6.85-(noteTop+0.45),fontFace:BODY,fontSize:12.5,color:INK,valign:"top",lineSpacingMultiple:1.25}); }
-  else { s.addText("To be completed by the performing surgeon.",{x:0.9,y:noteTop+0.45,w:11.5,h:0.3,fontFace:BODY,fontSize:10,italic:true,color:GREY});
-    for(let i=0;i<Math.floor((6.85-(noteTop+0.85))/0.5);i++){ s.addShape(p.ShapeType.line,{x:0.9,y:noteTop+1.2+i*0.5,w:11.5,h:0,line:{color:"E9EEF4",width:0.75}}); } }
+  // target location lines
+  let ny=3.25;
+  (S.targetLines||[]).forEach(([k,v])=>{ s.addText([{text:k+":  ",options:{bold:true,color:NAVY}},{text:v,options:{color:INK2}}],{x:0.62,y:ny,w:12.1,h:0.3,fontFace:BODY,fontSize:11.5,valign:"top"}); ny+=0.32; });
+  ny+=0.12;
+  // procedure summary
+  s.addText(S.ps.proc,{x:0.62,y:ny,w:12.1,h:0.34,fontFace:DISP,fontSize:15,color:NAVY,bold:true,valign:"top"}); ny+=0.48;
+  const colTop=ny;
+  if(S.ps.tech.length){ s.addText("TECHNICAL HIGHLIGHTS",{x:0.62,y:colTop,w:5.9,h:0.22,fontFace:MONO,fontSize:8.5,color:BLUE,charSpacing:1.5});
+    let yy=colTop+0.3; S.ps.tech.forEach(t=>{ s.addText([{text:"•  ",options:{color:BLUE,bold:true}},{text:t,options:{color:INK}}],{x:0.62,y:yy,w:5.9,h:0.5,fontFace:BODY,fontSize:11.5,valign:"top",lineSpacingMultiple:1.1}); yy+=0.34; }); }
+  if(S.ps.out.length){ s.addText("IMMEDIATE OUTCOME",{x:6.9,y:colTop,w:5.8,h:0.22,fontFace:MONO,fontSize:8.5,color:BLUE,charSpacing:1.5});
+    let yy=colTop+0.3; S.ps.out.forEach(t=>{ s.addText([{text:"•  ",options:{color:BLUE,bold:true}},{text:t,options:{color:INK}}],{x:6.9,y:yy,w:5.8,h:0.5,fontFace:BODY,fontSize:11.5,valign:"top",lineSpacingMultiple:1.1}); yy+=0.34; }); }
+  let obsTop=colTop+0.3+Math.max(S.ps.tech.length,S.ps.out.length)*0.34+0.22;
+  if(obsTop>6.0) obsTop=6.0;
+  s.addText("ADDITIONAL OBSERVATIONS",{x:0.62,y:obsTop,w:6,h:0.22,fontFace:MONO,fontSize:8.5,color:BLUE,charSpacing:1.5});
+  s.addShape(p.ShapeType.roundRect,{x:0.62,y:obsTop+0.28,w:12.1,h:Math.max(0.6,6.85-(obsTop+0.28)),rectRadius:0.08,fill:{color:"FCFDFE"},line:{color:LINE,width:1}});
+  if(S.obs&&S.obs.length){ s.addText(S.obs.map(b=>"•  "+b).join("\n"),{x:0.9,y:obsTop+0.42,w:11.5,h:6.85-(obsTop+0.42),fontFace:BODY,fontSize:12,color:INK,valign:"top",lineSpacingMultiple:1.3}); }
+  else { s.addText("To be completed by the performing surgeon.",{x:0.9,y:obsTop+0.42,w:11.5,h:0.3,fontFace:BODY,fontSize:10,italic:true,color:GREY}); }
   F(s);
 
   // ===== DATA & RECOMMENDATION (white): position LITT as an option =====
-  const GLREFS={ recurrent_glioma:["aans_cns_2021"], newly_glioma:["aans_cns_2021"], newly_gbm:["aans_cns_2021"],
-    brain_met:["cns_2025","aans_cns_2021","remaster_2022"], radiation_necrosis:["cns_2025","aans_cns_2021","remaster_2022"], mtle:[], dre_other:[] };
+  const GLREFS={ newly_gbm:["aans_cns_2021"], recurrent_gbm:["aans_cns_2021"], newly_lgg:["aans_cns_2021"], recurrent_lgg:["aans_cns_2021"],
+    meningioma:["aans_cns_2021"], other_tumor:["aans_cns_2021"],
+    brain_met:["cns_2025","aans_cns_2021","remaster_2022"], radiation_necrosis:["cns_2025","aans_cns_2021","remaster_2022"],
+    mtle:[], hypothalamic_hamartoma:[], focal_epilepsy:[], corpus_callosotomy:[] };
   const gl=GLREFS[S.key]||[];
   s=p.addSlide(); s.background={color:"FFFFFF"}; header(s,"The evidence","Data & recommendation");
   // recommendation band, front and centre
@@ -1714,55 +1652,12 @@ function buildDeck(){
   }
   s.addText((S.ind.caveat||DEFAULT_CAVEAT),{x:0.62,y:6.55,w:12.1,h:0.4,fontFace:BODY,fontSize:8.5,italic:true,color:GREY,valign:"top",lineSpacingMultiple:1}); F(s);
 
-  // ===== WHAT TO WATCH (follow-up), after recommendations =====
-  s=p.addSlide(); s.background={color:"FFFFFF"}; header(s,"Post-LITT follow-up","What to watch");
-  const pf=POSTFU[S.key]; let wy=1.65;
-  const wrow=(b)=>{ s.addText([{text:b.label+".  ",options:{bold:true,color:NAVY}},{text:b.text,options:{color:INK2}}],
-      {x:0.62,y:wy,w:12.1,h:0.5,fontFace:BODY,fontSize:12,valign:"top",lineSpacingMultiple:1.12}); wy+=0.58; };
-  const defChecks=[...document.querySelectorAll('#c_followup input[data-fg="def"]')].map(c=>c.checked);
-  (pf.default||[]).forEach((b,i)=>{ if(defChecks.length===0||defChecks[i]!==false) wrow(b); });
-  let trg=[]; (pf.triggers||[]).forEach(t=>{ const c=$("f_"+t.key); if(c&&c.checked) t.bullets.forEach(b=>trg.push(b)); });
-  if(trg.length){ s.addText("CASE-SPECIFIC",{x:0.62,y:wy+0.02,w:5,h:0.22,fontFace:MONO,fontSize:8.5,color:BLUE,charSpacing:1.5}); wy+=0.3; trg.forEach(wrow); }
-  s.addText(FOLLOWUP_SAFEGUARD,{x:0.62,y:6.55,w:12.1,h:0.35,fontFace:BODY,fontSize:8.5,italic:true,color:GREY,valign:"top"}); F(s);
-
   const safe=(S.caseref||"case").replace(/[^A-Za-z0-9_-]/g,"_");
   p.writeFile({fileName:"LITT_TumorBoard_"+safe+".pptx"}).then(()=>toast("Tumor board deck downloaded")).catch(()=>toast("Deck export failed"));
 }
 $("deckExportBtn").onclick=buildDeck;
 
-/* ===================== SURGEON CONTRIBUTION + PHYSICIAN EDITION ===================== */
-const SURGEON=[
-  {key:"went",label:"How it went",opts:["Procedure went as planned","Went well overall, with a minor intra-operative variation","Trajectory adjusted intra-operatively to optimize coverage"]},
-  {key:"hi",label:"Highlights to note",opts:["Target covered to plan","No intra-operative repositioning required","Critical or eloquent structures preserved","Biopsy obtained in the same trajectory","Patient tolerated the procedure well"]},
-  {key:"fu",label:"Follow-up I recommend",opts:["Routine surveillance MRI","Repeat MRI at the planned interval","Continue current steroid plan, taper as tolerated","Coordinate next steps with the oncology team","Coordinate next steps with the epilepsy team","I will continue to follow the patient directly"]}
-];
-function renderSurgeonControls(){
-  const host=$("c_surgeon"); host.innerHTML="";
-  SURGEON.forEach(g=>{
-    const h=document.createElement("div"); h.className="sg-h"; h.textContent=g.label; host.appendChild(h);
-    const box=document.createElement("div"); box.className="checks";
-    g.opts.forEach((o,i)=>{ const lab=document.createElement("label"); lab.className="chk";
-      lab.innerHTML=`<input type="checkbox" data-g="${g.key}" data-i="${i}"><span>${o}</span>`;
-      lab.querySelector("input").addEventListener("change",renderSurgeon); box.appendChild(lab); });
-    host.appendChild(box);
-  });
-}
-function renderSurgeon(){
-  const esc=t=>t.replace(/&/g,"&amp;").replace(/</g,"&lt;");
-  let bullets=[], fu=[];
-  SURGEON.forEach(g=>{
-    const checked=[...document.querySelectorAll(`#c_surgeon input[data-g="${g.key}"]`)].filter(c=>c.checked).map(c=>g.opts[+c.dataset.i]);
-    if(g.key==="fu") fu.push(...checked); else bullets.push(...checked);
-  });
-  // free-text note becomes one or more bullets (split on blank lines / new lines)
-  const note=($("i_surgeonnote").value||"").trim();
-  if(note) note.split(/\n+/).map(s=>s.trim()).filter(Boolean).forEach(s=>bullets.push(esc(s)));
-  let html="";
-  if(bullets.length) html+=`<ul class="sg-list">`+bullets.map(t=>`<li>${t}</li>`).join("")+`</ul>`;
-  if(fu.length) html+=`<div class="sg-rh">Recommended follow-up</div><ul class="sg-list">`+fu.map(t=>`<li>${t}</li>`).join("")+`</ul>`;
-  $("r_surgeon_body").innerHTML=html;
-  $("r_surgeon_sec").classList.toggle("sec-off", !(bullets.length||fu.length));
-}
+/* ===================== SAVE CASE AS FILE ===================== */
 // Save Case → download a self-contained copy of the whole app with this case embedded.
 // Opens as the full, mobile-optimized builder on any laptop or phone — no install, no server.
 function savePortable(){
@@ -1782,11 +1677,9 @@ $("saveFileBtn").onclick=savePortable;
 $("i_liaison_name").value=liaison.name; $("i_liaison_title").value=liaison.title;
 refreshFacilities("Westchester Medical Center");
 $("s_perf").value="Dr. Hanft"; $("s_ref").value="Dr. Tatyana Gitlevich";
-buildChecks($("c_insights"),INSIGHTS,[0,1,2,3]);
-renderTrajRows(); renderTargetRows();
-renderSurgeonControls();
+renderTrajRows(); renderTargetUI(); renderPSUI();
 applyIndication();
-renderInsights(); renderThumbs(); renderImaging(); clearVideo(); renderSurgeon();
+renderProcSummary(); renderObservations(); renderThumbs(); renderImaging(); clearVideo();
 render();
 if(window.__CASE__){ try{ applyCase(window.__CASE__); }catch(e){} }
 setView($("doc").dataset.view||"referring");
