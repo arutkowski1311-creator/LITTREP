@@ -1,0 +1,10 @@
+{
+  "engine": "Clinical Intelligence Engine for Neuro-Oncology, Epilepsy, and LITT",
+  "specVersion": "1.0",
+  "baselineDate": null,
+  "lastRunDate": null,
+  "lastMode": null,
+  "baselineWindowMonths": 24,
+  "surveillanceWindowMonths": 2,
+  "history": []
+}

@@ -56,21 +56,23 @@ executive report below apply identically to both.* Only the **scope of search** 
 
 The first run establishes the current state of the field.
 
-- **Window:** the **last 6 months** of publications, clinical trial updates, society
-  guidelines, FDA communications, conference presentations, and reputable medical news.
+- **Window:** the **last 24 months (2 years)** of publications, clinical trial updates,
+  society guidelines, FDA communications, conference presentations, and reputable medical
+  news, measured back from the run date.
 - **Goal:** identify the developments that could realistically influence clinical
   decision-making, referral patterns, treatment algorithms, procedural techniques, or
   physician discussions across the full scope below.
-- **Target yield:** roughly **40–80 high-value items**, not hundreds of low-impact ones.
-  Behave like the editor of a journal club, not a search engine.
+- **Target yield:** behave like the editor of a journal club, not a search engine. Favor a
+  curated set of high-value items over an exhaustive bibliography; a 2-year baseline will be
+  larger than a routine update, but every item must still clear the Guiding Principle bar.
 - On completion, record the run date. It becomes the *watermark* for Stage 2.
 
-### Stage 2 — Surveillance Scan (recurring, every 4 weeks)
+### Stage 2 — Surveillance Scan (recurring, on command)
 
-Each subsequent run looks **only for what is new since the last report**.
+Each subsequent run looks **only at the trailing 2 months**.
 
-- **Window:** publications, updates, approvals, and presentations dated **after the prior
-  report's watermark**.
+- **Window:** the **previous 2 months** of publications, updates, approvals, and
+  presentations, measured back from the run date.
 - **Goal:** surface deltas — new evidence, status changes (e.g., a trial that read out, a
   label that expanded, a guideline that was revised), and newly surfaced controversies.
 - **De-duplication:** do not re-summarize anything already covered in a prior report unless
@@ -79,7 +81,28 @@ Each subsequent run looks **only for what is new since the last report**.
 - On completion, advance the watermark to this run's date.
 
 > Both stages produce the same report structure so reports are directly comparable
-> month over month.
+> run over run.
+
+### Persistence & De-duplication (cumulative database)
+
+The engine maintains a **cumulative findings database** that is the system of record. It
+only ever grows; reruns add new content and never duplicate what is already stored.
+
+- **Store:** `reports/database.json` — every finding as a structured record (scores, dates,
+  fields, provenance), plus a `runs` log.
+- **Stable identity:** each finding has a dedup key derived from its DOI → else source URL →
+  else `title + year`. On every run, items already in the database are **skipped**; only new
+  findings are appended.
+- **Material change → update, not duplicate:** if an existing item's status changes (longer
+  follow-up, label expansion, guideline adoption, retraction), the record is updated in place
+  with a `changeNote` and a new `lastUpdatedRun`, rather than added again.
+- **Reports are snapshots:** each `reports/<date>-<mode>.md` captures one run; the database
+  is the durable, growing corpus behind them.
+- **Team access:** `reports/dashboard.html` is a self-contained viewer that loads
+  `database.json` (filter/sort/search by domain, impact, specialty, status). It runs locally
+  with no network call, so the corpus can live on a workstation or shared drive without
+  exposing competitive intelligence publicly; it can also be served from an internal/static
+  host if broader team access is wanted.
 
 ---
 
