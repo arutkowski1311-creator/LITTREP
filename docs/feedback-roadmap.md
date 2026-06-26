@@ -82,6 +82,14 @@ Review notes on `index.html` and their status.
 - ✅ **Physician fields are now free-text** with type-ahead suggestions: type a performing or
   referring physician name directly; typed names are remembered per facility.
 
+## Round 7 — exhaustive indications
+- ✅ Expanded the indication list from 12 to **20**, adding: Pediatric low-grade glioma;
+  Recurrent/progressive brain metastasis (distinct from new); Focal cortical dysplasia;
+  Insular epilepsy; Periventricular nodular heterotopia; Tuberous sclerosis (cortical tuber);
+  Cerebral cavernous malformation; Chronic pain (cingulotomy). Each has its own clinical
+  context, evidence, and references; non-tumor/non-epilepsy entries use a generic follow-up
+  profile. Evidence framed conservatively for the less-established uses.
+
 ## Distribution — options (see README / discussion)
 - Host `index.html` as a static page (GitHub Pages, Netlify, internal server) — it's a
   single self-contained file, so this is the lowest-friction path.

@@ -930,6 +930,11 @@ const FU_EPILEPSY = {
   warrant:["Recurrent disabling seizures after an initial seizure-free period","New focal neurologic deficit","Visual-field or memory change beyond expectation"],
   note:"Continue anti-seizure medications unless the treating team adjusts them; seizure freedom is judged over months, not at the first scan."
 };
+const FU_GENERIC = {
+  expected:["Ablation cavity in the targeted region on follow-up MRI","Expected post-ablation signal change along the trajectory","Possible early, transient headache"],
+  warrant:["New or worsening focal neurologic deficit","Symptoms beyond the expected recovery course","An unexpected imaging change"],
+  note:"Follow-up should be individualized to the target and the treating team's protocol; interpret early imaging in clinical context."
+};
 
 const INDICATIONS = {
   newly_gbm:{
@@ -991,12 +996,41 @@ const INDICATIONS = {
     emerging:null,
     legitimacy:"The AANS-CNS Joint Section on Tumors position statement (2021) endorses MR-guided LITT for adult CNS tumors, especially lesions unsuitable for or inaccessible to resection."
   },
+  pediatric_lgg:{
+    label:"Pediatric low-grade glioma", detail:"Pediatric low-grade glioma (incl. DNET, ganglioglioma)",
+    diseaseTitle:"LITT in pediatric low-grade glioma",
+    diseasePhys:"In children with a low-grade glioma or glioneuronal tumor (such as DNET or ganglioglioma) that is deep, small, or in an eloquent or surgically difficult location, LITT offers minimally invasive lesionectomy or cytoreduction under continuous MR thermometry, often with biopsy in the same trajectory. The short recovery and minimal incision are particularly attractive in pediatric patients, and use is individualized within a multidisciplinary plan. When the lesion drives epilepsy, coverage of the epileptogenic zone also guides seizure outcome.",
+    diseasePt:"Some brain tumors in children are slow-growing but sit in places that are hard to reach with open surgery. LITT treats the targeted area with controlled, MRI-guided heat through a tiny opening, often with a small tissue sample taken at the same time. It is one part of an overall plan.",
+    whyEvidence:"LITT was chosen to treat a deep or eloquently located lesion through a minimally invasive trajectory with real-time thermal monitoring. Prospective multicenter ablation registries document short hospitalization and a low complication profile (Kim 2020; Rennert 2020); pediatric use is individualized to lesion location and pathology.",
+    fu:FU_TUMOR, refs:["kim_2020","rennert_2020"],
+    refsCase:{
+      kim_2020:"Short-stay, high-discharge-home profile, relevant to minimizing disruption for a pediatric patient and family.",
+      rennert_2020:"Low complication profile supporting a minimally invasive route to a deep or eloquent lesion."
+    },
+    emerging:null,
+    legitimacy:"The AANS-CNS Joint Section on Tumors position statement (2021) endorses MR-guided LITT for CNS tumors, especially lesions unsuitable for or inaccessible to resection. Pediatric evidence is individualized."
+  },
   brain_met:{
-    label:"Brain metastasis", detail:"Progressive brain metastasis",
+    label:"Brain metastasis", detail:"Brain metastasis",
     diseaseTitle:"LITT for brain metastasis",
-    diseasePhys:"A growing lesion after treatment for brain metastasis raises the question of viable tumor versus treatment effect. LITT allows minimally invasive ablation of the target, often pairing biopsy with treatment in a single trajectory under thermometry. The minimally invasive profile supports a quicker return to systemic therapy in appropriately selected patients.",
-    diseasePt:"A brain metastasis is a tumor that spread to the brain from cancer elsewhere. When a treated spot grows, the team may treat it with LITT — focused, MRI-guided heat through a small opening — as part of the overall cancer care plan.",
-    whyEvidence:"LITT was chosen for focal ablation of the target, with the option to biopsy in the same trajectory, preserving the systemic-therapy timeline. Pooled outcomes for recurrent metastases after SRS were better when adjuvant therapy followed ablation (Almeida 2025); the tumor cohort showed short hospitalization and high discharge-home rates (Kim 2020) with a low complication profile (Rennert 2020); where recurrence versus necrosis is unclear, the post-SRS pathway applies (Chan 2023).",
+    diseasePhys:"For a brain metastasis that is deep, surgically difficult, or in a patient who is a poor craniotomy candidate, LITT provides minimally invasive ablation of the lesion under continuous MR thermometry, often pairing biopsy with treatment in a single trajectory. The minimally invasive profile supports a quicker return to systemic therapy in appropriately selected patients.",
+    diseasePt:"A brain metastasis is a tumor that spread to the brain from cancer elsewhere. When it is hard to reach with open surgery, the team may treat it with LITT — focused, MRI-guided heat through a small opening — as part of the overall cancer care plan.",
+    whyEvidence:"LITT was chosen for focal ablation of the lesion, with the option to biopsy in the same trajectory, preserving the systemic-therapy timeline. The tumor cohort showed short hospitalization and high discharge-home rates (Kim 2020) with a low complication profile (Rennert 2020); recent landscape data frame LITT's role in brain metastases (Shah 2025).",
+    fu:FU_TUMOR, refs:["kim_2020","rennert_2020","shah_2025"],
+    refsCase:{
+      kim_2020:"Short-stay profile supports a quick return to systemic therapy.",
+      rennert_2020:"Low complication profile in a population that often cannot tolerate a large craniotomy.",
+      shah_2025:"Recent landscape reference for LITT in brain metastases."
+    },
+    emerging:null,
+    legitimacy:"The AANS-CNS Joint Section on Tumors position statement (2021) endorses MR-guided LITT for adult CNS tumors, especially lesions unsuitable for or inaccessible to resection."
+  },
+  recurrent_met:{
+    label:"Recurrent / progressive brain metastasis", detail:"Progressive brain metastasis after SRS",
+    diseaseTitle:"LITT for progressive brain metastasis",
+    diseasePhys:"A growing lesion after treatment for brain metastasis raises the question of viable tumor versus treatment effect. LITT allows minimally invasive ablation of the progressive target, often pairing biopsy with treatment in a single trajectory under thermometry. The minimally invasive profile supports a quicker return to systemic therapy in appropriately selected patients.",
+    diseasePt:"When a treated spot in the brain grows after radiation, the team may treat it with LITT — focused, MRI-guided heat through a small opening — sometimes taking a small tissue sample at the same time. It is part of the overall cancer care plan.",
+    whyEvidence:"LITT was chosen for focal ablation of the progressive target, with the option to biopsy in the same trajectory, preserving the systemic-therapy timeline. Pooled outcomes for recurrent metastases after SRS were better when adjuvant therapy followed ablation (Almeida 2025); the tumor cohort showed short hospitalization and high discharge-home rates (Kim 2020) with a low complication profile (Rennert 2020); where recurrence versus necrosis is unclear, the post-SRS pathway applies (Chan 2023).",
     fu:FU_TUMOR, refs:["almeida_2025","haskell_mendoza_2024","chan_2023","shah_2025","kim_2020","rennert_2020"],
     refsCase:{
       almeida_2025:"Pooled review of recurrent brain metastases after SRS supports LITT, with better survival when adjuvant systemic therapy follows ablation.",
@@ -1071,20 +1105,6 @@ const INDICATIONS = {
     },
     emerging:null, legitimacy:null
   },
-  hypothalamic_hamartoma:{
-    label:"Hypothalamic hamartoma", detail:"Hypothalamic hamartoma with drug-resistant epilepsy",
-    diseaseTitle:"LITT for hypothalamic hamartoma",
-    diseasePhys:"Hypothalamic hamartomas cause gelastic and other drug-resistant seizures and sit in a deep, surgically hazardous location. LITT enables targeted ablation or disconnection of the lesion under continuous MR thermometry, minimizing manipulation of adjacent hypothalamic and vascular structures. It is widely regarded as a preferred minimally invasive option for these deep lesions, individualized to anatomy and baseline syndrome.",
-    diseasePt:"A hypothalamic hamartoma is a small, non-cancerous lesion deep in the brain that can cause seizures, including laughing seizures. Because of its location, open surgery is risky. LITT treats it with MRI-guided heat through a tiny opening. Seizure and hormonal effects are followed over time.",
-    whyEvidence:"LITT was chosen to reach a deep, surgically hazardous lesion through a minimally invasive trajectory with real-time thermal monitoring of adjacent structures. Supporting context comes from prospective drug-resistant-epilepsy data showing meaningful seizure freedom and strong preference for minimally invasive surgery (Landazuri 2020), with coverage of the target driving outcome (Wu 2019).",
-    fu:FU_EPILEPSY, refs:["landazuri_2020","wu_2019","rennert_2020"],
-    refsCase:{
-      landazuri_2020:"Prospective drug-resistant-epilepsy data supporting meaningful seizure freedom and preference for a minimally invasive approach.",
-      wu_2019:"Establishes that coverage of the target drives outcome, a principle central to disconnecting a deep lesion.",
-      rennert_2020:"Short-stay, low-morbidity profile relevant to a deep midline target."
-    },
-    emerging:null, legitimacy:null
-  },
   focal_epilepsy:{
     label:"Focal epilepsy", detail:"Drug-resistant focal epilepsy",
     diseaseTitle:"LITT for drug-resistant focal epilepsy",
@@ -1099,6 +1119,76 @@ const INDICATIONS = {
     },
     emerging:null, legitimacy:null
   },
+  fcd:{
+    label:"Focal cortical dysplasia", detail:"Drug-resistant epilepsy from focal cortical dysplasia",
+    diseaseTitle:"LITT for focal cortical dysplasia",
+    diseasePhys:"Focal cortical dysplasia is a common cause of drug-resistant focal epilepsy — often small and well-localized, but sometimes deep or eloquent. LITT enables targeted ablation of the dysplastic focus under continuous MR thermometry; completeness of coverage of the lesion and the surrounding epileptogenic zone is the principal determinant of seizure outcome.",
+    diseasePt:"Focal cortical dysplasia is a small area where the brain did not form normally, and it can cause seizures. LITT treats that small area with MRI-guided heat through a tiny opening. Seizure results are judged over months.",
+    whyEvidence:"LITT was chosen to ablate a well-localized dysplastic focus through a minimally invasive trajectory under real-time thermometry. Prospective drug-resistant-epilepsy data support meaningful seizure freedom with a minimally invasive approach (Landazuri 2020), and coverage of the focus drives outcome (Wu 2019).",
+    fu:FU_EPILEPSY, refs:["landazuri_2020","wu_2019","rennert_2020"],
+    refsCase:{
+      landazuri_2020:"Prospective drug-resistant-epilepsy data supporting minimally invasive ablation and meaningful seizure freedom.",
+      wu_2019:"Coverage of the epileptogenic focus drives outcome — central to ablating a dysplastic lesion and its margins.",
+      rennert_2020:"Short-stay, low-morbidity profile that lowers the barrier to surgical evaluation."
+    },
+    emerging:null, legitimacy:null
+  },
+  insular_epilepsy:{
+    label:"Insular epilepsy", detail:"Drug-resistant insular / opercular epilepsy",
+    diseaseTitle:"LITT for insular epilepsy",
+    diseasePhys:"Insular and opercular epilepsy is difficult to treat with open surgery because of the region's deep location and dense vascular and functional anatomy. LITT provides a minimally invasive route to the insular target under continuous MR thermometry, with close attention to adjacent eloquent cortex and vasculature. Coverage of the seizure focus drives outcome.",
+    diseasePt:"In this type of epilepsy, seizures start in a deep, folded part of the brain called the insula that is hard to reach with open surgery. LITT treats the small target with MRI-guided heat through a tiny opening. Seizure results are judged over months.",
+    whyEvidence:"LITT was chosen to reach a deep insular focus through a minimally invasive trajectory with real-time thermal monitoring of adjacent eloquent and vascular structures. Prospective drug-resistant-epilepsy data support a minimally invasive approach (Landazuri 2020), with coverage of the focus driving outcome (Wu 2019).",
+    fu:FU_EPILEPSY, refs:["landazuri_2020","wu_2019","rennert_2020"],
+    refsCase:{
+      landazuri_2020:"Supports minimally invasive ablation and patient preference for avoiding open surgery in a hard-to-access region.",
+      wu_2019:"Coverage of the seizure focus drives outcome, the key principle for an insular target.",
+      rennert_2020:"Low-morbidity profile relevant to a deep target near eloquent cortex and vasculature."
+    },
+    emerging:null, legitimacy:null
+  },
+  pvnh:{
+    label:"Periventricular nodular heterotopia", detail:"Drug-resistant epilepsy from periventricular nodular heterotopia",
+    diseaseTitle:"LITT for periventricular nodular heterotopia",
+    diseasePhys:"Periventricular nodular heterotopia consists of ectopic gray-matter nodules along the ventricular wall that can generate drug-resistant seizures and are difficult to reach without traversing critical structures. LITT enables stereotactic ablation of the epileptogenic nodule(s) under continuous MR thermometry. Because the epileptogenic network may extend beyond a single nodule, localization and coverage guide outcome.",
+    diseasePt:"This condition involves small clusters of brain cells in the wrong place, near the fluid spaces of the brain, that can cause seizures. They are hard to reach with open surgery. LITT treats them with MRI-guided heat through a tiny opening. Seizure results are judged over months.",
+    whyEvidence:"LITT was chosen to reach deep periventricular nodules through a minimally invasive trajectory under real-time thermometry. Prospective drug-resistant-epilepsy data support a minimally invasive approach (Landazuri 2020), with coverage of the epileptogenic target driving outcome (Wu 2019).",
+    fu:FU_EPILEPSY, refs:["landazuri_2020","wu_2019","rennert_2020"],
+    refsCase:{
+      landazuri_2020:"Supports minimally invasive ablation for drug-resistant epilepsy when open surgery is undesirable.",
+      wu_2019:"Coverage of the epileptogenic target drives outcome — relevant when more than one nodule may contribute.",
+      rennert_2020:"Low-morbidity profile relevant to deep periventricular targets."
+    },
+    emerging:null, legitimacy:null
+  },
+  tsc:{
+    label:"Tuberous sclerosis (cortical tuber)", detail:"Drug-resistant epilepsy from a tuberous sclerosis cortical tuber",
+    diseaseTitle:"LITT for an epileptogenic tuberous sclerosis tuber",
+    diseasePhys:"In tuberous sclerosis complex, an epileptogenic cortical tuber may drive drug-resistant seizures. LITT allows minimally invasive ablation of the implicated tuber under thermometry — attractive in a population that may face multiple potential targets or prior surgery. Accurate identification of the epileptogenic tuber and adequate coverage are central to outcome.",
+    diseasePt:"Tuberous sclerosis can cause small firm spots in the brain called tubers, and one of them may be the source of seizures. LITT treats the responsible tuber with MRI-guided heat through a tiny opening. Seizure results are judged over months.",
+    whyEvidence:"LITT was chosen to ablate an identified epileptogenic tuber through a minimally invasive trajectory under real-time thermometry. Prospective drug-resistant-epilepsy data support a minimally invasive approach (Landazuri 2020), and coverage of the epileptogenic target drives outcome (Wu 2019).",
+    fu:FU_EPILEPSY, refs:["landazuri_2020","wu_2019","rennert_2020"],
+    refsCase:{
+      landazuri_2020:"Supports minimally invasive ablation for drug-resistant epilepsy, relevant when repeated or staged targeting may be considered.",
+      wu_2019:"Coverage of the epileptogenic target drives outcome — central to treating the responsible tuber.",
+      rennert_2020:"Low-morbidity profile that lowers the barrier to surgical treatment in a complex population."
+    },
+    emerging:null, legitimacy:null
+  },
+  hypothalamic_hamartoma:{
+    label:"Hypothalamic hamartoma", detail:"Hypothalamic hamartoma with drug-resistant epilepsy",
+    diseaseTitle:"LITT for hypothalamic hamartoma",
+    diseasePhys:"Hypothalamic hamartomas cause gelastic and other drug-resistant seizures and sit in a deep, surgically hazardous location. LITT enables targeted ablation or disconnection of the lesion under continuous MR thermometry, minimizing manipulation of adjacent hypothalamic and vascular structures. It is widely regarded as a preferred minimally invasive option for these deep lesions, individualized to anatomy and baseline syndrome.",
+    diseasePt:"A hypothalamic hamartoma is a small, non-cancerous lesion deep in the brain that can cause seizures, including laughing seizures. Because of its location, open surgery is risky. LITT treats it with MRI-guided heat through a tiny opening. Seizure and hormonal effects are followed over time.",
+    whyEvidence:"LITT was chosen to reach a deep, surgically hazardous lesion through a minimally invasive trajectory with real-time thermal monitoring of adjacent structures. Supporting context comes from prospective drug-resistant-epilepsy data showing meaningful seizure freedom and strong preference for minimally invasive surgery (Landazuri 2020), with coverage of the target driving outcome (Wu 2019).",
+    fu:FU_EPILEPSY, refs:["landazuri_2020","wu_2019","rennert_2020"],
+    refsCase:{
+      landazuri_2020:"Prospective drug-resistant-epilepsy data supporting meaningful seizure freedom and preference for a minimally invasive approach.",
+      wu_2019:"Establishes that coverage of the target drives outcome, a principle central to disconnecting a deep lesion.",
+      rennert_2020:"Short-stay, low-morbidity profile relevant to a deep midline target."
+    },
+    emerging:null, legitimacy:null
+  },
   corpus_callosotomy:{
     label:"Corpus callosotomy", detail:"LITT corpus callosotomy for drug-resistant epilepsy",
     diseaseTitle:"LITT corpus callosotomy",
@@ -1110,6 +1200,32 @@ const INDICATIONS = {
       landazuri_2020:"Prospective drug-resistant-epilepsy data supporting a minimally invasive approach and meaningful benefit.",
       wu_2019:"Coverage of the intended target drives outcome — directly relevant to completeness of callosal disconnection.",
       rennert_2020:"Short-stay, low-morbidity profile relevant to a palliative disconnection procedure."
+    },
+    emerging:null, legitimacy:null
+  },
+  cavernous_malformation:{
+    label:"Cerebral cavernous malformation", detail:"Epileptogenic or deep cerebral cavernous malformation",
+    diseaseTitle:"LITT for cerebral cavernous malformation",
+    diseasePhys:"A cerebral cavernous malformation that drives drug-resistant epilepsy or sits in a deep, surgically hazardous location may be treated with LITT, ablating the lesion and the surrounding hemosiderin-stained epileptogenic rim under continuous MR thermometry. Evidence is limited to small series and is individualized; the approach is weighed against microsurgical resection and observation, with attention to the lesion's vascular nature.",
+    diseasePt:"A cavernous malformation is a cluster of small abnormal blood vessels that can cause seizures. When it is in a hard-to-reach area, the team may treat it with LITT — MRI-guided heat through a tiny opening — instead of open surgery. The decision is individualized.",
+    whyEvidence:"LITT was chosen as a minimally invasive option for a deep or epileptogenic lesion under real-time thermometry. Supporting context is limited: prospective drug-resistant-epilepsy data support minimally invasive ablation (Landazuri 2020), with coverage of the focus driving outcome (Wu 2019); dedicated cavernous-malformation evidence remains small-series and individualized.",
+    fu:FU_GENERIC, refs:["landazuri_2020","wu_2019","rennert_2020"],
+    refsCase:{
+      landazuri_2020:"Supports minimally invasive ablation for drug-resistant epilepsy when open surgery is undesirable.",
+      wu_2019:"Coverage of the epileptogenic focus drives outcome, relevant to ablating the lesion and its rim.",
+      rennert_2020:"Low-morbidity profile relevant to a deep or surgically difficult target."
+    },
+    emerging:null, legitimacy:null
+  },
+  chronic_pain:{
+    label:"Chronic pain (cingulotomy)", detail:"Refractory chronic pain — LITT cingulotomy",
+    diseaseTitle:"LITT cingulotomy for refractory pain",
+    diseasePhys:"LITT cingulotomy is an investigational, palliative option for severe refractory pain (including cancer-related pain) when other measures have failed. Stereotactic laser ablation of the anterior cingulate is performed under continuous MR thermometry. Evidence is preliminary, benefit is not established, and the procedure is individualized within a comprehensive pain-management plan.",
+    diseasePt:"For severe pain that has not responded to other treatments, a procedure called cingulotomy targets a small area of the brain involved in the experience of pain. LITT performs this with MRI-guided heat through a tiny opening. It is used in selected cases as part of an overall pain plan.",
+    whyEvidence:"LITT was chosen to perform a stereotactic cingulotomy through a minimally invasive trajectory with real-time thermal monitoring. Supporting evidence is preliminary; the multicenter LAANTERN safety experience documents the low-morbidity, short-stay profile of MR-guided ablation (Rennert 2020). Benefit for pain is not established and use is individualized.",
+    fu:FU_GENERIC, refs:["rennert_2020"],
+    refsCase:{
+      rennert_2020:"Documents the low-morbidity, short-stay profile of MR-guided ablation; benefit for pain is not established by this reference."
     },
     emerging:null, legitimacy:null
   }
@@ -1616,9 +1732,10 @@ function buildDeck(){
 
   // ===== DATA & RECOMMENDATION (white): position LITT as an option =====
   const GLREFS={ newly_gbm:["aans_cns_2021"], recurrent_gbm:["aans_cns_2021"], newly_lgg:["aans_cns_2021"], recurrent_lgg:["aans_cns_2021"],
-    meningioma:["aans_cns_2021"], other_tumor:["aans_cns_2021"],
-    brain_met:["cns_2025","aans_cns_2021","remaster_2022"], radiation_necrosis:["cns_2025","aans_cns_2021","remaster_2022"],
-    mtle:[], hypothalamic_hamartoma:[], focal_epilepsy:[], corpus_callosotomy:[] };
+    pediatric_lgg:["aans_cns_2021"], meningioma:["aans_cns_2021"], other_tumor:["aans_cns_2021"], brain_met:["aans_cns_2021"],
+    recurrent_met:["cns_2025","aans_cns_2021","remaster_2022"], radiation_necrosis:["cns_2025","aans_cns_2021","remaster_2022"],
+    mtle:[], focal_epilepsy:[], fcd:[], insular_epilepsy:[], pvnh:[], tsc:[], hypothalamic_hamartoma:[], corpus_callosotomy:[],
+    cavernous_malformation:[], chronic_pain:[] };
   const gl=GLREFS[S.key]||[];
   s=p.addSlide(); s.background={color:"FFFFFF"}; header(s,"The evidence","Data & recommendation");
   // recommendation band, front and centre
