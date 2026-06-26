@@ -79,6 +79,10 @@
   .chip2[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
   .chipgrouphdr{width:100%;font-family:var(--mono);font-size:9px;color:#6f8aa3;margin:7px 0 1px;letter-spacing:.06em;text-transform:uppercase}
   .chipgrouphdr:first-child{margin-top:0}
+  .tgtblock{border:1px solid #1d3650;border-radius:10px;padding:10px 11px;margin-bottom:9px}
+  .tgtblock .tb-head{display:flex;justify-content:space-between;align-items:center;font-family:var(--display);font-size:11px;font-weight:600;color:var(--blue-2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+  .tgtblock .tb-rm{background:transparent;border:none;color:#7e9bb4;cursor:pointer;font-size:11px;font-family:var(--display);text-transform:none;letter-spacing:0}
+  .tgtblock .tb-rm:hover{color:var(--tdt-hot)}
   .chk{display:flex;align-items:flex-start;gap:9px;padding:6px 8px;border-radius:7px;cursor:pointer;font-size:12.5px;color:#cfe0ec;line-height:1.4}
   .chk:hover{background:#13243a}
   .chk input{appearance:none;width:16px;height:16px;border:1.5px solid #3a5e7e;border-radius:4px;flex:none;margin-top:1px;cursor:pointer;position:relative;background:#0c1a2a}
@@ -157,6 +161,8 @@
   .targetcard .tc-h{font-family:var(--display);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);font-weight:600;margin-bottom:8px}
   .targetcard .tl{display:flex;gap:8px;font-size:14px;color:var(--ink);padding:3px 0;line-height:1.45}
   .targetcard .tl .tk{font-family:var(--display);font-weight:600;color:var(--navy);min-width:148px;flex:none}
+  .targetcard .tc-sub{font-family:var(--display);font-size:11px;font-weight:600;color:var(--blue);margin:9px 0 2px}
+  .targetcard .tc-sub:first-child{margin-top:0}
   @media(max-width:640px){.targetcard{margin:14px 18px 0}.targetcard .tl{flex-direction:column;gap:1px}.targetcard .tl .tk{min-width:0}}
   .mcell .v .vsub{display:block;font-size:12.5px;color:var(--ink-2);font-weight:400;margin-top:2px}
   @media(max-width:560px){.meta{grid-template-columns:repeat(2,1fr)}.mcell-wide{grid-column:span 2}}
@@ -425,18 +431,12 @@
         </div>
       </div>
 
-      <!-- TARGET LOCATION -->
+      <!-- TARGET LOCATION (one or more targets) -->
       <div class="group">
         <div class="glabel">Target location</div>
-        <div style="font-family:var(--mono);font-size:10px;color:#5e7a93;margin:-4px 0 9px;line-height:1.4">Tap to select. Region and orientation accept multiple; side is one. Appears on the report and the deck.</div>
-        <div class="csub">Target location</div>
-        <div id="c_region"></div>
-        <div class="csub">Side</div>
-        <div id="c_side"></div>
-        <div class="csub">Orientation</div>
-        <div id="c_orient"></div>
-        <div class="csub">Functional descriptor <span style="color:#5e7a93;text-transform:none;letter-spacing:0">· optional</span></div>
-        <div id="c_func"></div>
+        <div style="font-family:var(--mono);font-size:10px;color:#5e7a93;margin:-4px 0 9px;line-height:1.4">Tap to select. Region and orientation accept multiple; side is one. Add another target when ablations are in different areas.</div>
+        <div id="c_targets"></div>
+        <button type="button" class="addbtn" id="addTargetBtn">+ Add another target</button>
       </div>
 
       <!-- DEVICE / CONSOLE -->
@@ -465,22 +465,11 @@
         </div>
       </div>
 
-      <!-- PROCEDURE SUMMARY -->
-      <div class="group">
-        <div class="glabel">Procedure summary <span class="auto-pill">report + deck</span></div>
-        <div class="csub">Procedure <span style="color:#5e7a93;text-transform:none;letter-spacing:0">· choose one</span></div>
-        <div class="checks" id="c_ps_proc"></div>
-        <div class="csub">Technical highlights</div>
-        <div class="checks" id="c_ps_tech"></div>
-        <div class="csub">Immediate outcome</div>
-        <div class="checks" id="c_ps_out"></div>
-      </div>
-
-      <!-- ADDITIONAL OBSERVATIONS -->
+      <!-- TECHNICAL NOTES -->
       <div class="group keep" id="surgeonPanel">
-        <div class="glabel">Additional observations <span class="auto-pill">report + deck</span></div>
+        <div class="glabel">Technical notes <span class="auto-pill">report + deck</span></div>
         <div style="font-family:var(--mono);font-size:10px;color:#5e7a93;margin:-4px 0 9px;line-height:1.4">Free text in the surgeon's own words. Each new line becomes a bullet. Optional.</div>
-        <div class="fld"><textarea id="i_surgeonnote" rows="4" placeholder="Type freely. Press Enter for a new bullet."></textarea></div>
+        <div class="fld"><textarea id="i_surgeonnote" rows="6" placeholder="Type freely. Press Enter for a new bullet."></textarea></div>
       </div>
 
       <!-- IMAGING -->
@@ -616,10 +605,10 @@
         </span>
       </div>
 
-      <!-- ADDITIONAL OBSERVATIONS -->
+      <!-- TECHNICAL NOTES -->
       <section class="v-ref v-perf v-tb sec-off" id="r_surgeon_sec">
-        <div class="eyebrow">Additional observations</div>
-        <h2 class="sec">Additional observations</h2>
+        <div class="eyebrow">Technical notes</div>
+        <h2 class="sec">Technical notes</h2>
         <div id="r_surgeon_body"></div>
       </section>
 
@@ -643,7 +632,7 @@
       <!-- VIDEO -->
       <section id="videoSection">
         <div class="eyebrow">Thermometry replay</div>
-        <h2 class="sec">Ablation developing along the trajectory</h2>
+        <h2 class="sec">Time-Lapse of Ablation</h2>
         <div class="player" id="player">
           <div class="pstage" id="pstage">
             <span class="badge">MR THERMOMETRY · TDT OVERLAY</span>
@@ -674,13 +663,6 @@
           <p>LITT treats a small target deep in the brain using a thin, MRI-guided laser fiber. Instead of open surgery, the fiber is placed through a very small opening and directed to the planned area, while the MRI guides the team throughout. The pictures and short replay above were recorded by the equipment during the procedure.</p>
           <p>This page helps you picture what kind of procedure was done. It does not tell you how it turned out — the surgeon is the right person to explain what the results mean.</p>
         </div>
-      </section>
-
-      <!-- PROCEDURE SUMMARY -->
-      <section class="v-ref v-perf v-tb sec-off" id="r_ps_sec">
-        <div class="eyebrow">Procedure summary</div>
-        <h2 class="sec">Procedure summary</h2>
-        <div id="r_ps_body"></div>
       </section>
 
       <!-- CLINICAL CONTEXT (all views) -->
@@ -853,7 +835,7 @@ function renderTrajRows(){
   const c=$("trajCount"); if(c) c.textContent=`· ${trajRows.length} ${trajRows.length===1?"trajectory":"trajectories"}`;
 }
 
-/* ---- Target location (region multi · side single · orientation multi · functional multi) ---- */
+/* ---- Target location (one or more targets; each: region multi · side single · orientation multi · functional multi) ---- */
 const REGION_GROUPS=[
   {h:"Cortical lobes", items:["Frontal lobe","Parietal lobe","Temporal lobe","Occipital lobe","Insula"]},
   {h:"Deep structures", items:["Thalamus","Basal ganglia","Corpus callosum","Internal capsule"]},
@@ -865,77 +847,52 @@ const REGION_GROUPS=[
 const SIDES=["Left","Right","Bilateral","Midline"];
 const ORIENTATIONS=["Anterior","Posterior","Superior","Inferior","Medial","Lateral","Deep-seated","Cortical","Subcortical","Periventricular","Intraventricular","Juxtaventricular","Mesial","Basal","Parasagittal","Perisylvian","Convexity","Skull base"];
 const FUNCTIONALS=["Dominant hemisphere","Non-dominant hemisphere","Eloquent location","Motor region","Language region","Visual pathway","Brainstem adjacent","Ventricular adjacent"];
-let tgtRegions=new Set(), tgtSide="", tgtOrient=new Set(), tgtFunc=new Set();
+function newTarget(){ return {regions:new Set(), side:"", orient:new Set(), func:new Set()}; }
+let targets=[newTarget()];
 function chipBtn(label,on){ return `<button type="button" class="chip2" data-v="${label.replace(/"/g,'&quot;')}" aria-pressed="${on?"true":"false"}">${label}</button>`; }
-function renderChips(hostId, items, sel, opts){
-  const host=$(hostId); if(!host) return; host.className="chipwrap"; opts=opts||{};
+function fillChips(host, items, sel, opts, ti, grp){
+  if(!host) return; opts=opts||{}; host.className="chipwrap";
   let html="";
   if(opts.grouped){ items.forEach(g=>{ html+=`<div class="chipgrouphdr">${g.h}</div>`+g.items.map(it=>chipBtn(it, sel.has(it))).join(""); }); }
   else { html=items.map(it=> chipBtn(it, opts.single ? sel===it : sel.has(it))).join(""); }
   host.innerHTML=html;
   host.querySelectorAll(".chip2").forEach(b=>b.onclick=()=>{
-    const v=b.dataset.v;
-    if(opts.single){ tgtSide=(tgtSide===v)?"":v; renderChips("c_side",SIDES,tgtSide,{single:true}); }
-    else { if(sel.has(v)) sel.delete(v); else sel.add(v); b.setAttribute("aria-pressed", sel.has(v)?"true":"false"); }
+    const v=b.dataset.v, t=targets[ti];
+    if(opts.single){ t.side=(t.side===v)?"":v; fillChips(host,SIDES,t.side,{single:true},ti,"side"); }
+    else { const set=t[grp]; if(set.has(v)) set.delete(v); else set.add(v); b.setAttribute("aria-pressed", set.has(v)?"true":"false"); }
     render();
   });
 }
 function renderTargetUI(){
-  renderChips("c_region",REGION_GROUPS,tgtRegions,{grouped:true});
-  renderChips("c_side",SIDES,tgtSide,{single:true});
-  renderChips("c_orient",ORIENTATIONS,tgtOrient,{});
-  renderChips("c_func",FUNCTIONALS,tgtFunc,{});
+  const host=$("c_targets"); if(!host) return; host.innerHTML="";
+  targets.forEach((t,ti)=>{
+    const block=document.createElement("div"); block.className="tgtblock";
+    block.innerHTML=
+      `<div class="tb-head"><span>Target ${ti+1}</span>${targets.length>1?`<button type="button" class="tb-rm" data-ti="${ti}">Remove</button>`:""}</div>`+
+      `<div class="csub">Target location</div><div class="chipwrap" data-ti="${ti}" data-grp="regions"></div>`+
+      `<div class="csub">Side</div><div class="chipwrap" data-ti="${ti}" data-grp="side"></div>`+
+      `<div class="csub">Orientation</div><div class="chipwrap" data-ti="${ti}" data-grp="orient"></div>`+
+      `<div class="csub">Functional descriptor <span class="opt" style="color:#5e7a93;text-transform:none;letter-spacing:0">· optional</span></div><div class="chipwrap" data-ti="${ti}" data-grp="func"></div>`;
+    host.appendChild(block);
+    fillChips(block.querySelector(`[data-grp="regions"]`),REGION_GROUPS,t.regions,{grouped:true},ti,"regions");
+    fillChips(block.querySelector(`[data-grp="side"]`),SIDES,t.side,{single:true},ti,"side");
+    fillChips(block.querySelector(`[data-grp="orient"]`),ORIENTATIONS,t.orient,{},ti,"orient");
+    fillChips(block.querySelector(`[data-grp="func"]`),FUNCTIONALS,t.func,{},ti,"func");
+  });
+  host.querySelectorAll(".tb-rm").forEach(b=>b.onclick=e=>{ targets.splice(+e.target.dataset.ti,1); if(!targets.length) targets=[newTarget()]; renderTargetUI(); render(); });
 }
-function targetLines(){
+function targetLinesFor(t){
   const L=[];
-  if(tgtRegions.size) L.push(["Target location",[...tgtRegions].join(", ")]);
-  if(tgtSide) L.push(["Side",tgtSide]);
-  if(tgtOrient.size) L.push(["Orientation",[...tgtOrient].join(", ")]);
-  if(tgtFunc.size) L.push(["Functional descriptor",[...tgtFunc].join(", ")]);
+  if(t.regions.size) L.push(["Target location",[...t.regions].join(", ")]);
+  if(t.side) L.push(["Side",t.side]);
+  if(t.orient.size) L.push(["Orientation",[...t.orient].join(", ")]);
+  if(t.func.size) L.push(["Functional descriptor",[...t.func].join(", ")]);
   return L;
 }
-function targetSummaryText(){ return targetLines().map(([k,v])=>`${k}: ${v}`).join(" · "); }
+function targetBlocks(){ return targets.map(targetLinesFor).filter(L=>L.length); }
+function anyTargetData(){ return targets.some(t=>t.regions.size||t.side||t.orient.size||t.func.size); }
 
-function trajInsight(){
-  const n=trajCountN(), dirs=trajDirList();
-  const base = n>1 ? `Planned coverage delivered across ${n} stereotactic trajectories`
-                   : "Planned coverage delivered through a single stereotactic trajectory";
-  return dirs.length ? `${base} (${dirs.join("; ")})` : base;
-}
-
-/* ---- Procedure summary (one procedure + technical highlights + immediate outcome) ---- */
-const PS_PROC=["Completed as planned","Minor intraoperative modification","Treatment intentionally modified to optimize safety"];
-const PS_TECH=["Planned target adequately treated","Real-time MR thermometry guided treatment","Biopsy obtained","Critical adjacent anatomy preserved"];
-const PS_OUT=["Neurologically stable","Recovery as expected","No immediate procedure-related complication"];
-let psProc=0, psTech=new Set([0,1,3]), psOut=new Set([0,1,2]);
-function fillCheck(hostId,items,sel){
-  const h=$(hostId); if(!h) return; h.className="checks";
-  h.innerHTML=items.map((o,i)=>`<label class="chk"><input type="checkbox" data-i="${i}" ${sel.has(i)?"checked":""}><span>${o}</span></label>`).join("");
-  h.querySelectorAll("input").forEach(inp=>inp.onchange=e=>{ const i=+e.target.dataset.i; if(e.target.checked) sel.add(i); else sel.delete(i); renderProcSummary(); });
-}
-function renderPSUI(){
-  const hp=$("c_ps_proc");
-  if(hp){ hp.className="checks";
-    hp.innerHTML=PS_PROC.map((o,i)=>`<label class="chk"><input type="radio" name="ps_proc" data-i="${i}" ${psProc===i?"checked":""}><span>${o}</span></label>`).join("");
-    hp.querySelectorAll("input").forEach(inp=>inp.onchange=e=>{ psProc=+e.target.dataset.i; renderProcSummary(); });
-  }
-  fillCheck("c_ps_tech",PS_TECH,psTech);
-  fillCheck("c_ps_out",PS_OUT,psOut);
-}
-function psData(){
-  return { proc:PS_PROC[psProc],
-    tech:[...psTech].sort((a,b)=>a-b).map(i=>PS_TECH[i]),
-    out:[...psOut].sort((a,b)=>a-b).map(i=>PS_OUT[i]) };
-}
-function renderProcSummary(){
-  const d=psData(); let html=`<div class="rep-lead">${d.proc}</div>`;
-  if(d.tech.length){ html+=`<div class="rep-subh">Technical highlights</div><ul class="rep-list">`+d.tech.map(t=>`<li>${t}</li>`).join("")+`</ul>`; }
-  if(d.out.length){ html+=`<div class="rep-subh">Immediate outcome</div><ul class="rep-list">`+d.out.map(t=>`<li>${t}</li>`).join("")+`</ul>`; }
-  const b=$("r_ps_body"); if(b) b.innerHTML=html;
-  const s=$("r_ps_sec"); if(s) s.classList.remove("sec-off");
-}
-
-/* ---- Additional observations (free text → bullets) ---- */
+/* ---- Technical notes (free text → bullets) ---- */
 function obsBullets(){
   const note=($("i_surgeonnote").value||"").trim();
   return note ? note.split(/\n+/).map(s=>s.trim()).filter(Boolean) : [];
@@ -1262,7 +1219,7 @@ function txt(id,v){ const e=$(id); if(e) e.textContent=v; }
 function html(id,v){ const e=$(id); if(e) e.innerHTML=v; }
 function render(){
   const probe=$("i_probe").value, energy=$("i_energy").value, laser=$("i_laser").value,
-        pulses=$("i_pulses").value, targets=$("i_targets").value, traj=trajCountN(),
+        pulses=$("i_pulses").value, nTargets=$("i_targets").value, traj=trajCountN(),
         robotic=$("i_robotic").value;
   const perf = $("s_perf").value===ADD?"":$("s_perf").value;
   const ref = $("s_ref").value===ADD?"":$("s_ref").value;
@@ -1271,14 +1228,18 @@ function render(){
   const stamp=now.toLocaleDateString("en-US",{month:"2-digit",day:"2-digit",year:"numeric"})+" "+now.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"});
   txt("r_caseref",`Case ref ${$("i_caseref").value} · MRN ${$("i_mrn").value} · generated ${stamp}`);
   txt("r_probe",probeDiameter(probe)); txt("r_probe_full",(robotic==="Used"?"Robotically Controlled ":"")+probe);
-  txt("r_energy",energy); txt("r_laser",laser); txt("r_pulses",pulses); txt("r_targets_n",targets); txt("r_traj_n",traj);
+  txt("r_energy",energy); txt("r_laser",laser); txt("r_pulses",pulses); txt("r_targets_n",nTargets); txt("r_traj_n",traj);
   txt("r_facility",fac); txt("r_perf",perf); txt("r_ref",ref);
   txt("r_ind",$("i_inddetail").value); txt("r_date",$("i_date").value);
-  // target location card
-  const tlines=targetLines(), card=$("r_target_card");
+  // target location card (one or more targets)
+  const blocks=targetBlocks(), card=$("r_target_card");
   if(card){
-    if(tlines.length){ card.style.display="";
-      $("r_target_lines").innerHTML=tlines.map(([k,v])=>`<div class="tl"><span class="tk">${k}</span><span>${v}</span></div>`).join("");
+    if(blocks.length){ card.style.display="";
+      const multi=blocks.length>1;
+      $("r_target_lines").innerHTML=blocks.map((lines,i)=>
+        (multi?`<div class="tc-sub">Target ${i+1}</div>`:"")+
+        lines.map(([k,v])=>`<div class="tl"><span class="tk">${k}</span><span>${v}</span></div>`).join("")
+      ).join("");
     } else card.style.display="none";
   }
   // narrative
@@ -1295,6 +1256,7 @@ function render(){
 ["i_probe","i_robotic"].forEach(id=>$(id).addEventListener("change",render));
 $("i_surgeonnote").addEventListener("input",renderObservations);
 $("addTrajBtn").onclick=()=>{ trajRows.push(""); renderTrajRows(); render(); };
+$("addTargetBtn").onclick=()=>{ targets.push(newTarget()); renderTargetUI(); render(); };
 
 /* ===================== IMAGING ===================== */
 let images=SAMPLE.map(s=>({...s})), activeImg=0;
@@ -1459,8 +1421,7 @@ function gatherCase(){
     caseref:$("i_caseref").value, mrn:$("i_mrn").value, ind:$("i_ind").value, inddetail:$("i_inddetail").value, date:$("i_date").value,
     probe:$("i_probe").value, robotic:$("i_robotic").value, laser:$("i_laser").value, energy:$("i_energy").value, pulses:$("i_pulses").value, targets:$("i_targets").value,
     traj:trajRows.slice(),
-    target:{regions:[...tgtRegions], side:tgtSide, orient:[...tgtOrient], func:[...tgtFunc]},
-    ps:{proc:psProc, tech:[...psTech], out:[...psOut]},
+    targets:targets.map(t=>({regions:[...t.regions], side:t.side, orient:[...t.orient], func:[...t.func]})),
     surgeonnote:$("i_surgeonnote").value,
     signname:$("i_signname").value, signmeta:$("i_signmeta").value,
     liaison:{name:$("i_liaison_name").value,title:$("i_liaison_title").value},
@@ -1481,17 +1442,15 @@ function applyCase(c){
   $("i_pulses").value=c.pulses||""; $("i_targets").value=c.targets||"";
   if(Array.isArray(c.traj)) trajRows=c.traj.length?c.traj.slice():[""];
   else { const n=Math.max(1,parseInt(c.traj,10)||1); trajRows=Array.from({length:n},()=>""); }
-  const t=c.target||{};
-  tgtRegions=new Set(t.regions||[]); tgtSide=t.side||""; tgtOrient=new Set(t.orient||[]); tgtFunc=new Set(t.func||[]);
-  const ps=c.ps||{};
-  psProc=Number.isInteger(ps.proc)?ps.proc:0; psTech=new Set(ps.tech||[0,1,3]); psOut=new Set(ps.out||[0,1,2]);
-  renderTrajRows(); renderTargetUI(); renderPSUI();
+  const src = Array.isArray(c.targets) ? c.targets : (c.target ? [c.target] : []);
+  targets = src.length ? src.map(t=>({regions:new Set(t.regions||[]), side:t.side||"", orient:new Set(t.orient||[]), func:new Set(t.func||[])})) : [newTarget()];
+  renderTrajRows(); renderTargetUI();
   $("i_signname").value=c.signname||""; $("i_signmeta").value=c.signmeta||"";
   if(c.liaison){ $("i_liaison_name").value=c.liaison.name||liaison.name; $("i_liaison_title").value=c.liaison.title||liaison.title; }
   $("i_surgeonnote").value=c.surgeonnote||"";
   if(c.images && c.images.length){ images=c.images.map(x=>({...x})); activeImg=0; }
   paintIndication();
-  renderProcSummary(); renderObservations(); renderThumbs(); renderImaging(); render();
+  renderObservations(); renderThumbs(); renderImaging(); render();
 }
 function refreshCaseList(sel){
   const s=$("s_loadcase"); s.innerHTML='<option value="">Load a saved case…</option>';
@@ -1517,8 +1476,8 @@ function deckState(){
     facility:g("s_facility")===ADD?"":g("s_facility"), perf:g("s_perf")===ADD?"":g("s_perf"), ref:g("s_ref")===ADD?"":g("s_ref"),
     caseref:g("i_caseref"), mrn:g("i_mrn"), detail:g("i_inddetail"), date:g("i_date"),
     probe:g("i_probe"), robotic:g("i_robotic"), laser:g("i_laser"), energy:g("i_energy"), pulses:g("i_pulses"), targets:g("i_targets"),
-    traj:trajCountN(), trajDirs:trajDirList(), targetLines:targetLines(),
-    ps:psData(), obs:obsBullets(),
+    traj:trajCountN(), trajDirs:trajDirList(), targetBlocks:targetBlocks(),
+    obs:obsBullets(),
     liaison:{name:g("i_liaison_name"),title:g("i_liaison_title")},
     images:images.map(im=>({...im})) };
 }
@@ -1599,32 +1558,28 @@ function buildDeck(){
   imgSlide("intra","Imaging · Intra-operative","Treated area under MR thermometry","Add intra-operative thermometry stills in the builder to populate this slide.");
   imgSlide("post","Imaging · Post-operative","Post-operative imaging","Add post-operative imaging in the builder to populate this slide.");
 
-  // ===== PROCEDURE SUMMARY (white): console facts + target + summary + observations =====
-  s=p.addSlide(); s.background={color:"FFFFFF"}; header(s,"Operative record","Procedure summary");
+  // ===== TECHNICAL NOTES (white): console facts + target(s) + free-text notes =====
+  s=p.addSlide(); s.background={color:"FFFFFF"}; header(s,"Operative record","Technical notes");
   s.addShape(p.ShapeType.roundRect,{x:0.62,y:1.6,w:12.1,h:1.45,rectRadius:0.06,fill:{color:"F4F8FB"},line:{color:LINE,width:1}});
   s.addText("RECORDED FROM THE CONSOLE",{x:0.85,y:1.74,w:11,h:0.25,fontFace:MONO,fontSize:8.5,color:BLUE,charSpacing:1.5});
   const trajCell=S.traj+(S.trajDirs&&S.trajDirs.length?" ("+S.trajDirs.join("; ")+")":"");
   const probeCell=(S.robotic==="Used"?"Robotically Controlled ":"")+S.probe;
-  const md=[["Probe",probeCell],["Energy",S.energy+" kJ"],["Laser-on",S.laser],["Pulses",S.pulses],["Targets / traj.",S.targets+" / "+trajCell]];
+  const md=[["Probe",probeCell],["Energy",S.energy+" kJ"],["Laser-on",S.laser],["Pulses",S.pulses],["Targets",S.targets],["Trajectories",trajCell]];
   md.forEach((m,i)=>{ const cx=0.85+(i%3)*4.0, cy=2.06+Math.floor(i/3)*0.45;
     s.addText([{text:m[0]+"   ",options:{color:GREY}},{text:(m[1]||"—"),options:{color:INK,bold:true}}],{x:cx,y:cy,w:3.9,h:0.35,fontFace:MONO,fontSize:11,valign:"middle"}); });
-  // target location lines
-  let ny=3.25;
-  (S.targetLines||[]).forEach(([k,v])=>{ s.addText([{text:k+":  ",options:{bold:true,color:NAVY}},{text:v,options:{color:INK2}}],{x:0.62,y:ny,w:12.1,h:0.3,fontFace:BODY,fontSize:11.5,valign:"top"}); ny+=0.32; });
-  ny+=0.12;
-  // procedure summary
-  s.addText(S.ps.proc,{x:0.62,y:ny,w:12.1,h:0.34,fontFace:DISP,fontSize:15,color:NAVY,bold:true,valign:"top"}); ny+=0.48;
-  const colTop=ny;
-  if(S.ps.tech.length){ s.addText("TECHNICAL HIGHLIGHTS",{x:0.62,y:colTop,w:5.9,h:0.22,fontFace:MONO,fontSize:8.5,color:BLUE,charSpacing:1.5});
-    let yy=colTop+0.3; S.ps.tech.forEach(t=>{ s.addText([{text:"•  ",options:{color:BLUE,bold:true}},{text:t,options:{color:INK}}],{x:0.62,y:yy,w:5.9,h:0.5,fontFace:BODY,fontSize:11.5,valign:"top",lineSpacingMultiple:1.1}); yy+=0.34; }); }
-  if(S.ps.out.length){ s.addText("IMMEDIATE OUTCOME",{x:6.9,y:colTop,w:5.8,h:0.22,fontFace:MONO,fontSize:8.5,color:BLUE,charSpacing:1.5});
-    let yy=colTop+0.3; S.ps.out.forEach(t=>{ s.addText([{text:"•  ",options:{color:BLUE,bold:true}},{text:t,options:{color:INK}}],{x:6.9,y:yy,w:5.8,h:0.5,fontFace:BODY,fontSize:11.5,valign:"top",lineSpacingMultiple:1.1}); yy+=0.34; }); }
-  let obsTop=colTop+0.3+Math.max(S.ps.tech.length,S.ps.out.length)*0.34+0.22;
-  if(obsTop>6.0) obsTop=6.0;
-  s.addText("ADDITIONAL OBSERVATIONS",{x:0.62,y:obsTop,w:6,h:0.22,fontFace:MONO,fontSize:8.5,color:BLUE,charSpacing:1.5});
-  s.addShape(p.ShapeType.roundRect,{x:0.62,y:obsTop+0.28,w:12.1,h:Math.max(0.6,6.85-(obsTop+0.28)),rectRadius:0.08,fill:{color:"FCFDFE"},line:{color:LINE,width:1}});
-  if(S.obs&&S.obs.length){ s.addText(S.obs.map(b=>"•  "+b).join("\n"),{x:0.9,y:obsTop+0.42,w:11.5,h:6.85-(obsTop+0.42),fontFace:BODY,fontSize:12,color:INK,valign:"top",lineSpacingMultiple:1.3}); }
-  else { s.addText("To be completed by the performing surgeon.",{x:0.9,y:obsTop+0.42,w:11.5,h:0.3,fontFace:BODY,fontSize:10,italic:true,color:GREY}); }
+  // target location block(s)
+  let ny=3.25; const blocks=S.targetBlocks||[]; const multi=blocks.length>1;
+  blocks.forEach((lines,bi)=>{
+    if(multi){ s.addText("Target "+(bi+1),{x:0.62,y:ny,w:12.1,h:0.26,fontFace:DISP,fontSize:12,color:BLUE,bold:true,valign:"top"}); ny+=0.3; }
+    lines.forEach(([k,v])=>{ s.addText([{text:k+":  ",options:{bold:true,color:NAVY}},{text:v,options:{color:INK2}}],{x:0.62,y:ny,w:12.1,h:0.3,fontFace:BODY,fontSize:11.5,valign:"top"}); ny+=0.32; });
+    ny+=0.06;
+  });
+  // technical notes (free-text bullets)
+  let notesTop=Math.max(ny+0.1,4.0); if(notesTop>6.0) notesTop=6.0;
+  s.addText("TECHNICAL NOTES",{x:0.62,y:notesTop,w:6,h:0.22,fontFace:MONO,fontSize:8.5,color:BLUE,charSpacing:1.5});
+  s.addShape(p.ShapeType.roundRect,{x:0.62,y:notesTop+0.28,w:12.1,h:Math.max(0.6,6.85-(notesTop+0.28)),rectRadius:0.08,fill:{color:"FCFDFE"},line:{color:LINE,width:1}});
+  if(S.obs&&S.obs.length){ s.addText(S.obs.map(b=>"•  "+b).join("\n"),{x:0.9,y:notesTop+0.42,w:11.5,h:6.85-(notesTop+0.42),fontFace:BODY,fontSize:12,color:INK,valign:"top",lineSpacingMultiple:1.3}); }
+  else { s.addText("To be completed by the performing surgeon.",{x:0.9,y:notesTop+0.42,w:11.5,h:0.3,fontFace:BODY,fontSize:10,italic:true,color:GREY}); }
   F(s);
 
   // ===== DATA & RECOMMENDATION (white): position LITT as an option =====
@@ -1678,9 +1633,9 @@ $("saveFileBtn").onclick=savePortable;
 $("i_liaison_name").value=liaison.name; $("i_liaison_title").value=liaison.title;
 refreshFacilities("Westchester Medical Center");
 $("s_perf").value="Dr. Hanft"; $("s_ref").value="Dr. Tatyana Gitlevich";
-renderTrajRows(); renderTargetUI(); renderPSUI();
+renderTrajRows(); renderTargetUI();
 applyIndication();
-renderProcSummary(); renderObservations(); renderThumbs(); renderImaging(); clearVideo();
+renderObservations(); renderThumbs(); renderImaging(); clearVideo();
 render();
 if(window.__CASE__){ try{ applyCase(window.__CASE__); }catch(e){} }
 setView($("doc").dataset.view||"referring");

@@ -56,6 +56,16 @@ Review notes on `index.html` and their status.
   Immediate outcome (checkboxes) — on report + deck.
 - ✅ **Additional observations** replaces Procedural notes: free text, each line a bullet.
 
+## Round 4 — simplify
+- ✅ **Technical notes** replaces Procedure summary + Additional observations: a single
+  free-text box (each line → a bullet), positioned **before** the imaging section on the
+  report and deck. All the radio/checkbox choices were removed.
+- ✅ **Multiple targets**: Target location is now repeatable — "Add another target" creates
+  a second (third, …) location block, each with its own region/side/orientation/functional.
+  The report and deck label them Target 1, Target 2, … when more than one.
+- ✅ Video section retitled **"Time-Lapse of Ablation."**
+- ✅ Leadstrip splits **Targets** and **Trajectories** into separate cells.
+
 ## Distribution — options (see README / discussion)
 - Host `index.html` as a static page (GitHub Pages, Netlify, internal server) — it's a
   single self-contained file, so this is the lowest-friction path.
