@@ -139,7 +139,7 @@
   .leadstrip{margin:20px 36px 0;padding:18px 20px;border-radius:14px;color:#eaf3f9;background:linear-gradient(135deg,#15314D,#1d4163)}
   .leadstrip .ls-h{font-family:var(--display);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-2);font-weight:600;margin-bottom:13px;display:flex;align-items:center;gap:8px}
   .leadstrip .ls-h .autodot{font-family:var(--mono);font-size:9px;color:#0c1a2a;background:var(--blue-2);padding:2px 6px;border-radius:4px;font-weight:600}
-  .ls-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+  .ls-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
   .ls-cell .v{font-family:var(--mono);font-size:22px;font-weight:500;color:#fff;letter-spacing:-.02em;line-height:1}
   .ls-cell .k{font-size:10.5px;color:#9fc2dc;margin-top:6px}
 
@@ -591,7 +591,8 @@
           <div class="ls-cell"><div class="v" id="r_energy">13.5</div><div class="k">kJ delivered</div></div>
           <div class="ls-cell"><div class="v" id="r_laser">21:23</div><div class="k">laser on</div></div>
           <div class="ls-cell"><div class="v" id="r_pulses">646</div><div class="k">pulses</div></div>
-          <div class="ls-cell"><div class="v" id="r_tt">1·1</div><div class="k">targets · traj.</div></div>
+          <div class="ls-cell"><div class="v" id="r_targets_n">1</div><div class="k">targets</div></div>
+          <div class="ls-cell"><div class="v" id="r_traj_n">1</div><div class="k">trajectories</div></div>
         </div>
       </div>
 
@@ -1270,7 +1271,7 @@ function render(){
   const stamp=now.toLocaleDateString("en-US",{month:"2-digit",day:"2-digit",year:"numeric"})+" "+now.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"});
   txt("r_caseref",`Case ref ${$("i_caseref").value} · MRN ${$("i_mrn").value} · generated ${stamp}`);
   txt("r_probe",probeDiameter(probe)); txt("r_probe_full",(robotic==="Used"?"Robotically Controlled ":"")+probe);
-  txt("r_energy",energy); txt("r_laser",laser); txt("r_pulses",pulses); txt("r_tt",`${targets}·${traj}`);
+  txt("r_energy",energy); txt("r_laser",laser); txt("r_pulses",pulses); txt("r_targets_n",targets); txt("r_traj_n",traj);
   txt("r_facility",fac); txt("r_perf",perf); txt("r_ref",ref);
   txt("r_ind",$("i_inddetail").value); txt("r_date",$("i_date").value);
   // target location card
