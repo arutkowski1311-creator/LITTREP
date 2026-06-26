@@ -90,6 +90,14 @@ Review notes on `index.html` and their status.
   context, evidence, and references; non-tumor/non-epilepsy entries use a generic follow-up
   profile. Evidence framed conservatively for the less-established uses.
 
+## Round 8 — mobile fix + blank start
+- ✅ Facility is a native `<select>` again (the `<datalist>` didn't surface reliably on
+  mobile); indication stays a native `<select>`. Both now show their lists on phones.
+- ✅ Nothing is pre-populated: case ref, MRN, date, console numbers, probe/robotic, target,
+  sign-off, and liaison all start blank; indication defaults to "Select an indication…"
+  and the indication-driven report sections stay hidden until one is chosen.
+- ✅ Case-ref line omits empty Case ref / MRN parts.
+
 ## Distribution — options (see README / discussion)
 - Host `index.html` as a static page (GitHub Pages, Netlify, internal server) — it's a
   single self-contained file, so this is the lowest-friction path.

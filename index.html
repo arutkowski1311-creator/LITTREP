@@ -195,6 +195,7 @@
   .doc[data-view="referring"] .v-refpt,
   .doc[data-view="patient"] .v-refpt{display:block}
   .sec-off{display:none!important}
+  .doc.no-ind .needs-ind{display:none!important}
   /* patient view: no thermometry video */
   .doc[data-view="patient"] #videoSection{display:none!important}
   /* print/export image gallery (all phases) — hidden on screen, shown in print */
@@ -420,8 +421,7 @@
       <!-- DIRECTORY -->
       <div class="group">
         <div class="glabel">Facility &amp; team <span class="auto-pill">saved directory</span></div>
-        <div class="fld"><label>Facility</label><input id="s_facility" list="dl_facility" placeholder="Type or pick a facility"></div>
-        <datalist id="dl_facility"></datalist>
+        <div class="fld"><label>Facility</label><select id="s_facility"></select></div>
         <div class="two">
           <div class="fld"><label>Performing physician</label><input id="s_perf" list="dl_perf" placeholder="Type a name"></div>
           <div class="fld"><label>Referring physician</label><input id="s_ref" list="dl_ref" placeholder="Type a name"></div>
@@ -434,13 +434,13 @@
       <div class="group">
         <div class="glabel">Case &amp; indication</div>
         <div class="two">
-          <div class="fld mono"><label>Case ref</label><input id="i_caseref" value="WMC-058"></div>
-          <div class="fld mono"><label>MRN (masked)</label><input id="i_mrn" value="••••••3318"></div>
+          <div class="fld mono"><label>Case ref</label><input id="i_caseref" value="" placeholder="Case reference"></div>
+          <div class="fld mono"><label>MRN</label><input id="i_mrn" value="" placeholder="MRN"></div>
         </div>
         <div class="fld"><label>Indication</label><select id="i_ind"></select></div>
         <div class="two">
-          <div class="fld"><label>Indication detail (on report)</label><input id="i_inddetail" value="Recurrent right frontal glioma"></div>
-          <div class="fld"><label>Date of procedure</label><input id="i_date" value="June 15, 2026"></div>
+          <div class="fld"><label>Indication detail (on report)</label><input id="i_inddetail" value="" placeholder="Auto-fills from indication"></div>
+          <div class="fld"><label>Date of procedure</label><input id="i_date" value="" placeholder="e.g. June 15, 2026"></div>
         </div>
       </div>
 
@@ -457,21 +457,23 @@
         <div class="glabel">Device &amp; console</div>
         <div class="two">
           <div class="fld"><label>Probe</label><select id="i_probe">
+            <option value="">Select…</option>
             <option>NB3™ FullFire® 1.6mm</option>
             <option>FullFire® 3.3mm</option>
-            <option selected>SideFire® 3.3mm</option>
+            <option>SideFire® 3.3mm</option>
           </select></div>
           <div class="fld"><label>Robotic probe driver</label><select id="i_robotic">
-            <option selected>Used</option>
+            <option value="">Select…</option>
+            <option>Used</option>
             <option>Not used</option>
           </select></div>
         </div>
         <div class="three">
-          <div class="fld mono"><label>Laser-on</label><input id="i_laser" value="21:23"></div>
-          <div class="fld mono"><label>Energy kJ</label><input id="i_energy" value="13.5"></div>
-          <div class="fld mono"><label>Pulses</label><input id="i_pulses" value="646"></div>
+          <div class="fld mono"><label>Laser-on</label><input id="i_laser" value="" placeholder="mm:ss"></div>
+          <div class="fld mono"><label>Energy kJ</label><input id="i_energy" value="" placeholder="kJ"></div>
+          <div class="fld mono"><label>Pulses</label><input id="i_pulses" value="" placeholder="#"></div>
         </div>
-        <div class="fld mono" style="max-width:46%"><label>Targets</label><input id="i_targets" value="1"></div>
+        <div class="fld mono" style="max-width:46%"><label>Targets</label><input id="i_targets" value="" placeholder="#"></div>
         <div class="fld"><label>Trajectories &amp; direction <span id="trajCount" style="color:var(--blue-2);font-family:var(--mono)"></span></label>
           <div id="c_traj"></div>
           <button type="button" class="addbtn" id="addTrajBtn">+ Add trajectory</button>
@@ -522,11 +524,11 @@
       <!-- SIGN-OFF -->
       <div class="group">
         <div class="glabel">Sign-off</div>
-        <div class="fld"><label>Performing physician (printed name)</label><input id="i_signname" value="Dr. Hanft"></div>
-        <div class="fld"><label>Credentials / line</label><input id="i_signmeta" value="Neurosurgery · Westchester Medical Center"></div>
+        <div class="fld"><label>Performing physician (printed name)</label><input id="i_signname" value="" placeholder="Printed name"></div>
+        <div class="fld"><label>Credentials / line</label><input id="i_signmeta" value="" placeholder="Specialty · facility"></div>
         <div class="two" style="margin-top:6px">
-          <div class="fld"><label>Clinical liaison</label><input id="i_liaison_name" value="Adam Rutkowski"></div>
-          <div class="fld"><label>Liaison title</label><input id="i_liaison_title" value="Clinical Liaison — Monteris Medical"></div>
+          <div class="fld"><label>Clinical liaison</label><input id="i_liaison_name" value="" placeholder="Liaison name"></div>
+          <div class="fld"><label>Liaison title</label><input id="i_liaison_title" value="" placeholder="Liaison title"></div>
         </div>
         <div style="font-family:var(--mono);font-size:10px;color:#5e7a93;margin-top:2px;line-height:1.4">Liaison signature appears on the performing-physician report only. The physician signs their own line.</div>
       </div>
@@ -682,7 +684,7 @@
       </section>
 
       <!-- CLINICAL CONTEXT (clinician views only) -->
-      <section class="v-ref v-perf v-tb">
+      <section class="v-ref v-perf v-tb needs-ind">
         <div class="eyebrow" id="r_disease_eyebrow">The clinical context</div>
         <h2 class="sec" id="r_disease_title"></h2>
         <div class="narrative"><p id="r_disease_body"></p></div>
@@ -693,14 +695,14 @@
       </section>
 
       <!-- GUIDELINE & CONSENSUS — tumor board only -->
-      <section class="v-tb" id="r_legit_sec">
+      <section class="v-tb needs-ind" id="r_legit_sec">
         <div class="eyebrow">Guideline &amp; consensus</div>
         <h2 class="sec">Where LITT sits in guidelines</h2>
         <div class="narrative"><p id="r_legit_body"></p></div>
       </section>
 
       <!-- FOLLOW-UP IMAGING — performing + tumor board -->
-      <section class="v-perftb">
+      <section class="v-perftb needs-ind">
         <div class="eyebrow">Follow-up imaging</div>
         <h2 class="sec">Follow-up imaging expectations</h2>
         <div class="fu-grid">
@@ -717,7 +719,7 @@
       </section>
 
       <!-- KEY REFERENCES (performing + referring + tumor board) -->
-      <section class="v-phys">
+      <section class="v-phys needs-ind">
         <div class="eyebrow">Selected literature</div>
         <h2 class="sec">Key references for this indication</h2>
         <div class="refs-list" id="r_refs"></div>
@@ -1260,21 +1262,22 @@ const ACCOUNTS=[
 ];
 let directory = LS.get(DIR_KEY, null) || {};
 ACCOUNTS.forEach(a=>{ if(!directory[a]) directory[a]={proc:[],ref:[]}; });
-if(directory["Westchester Medical Center"] && !directory["Westchester Medical Center"].proc.length){
-  directory["Westchester Medical Center"].proc=["Dr. Hanft"]; directory["Westchester Medical Center"].ref=["Dr. Tatyana Gitlevich"];
-}
 LS.set(DIR_KEY,directory);
 let savedCases = LS.get(CASE_KEY, {});
-let liaison = LS.get(LIA_KEY, {name:"Adam Rutkowski", title:"Clinical Liaison — Monteris Medical"});
+let liaison = LS.get(LIA_KEY, {name:"", title:""});
 
 const $ = id => document.getElementById(id);
-const ADD="+ Add new…";
 
-/* ===================== DIRECTORY UI (type-ahead datalists) ===================== */
+/* ===================== DIRECTORY UI (facility select + type-able physicians) ===================== */
+function fillFacilitySelect(){
+  const sel=$("s_facility"); if(!sel) return; const cur=sel.value;
+  sel.innerHTML='<option value="">Select a facility…</option>'+Object.keys(directory).sort().map(i=>`<option value="${(i||'').replace(/"/g,'&quot;')}">${i}</option>`).join("");
+  if(directory[cur]) sel.value=cur;
+}
 function fillDatalist(dl, items){ if(!dl) return; dl.innerHTML=(items||[]).map(i=>`<option value="${(i||'').replace(/"/g,'&quot;')}"></option>`).join(""); }
 function refreshFacilities(keep){
-  fillDatalist($("dl_facility"), Object.keys(directory).sort());
-  if(keep!==undefined) $("s_facility").value=keep||"";
+  fillFacilitySelect();
+  if(keep!==undefined) $("s_facility").value = directory[keep] ? keep : "";
   refreshPhysicians();
 }
 function refreshPhysicians(keepP,keepR){
@@ -1292,16 +1295,11 @@ function rememberPhysician(which){
   const list = which==="perf"?directory[fac].proc:directory[fac].ref;
   if(!list.includes(val)){ list.push(val); LS.set(DIR_KEY,directory); fillDatalist($(which==="perf"?"dl_perf":"dl_ref"), list); }
 }
-// Picking (or typing an exact match for) a known facility loads that facility's team.
-$("s_facility").addEventListener("input",()=>{
-  const entry=directory[$("s_facility").value];
-  if(entry){ fillDatalist($("dl_perf"),entry.proc); fillDatalist($("dl_ref"),entry.ref);
-    $("s_perf").value=entry.proc[0]||""; $("s_ref").value=entry.ref[0]||""; }
-  render();
-});
+// Selecting a facility loads that facility's known team into the type-able fields.
 $("s_facility").addEventListener("change",()=>{
-  const fac=$("s_facility").value.trim();
-  if(fac && !directory[fac]){ directory[fac]={proc:[],ref:[]}; LS.set(DIR_KEY,directory); fillDatalist($("dl_facility"),Object.keys(directory).sort()); }
+  const entry=directory[$("s_facility").value]||{proc:[],ref:[]};
+  fillDatalist($("dl_perf"),entry.proc); fillDatalist($("dl_ref"),entry.ref);
+  $("s_perf").value=entry.proc[0]||""; $("s_ref").value=entry.ref[0]||"";
   render();
 });
 $("s_perf").addEventListener("input",render);
@@ -1312,12 +1310,13 @@ $("s_ref").addEventListener("change",()=>{ rememberPhysician("ref"); render(); }
 /* ===================== INDICATION ===================== */
 (function initInd(){
   const sel=$("i_ind");
+  const o0=document.createElement("option"); o0.value=""; o0.textContent="Select an indication…"; sel.appendChild(o0);
   Object.entries(INDICATIONS).forEach(([k,v])=>{ const o=document.createElement("option"); o.value=k; o.textContent=v.label; sel.appendChild(o); });
-  sel.value="newly_gbm";
+  sel.value="";
 })();
 function applyIndication(){
   const ind=INDICATIONS[$("i_ind").value];
-  $("i_inddetail").value=ind.detail;
+  $("i_inddetail").value = ind ? ind.detail : "";
   paintIndication();
   render();
 }
@@ -1325,6 +1324,8 @@ $("i_ind").addEventListener("change",applyIndication);
 
 function paintIndication(){
   const ind=INDICATIONS[$("i_ind").value];
+  $("doc").classList.toggle("no-ind", !ind);
+  if(!ind){ paintAudience(); return; }
   $("r_disease_title").textContent=ind.diseaseTitle;
   $("r_whyevidence").textContent=ind.whyEvidence;
   const fillLi=(host,arr)=>{ host.innerHTML=""; arr.forEach(t=>{ const li=document.createElement("li"); li.textContent=t; host.appendChild(li); }); };
@@ -1335,6 +1336,7 @@ function paintIndication(){
 }
 function renderRefs(){
   const ind=INDICATIONS[$("i_ind").value];
+  if(!ind){ $("r_refs").innerHTML=""; return; }
   const view=$("doc").dataset.view;
   const annotate=(view==="referring"||view==="tumorboard");
   const rl=$("r_refs"); rl.innerHTML="";
@@ -1354,7 +1356,7 @@ function renderRefs(){
 function paintAudience(){
   const ind=INDICATIONS[$("i_ind").value];
   const view=$("doc").dataset.view;
-  $("r_disease_body").textContent = (view==="patient") ? ind.diseasePt : ind.diseasePhys;
+  $("r_disease_body").textContent = ind ? ((view==="patient") ? ind.diseasePt : ind.diseasePhys) : "";
   renderRefs();
 }
 
@@ -1363,8 +1365,11 @@ function updateCaseref(){
   const isPt=$("doc").dataset.view==="patient";
   const now=new Date();
   const stamp=now.toLocaleDateString("en-US",{month:"2-digit",day:"2-digit",year:"numeric"})+" "+now.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"});
-  const mrn=isPt?"":` · MRN ${$("i_mrn").value}`;
-  txt("r_caseref",`Case ref ${$("i_caseref").value}${mrn} · generated ${stamp}`);
+  const parts=[];
+  const cr=$("i_caseref").value.trim(); if(cr) parts.push("Case ref "+cr);
+  const mr=$("i_mrn").value.trim(); if(!isPt && mr) parts.push("MRN "+mr);
+  parts.push("generated "+stamp);
+  txt("r_caseref", parts.join(" · "));
 }
 function probeDiameter(label){ const m=label.match(/(\d(?:\.\d)?)\s*mm/i); return m?m[1]:label; }
 function laserWords(v){ const m=v.split(":"); if(m.length===2) return `${parseInt(m[0])}&nbsp;min&nbsp;${parseInt(m[1])}&nbsp;sec`; return v; }
@@ -1374,9 +1379,9 @@ function render(){
   const probe=$("i_probe").value, energy=$("i_energy").value, laser=$("i_laser").value,
         pulses=$("i_pulses").value, nTargets=$("i_targets").value, traj=trajCountN(),
         robotic=$("i_robotic").value;
-  const perf = $("s_perf").value===ADD?"":$("s_perf").value;
-  const ref = $("s_ref").value===ADD?"":$("s_ref").value;
-  const fac = $("s_facility").value===ADD?"":$("s_facility").value;
+  const perf = $("s_perf").value;
+  const ref = $("s_ref").value;
+  const fac = $("s_facility").value;
   updateCaseref();
   txt("r_probe",probeDiameter(probe)); txt("r_probe_full",(robotic==="Used"?"Robotically Controlled ":"")+probe);
   txt("r_energy",energy); txt("r_laser",laser); txt("r_pulses",pulses); txt("r_targets_n",nTargets); txt("r_traj_n",traj);
@@ -1586,7 +1591,7 @@ function applyCase(c){
   LS.set(DIR_KEY,directory);
   refreshFacilities(c.facility); refreshPhysicians(c.perf,c.ref);
   $("i_caseref").value=c.caseref||""; $("i_mrn").value=c.mrn||"";
-  $("i_ind").value=INDICATIONS[c.ind]?c.ind:"newly_gbm";
+  $("i_ind").value=INDICATIONS[c.ind]?c.ind:"";
   $("i_inddetail").value=c.inddetail||""; $("i_date").value=c.date||"";
   if(c.probe) $("i_probe").value=c.probe; if(c.robotic) $("i_robotic").value=c.robotic;
   $("i_laser").value=c.laser||""; $("i_energy").value=c.energy||"";
@@ -1624,7 +1629,7 @@ $("printBtn").onclick=()=>window.print();
 function deckState(){
   const k=$("i_ind").value, ind=INDICATIONS[k]; const g=id=>$(id).value;
   return { key:k, ind,
-    facility:g("s_facility")===ADD?"":g("s_facility"), perf:g("s_perf")===ADD?"":g("s_perf"), ref:g("s_ref")===ADD?"":g("s_ref"),
+    facility:g("s_facility"), perf:g("s_perf"), ref:g("s_ref"),
     caseref:g("i_caseref"), mrn:g("i_mrn"), detail:g("i_inddetail"), date:g("i_date"),
     probe:g("i_probe"), robotic:g("i_robotic"), laser:g("i_laser"), energy:g("i_energy"), pulses:g("i_pulses"), targets:g("i_targets"),
     traj:trajCountN(), trajDirs:trajDirList(), targetBlocks:targetBlocks(),
@@ -1634,6 +1639,7 @@ function deckState(){
 }
 function buildDeck(){
   if(typeof PptxGenJS==="undefined"){ toast("Deck library not loaded — connect to the internet and retry"); return; }
+  if(!INDICATIONS[$("i_ind").value]){ toast("Select an indication first"); return; }
   const S=deckState();
   const NAVY="16233A",NAVY2="1B2A4A",BLUE="2F6FB0",BLUE2="6EA3D4",PALE="EEF3F9",LINE="D7DEE8",INK="1F2733",INK2="46505F",GREY="7A8694",YEL="E8B84B";
   const DISP="Space Grotesk",BODY="Inter",MONO="IBM Plex Mono";
@@ -1781,8 +1787,7 @@ $("saveFileBtn").onclick=savePortable;
 
 /* ===================== INIT ===================== */
 $("i_liaison_name").value=liaison.name; $("i_liaison_title").value=liaison.title;
-refreshFacilities("Westchester Medical Center");
-$("s_perf").value="Dr. Hanft"; $("s_ref").value="Dr. Tatyana Gitlevich";
+refreshFacilities("");
 renderTrajRows(); renderTargetUI();
 applyIndication();
 renderObservations(); renderThumbs(); renderImaging(); clearVideo();
