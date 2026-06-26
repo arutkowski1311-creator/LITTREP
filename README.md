@@ -32,6 +32,14 @@ epilepsy).
 This is an iterating prototype. A running list of requested changes lives in
 [`docs/feedback-roadmap.md`](docs/feedback-roadmap.md).
 
+## Clinical Intelligence Engine
+
+A companion specification — [`docs/clinical-intelligence-engine.md`](docs/clinical-intelligence-engine.md) —
+defines a portable, model-agnostic workflow for generating recurring Medical Affairs
+intelligence briefings across neuro-oncology, epilepsy, and LITT. It runs in two stages
+(a 6-month baseline scan, then a 4-week surveillance scan for what's new) and standardizes
+how each publication is scored, interpreted, and rolled up into an executive report.
+
 ## Important
 
 The NeuroBlate System is a surgical tool and is not a treatment for any specific disease
