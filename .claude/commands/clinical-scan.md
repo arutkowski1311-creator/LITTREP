@@ -56,11 +56,24 @@ Also check, scoped to the window: **prioritized journals** and **prioritized con
 named in the spec (SNO, AANS, CNS, AES, ASCO, ASTRO, ESMO, AACR, RSNA, ISMRM, SMR) and
 **ClinicalTrials.gov** for pivotal trial status changes.
 
-## Step 2 — Appraise & score
+## Step 2 — Appraise, map & score (two axes)
 
-For every retained item, apply the full Evaluation Framework from the spec: Clinical Impact
-Score (★ 1–5), Evidence Strength, Specialty Relevance (High/Mod/Low per specialty), Monteris
-Impact Score (0–10), and Competitive Impact (strengthens / weakens / neutral + note).
+For every retained item, apply the full Evaluation Framework from the spec:
+
+- **Map** the item to all relevant `indications` (from the 12-key product taxonomy in
+  `database.json` → `taxonomy.indications`) and `strategies`
+  (`taxonomy.strategies`). Map *every* indication it meaningfully bears on.
+- **Axis 1 — Clinical Impact Score** (`clinicalImpactScore`, integer 1–5): impact to the
+  clinical discipline.
+- **Axis 2 — LITT Business Impact** (`littBusinessImpact`, integer 0–10) **plus**
+  `littBusinessDirection` (`tailwind` = strengthens LITT, `headwind` = weakens/displaces,
+  `neutral`). These are independent of Axis 1 — a study can be clinically huge but a headwind,
+  or clinically minor but a decisive business event (e.g., a competitor clearance).
+- **Business levers** (`businessLevers`): any of utilization / referral / reimbursement /
+  competitive / pipeline / messaging. **Time horizon** (`timeHorizon`): now / `<=12mo` /
+  `2-5yr`.
+- Evidence Strength, Specialty Relevance (High/Mod/Low per specialty), Competitive Impact
+  note, `whoShouldKnow`, and a `verified` flag (verified / partial / unverified).
 
 ## Step 3 — Merge into the cumulative database (skip what we already have)
 

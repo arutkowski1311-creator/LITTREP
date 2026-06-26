@@ -204,9 +204,21 @@ Publications that:
 
 ## Evaluation Framework
 
-Every publication receives the following scores and ratings.
+Every finding is scored on **two independent axes** and **mapped to the specific indications
+and strategies the business actually works in**. The two axes answer different questions and
+must not be collapsed into one number:
 
-### Clinical Impact Score
+1. **Clinical Impact** — *how much does this change the discipline?* (e.g., how it affects
+   managing recurrent glioblastoma or drug-resistant MTLE). A study can be a major clinical
+   advance with little bearing on LITT.
+2. **LITT Business Impact** — *how powerful an effect will this have on the LITT business?*
+   A study can be clinically modest but commercially decisive (a competitor clearance), or
+   clinically huge but a **headwind** for LITT (a non-invasive therapy that displaces it).
+
+> Direction matters as much as magnitude. A high LITT Business Impact can be a **tailwind**
+> (strengthens LITT) or a **headwind** (weakens it). Always record both.
+
+### Axis 1 — Clinical Impact Score (★ 1–5)
 
 | Rating | Meaning |
 | --- | --- |
@@ -216,24 +228,67 @@ Every publication receives the following scores and ratings.
 | ★★ | Interesting but preliminary |
 | ★ | Minimal clinical importance |
 
+### Axis 2 — LITT Business Impact Score (0–10) + Direction
+
+A single 0–10 magnitude for how strongly this moves the LITT business, paired with a
+**direction**: `tailwind` (strengthens LITT), `headwind` (weakens/displaces LITT), or
+`neutral` (matters but is direction-agnostic, e.g., shared category infrastructure).
+
+| Score | Meaning |
+| --- | --- |
+| 9–10 | Decisive — reshapes utilization, referral, reimbursement, or the competitive map |
+| 7–8  | Major — clearly moves volume, positioning, or access |
+| 5–6  | Moderate — meaningful supporting or eroding effect |
+| 3–4  | Minor — marginal or long-horizon effect |
+| 0–2  | Negligible for the business |
+
+Drivers to weigh: LITT utilization · referral behavior · procedure volume · competitive
+differentiation · physician perception · technology adoption · training · future product
+development · reimbursement & access · clinical messaging.
+
+*(This axis supersedes the prior "Monteris Impact Score"; it is the same intent, made
+explicit as a directional business-impact measure.)*
+
+### Indication & Strategy Mapping
+
+Map every finding to **all** of the program's indications it meaningfully bears on, drawn
+from the live product taxonomy:
+
+`newly_gbm` (Newly diagnosed glioblastoma) · `recurrent_gbm` (Recurrent glioblastoma) ·
+`newly_lgg` (Newly diagnosed lower-grade glioma) · `recurrent_lgg` (Recurrent lower-grade
+glioma) · `brain_met` (Brain metastasis) · `radiation_necrosis` (Radiation necrosis) ·
+`meningioma` (Meningioma) · `other_tumor` (Other intracranial tumor) · `mtle` (Mesial
+temporal lobe epilepsy) · `hypothalamic_hamartoma` (Hypothalamic hamartoma) ·
+`focal_epilepsy` (Focal epilepsy) · `corpus_callosotomy` (Corpus callosotomy).
+
+Also tag the cross-cutting **strategies / plays** a finding informs:
+
+`litt_immuno_combo` (LITT + systemic/immunotherapy via BBB disruption) · `diagnose_and_ablate`
+(same-session biopsy + LITT) · `deep_eloquent_access` (minimally invasive access vs
+craniotomy) · `radiation_necrosis_salvage` · `srs_recurrence_salvage` · `epilepsy_ablation`
+(SLAH / MTLE / HH / focal) · `comparative_effectiveness` (LITT vs craniotomy / SRS) ·
+`molecular_selection` (molecular markers driving sequencing) · `imaging_selection`
+(imaging/AI for selection & response) · `robotics_workflow` · `reimbursement_access` ·
+`competitive_platform`.
+
+### Business Levers & Time Horizon
+
+For each finding, record **which business lever(s)** it pulls — `utilization`, `referral`,
+`reimbursement`, `competitive`, `pipeline` (R&D / future product), `messaging` — and the
+**time horizon** of the effect: `now`, `<=12mo`, or `2-5yr`.
+
 ### Evidence Strength
 
 Assess and state: Level of evidence · Study design · Sample size · Statistical quality ·
-Risk of bias · Generalizability · Duration of follow-up.
+Risk of bias · Generalizability · Duration of follow-up. Carry through `verified` /
+`partial` / `unverified` provenance flags from research — never launder an unverified figure
+into a confident claim.
 
 ### Specialty Relevance — rate each as **High / Moderate / Low**
 
 Neurosurgery · Neuro-oncology · Epileptology · Radiation Oncology · Neuroradiology ·
-Medical Oncology · Advanced Practice Providers · Clinical Specialists · Medical Affairs ·
-Hospital Administration
-
-### Monteris Impact Score (0–10)
-
-Score the publication's likely influence on:
-
-LITT utilization · Referral behavior · Procedure volume · Competitive differentiation ·
-Physician perception · Technology adoption · Training · Future product development ·
-Clinical messaging
+Medical Oncology (plus, narratively where relevant: Advanced Practice Providers · Clinical
+Specialists · Medical Affairs · Hospital Administration).
 
 ### Competitive Impact
 

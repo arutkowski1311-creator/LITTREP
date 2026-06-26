@@ -1,10 +1,21 @@
 {
   "engine": "Clinical Intelligence Engine for Neuro-Oncology, Epilepsy, and LITT",
   "specVersion": "1.0",
-  "baselineDate": null,
-  "lastRunDate": null,
-  "lastMode": null,
+  "baselineDate": "2026-06-26",
+  "lastRunDate": "2026-06-26",
+  "lastMode": "baseline",
   "baselineWindowMonths": 24,
   "surveillanceWindowMonths": 2,
-  "history": []
+  "history": [
+    {
+      "date": "2026-06-26",
+      "mode": "baseline",
+      "window": "2024-06-26 to 2026-06-26",
+      "found": 48,
+      "added": 31,
+      "updated": 0,
+      "skipped": 0,
+      "reportPath": "reports/2026-06-26-baseline.md"
+    }
+  ]
 }

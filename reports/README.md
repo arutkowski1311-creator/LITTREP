@@ -15,6 +15,8 @@ two months without re-litigating earlier reports.
 
 ## Index
 
-| Date | Mode | Window | Items | Report |
+| Date | Mode | Window | Added | Report |
 | --- | --- | --- | --- | --- |
-| _none yet_ | | | | |
+| 2026-06-26 | baseline | 2024-06-26 → 2026-06-26 | 31 | [2026-06-26-baseline.md](2026-06-26-baseline.md) |
+
+**Database:** 31 findings · [`database.json`](database.json) · open [`dashboard.html`](dashboard.html) to browse.
