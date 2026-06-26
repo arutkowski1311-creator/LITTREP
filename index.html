@@ -420,14 +420,14 @@
       <!-- DIRECTORY -->
       <div class="group">
         <div class="glabel">Facility &amp; team <span class="auto-pill">saved directory</span></div>
-        <div class="fld"><label>Facility</label><select id="s_facility"></select></div>
-        <div class="addrow" id="add_facility"><input id="new_facility" placeholder="New facility name"><button data-add="facility">Add</button></div>
+        <div class="fld"><label>Facility</label><input id="s_facility" list="dl_facility" placeholder="Type or pick a facility"></div>
+        <datalist id="dl_facility"></datalist>
         <div class="two">
-          <div class="fld"><label>Performing physician</label><select id="s_perf"></select></div>
-          <div class="fld"><label>Referring physician</label><select id="s_ref"></select></div>
+          <div class="fld"><label>Performing physician</label><input id="s_perf" list="dl_perf" placeholder="Type a name"></div>
+          <div class="fld"><label>Referring physician</label><input id="s_ref" list="dl_ref" placeholder="Type a name"></div>
         </div>
-        <div class="addrow" id="add_perf"><input id="new_perf" placeholder="New proceduralist"><button data-add="perf">Add</button></div>
-        <div class="addrow" id="add_ref"><input id="new_ref" placeholder="New referring physician"><button data-add="ref">Add</button></div>
+        <datalist id="dl_perf"></datalist>
+        <datalist id="dl_ref"></datalist>
       </div>
 
       <!-- CASE -->
@@ -1121,63 +1121,77 @@ const LS = {
   set(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
 };
 const DIR_KEY="nb_litt_directory", CASE_KEY="nb_litt_cases", LIA_KEY="nb_litt_liaison";
-let directory = LS.get(DIR_KEY, null);
-if(!directory){
-  directory = {
-    "Westchester Medical Center":{proc:["Dr. Hanft"], ref:["Dr. Tatyana Gitlevich"]},
-    "NYU Langone Health":{proc:["Dr. Dastagirzada"], ref:["Dr. Cigdem Akman"]}
-  };
-  LS.set(DIR_KEY,directory);
+const ACCOUNTS=[
+  "Brigham and Women's Hospital","Beth Israel Deaconess Medical Center","Charles LeMoyne",
+  "University of Montreal Health Centre","Sainte-Justine","Hospital for Sick Children",
+  "Yale New Haven Hospital","Westchester Medical Center","Stony Brook University Hospital",
+  "Mount Sinai West","Memorial Sloan Kettering Cancer Center","New York Presbyterian Hospital",
+  "NYU Langone Medical Center","Hackensack Meridian Health JFK Medical Center",
+  "New York-Presbyterian/Columbia University Irving Medical Center","Temple University Hospital",
+  "Thomas Jefferson University Hospital","Rochester General Hospital","Upstate University Hospital",
+  "Mount Sinai Medical Center","Cleveland Clinic Main","UH Cleveland Medical Center",
+  "UPMC Children's Hospital of Pittsburgh","Geisinger Wyoming Valley Medical Center",
+  "George Washington University Hospital","The Johns Hopkins Hospital","University of Maryland Medical Center",
+  "Kettering Medical Center","Norton Brownsboro Hospital","Jewish Hospital","The Jewish Hospital Mercy Health",
+  "Allegheny General Hospital","UPMC - Presbyterian","UPMC - Shadyside","Wake Forest Baptist Medical Center",
+  "Emory University Hospital","New Hanover Regional Medical Center","Riverside Regional Medical Center",
+  "Vidant Medical Center","Carolinas Healthcare","Duke University Hospital",
+  "Medical University of South Carolina","VCU Medical Center","Sentara Norfolk General Hospital",
+  "Johns Hopkins All Children's Hospital","Baptist Hospital (Miami)","Boca Raton Regional Hospital",
+  "Cleveland Clinic - Florida","AdventHealth Orlando","JFK Medical Center",
+  "University of Florida Health Shands Hospital","Mayo Clinic Jacksonville","Wolfson Baptist Jacksonville",
+  "St. Vincent's Riverside Hospital","Ascension Sacred Heart Hospital","University of Miami"
+];
+let directory = LS.get(DIR_KEY, null) || {};
+ACCOUNTS.forEach(a=>{ if(!directory[a]) directory[a]={proc:[],ref:[]}; });
+if(directory["Westchester Medical Center"] && !directory["Westchester Medical Center"].proc.length){
+  directory["Westchester Medical Center"].proc=["Dr. Hanft"]; directory["Westchester Medical Center"].ref=["Dr. Tatyana Gitlevich"];
 }
+LS.set(DIR_KEY,directory);
 let savedCases = LS.get(CASE_KEY, {});
 let liaison = LS.get(LIA_KEY, {name:"Adam Rutkowski", title:"Clinical Liaison — Monteris Medical"});
 
 const $ = id => document.getElementById(id);
 const ADD="+ Add new…";
 
-/* ===================== DIRECTORY UI ===================== */
-function fillSelect(sel, items, current, withAdd){
-  sel.innerHTML="";
-  items.forEach(it=>{ const o=document.createElement("option"); o.value=it; o.textContent=it; sel.appendChild(o); });
-  if(withAdd){ const o=document.createElement("option"); o.value=ADD; o.textContent=ADD; sel.appendChild(o); }
-  if(current && items.includes(current)) sel.value=current;
-}
+/* ===================== DIRECTORY UI (type-ahead datalists) ===================== */
+function fillDatalist(dl, items){ if(!dl) return; dl.innerHTML=(items||[]).map(i=>`<option value="${(i||'').replace(/"/g,'&quot;')}"></option>`).join(""); }
 function refreshFacilities(keep){
-  const facs=Object.keys(directory);
-  fillSelect($("s_facility"), facs, keep||facs[0], true);
+  fillDatalist($("dl_facility"), Object.keys(directory).sort());
+  if(keep!==undefined) $("s_facility").value=keep||"";
   refreshPhysicians();
 }
 function refreshPhysicians(keepP,keepR){
-  const fac=$("s_facility").value;
-  const entry = directory[fac] || {proc:[],ref:[]};
-  fillSelect($("s_perf"), entry.proc, keepP||entry.proc[0], true);
-  fillSelect($("s_ref"), entry.ref, keepR||entry.ref[0], true);
+  const entry = directory[$("s_facility").value] || {proc:[],ref:[]};
+  fillDatalist($("dl_perf"), entry.proc);
+  fillDatalist($("dl_ref"), entry.ref);
+  if(keepP!==undefined) $("s_perf").value=keepP||"";
+  if(keepR!==undefined) $("s_ref").value=keepR||"";
   render();
 }
-$("s_facility").addEventListener("change",e=>{
-  toggleAdd("facility", e.target.value===ADD);
-  if(e.target.value!==ADD) refreshPhysicians();
+function rememberPhysician(which){
+  const fac=$("s_facility").value.trim(); if(!fac) return;
+  if(!directory[fac]) directory[fac]={proc:[],ref:[]};
+  const val=$(which==="perf"?"s_perf":"s_ref").value.trim(); if(!val) return;
+  const list = which==="perf"?directory[fac].proc:directory[fac].ref;
+  if(!list.includes(val)){ list.push(val); LS.set(DIR_KEY,directory); fillDatalist($(which==="perf"?"dl_perf":"dl_ref"), list); }
+}
+// Picking (or typing an exact match for) a known facility loads that facility's team.
+$("s_facility").addEventListener("input",()=>{
+  const entry=directory[$("s_facility").value];
+  if(entry){ fillDatalist($("dl_perf"),entry.proc); fillDatalist($("dl_ref"),entry.ref);
+    $("s_perf").value=entry.proc[0]||""; $("s_ref").value=entry.ref[0]||""; }
+  render();
 });
-$("s_perf").addEventListener("change",e=>{ toggleAdd("perf", e.target.value===ADD); if(e.target.value!==ADD) render(); });
-$("s_ref").addEventListener("change",e=>{ toggleAdd("ref", e.target.value===ADD); if(e.target.value!==ADD) render(); });
-function toggleAdd(which,on){ $("add_"+which).classList.toggle("on",on); if(on) $("new_"+which).focus(); }
-document.querySelectorAll(".addrow button").forEach(b=>b.onclick=()=>{
-  const which=b.dataset.add, val=$("new_"+which).value.trim();
-  if(!val){ return; }
-  if(which==="facility"){
-    if(!directory[val]) directory[val]={proc:[],ref:[]};
-    LS.set(DIR_KEY,directory); $("new_facility").value=""; toggleAdd("facility",false);
-    refreshFacilities(val);
-  } else {
-    const fac=$("s_facility").value;
-    if(fac===ADD) return;
-    const list = which==="perf"?directory[fac].proc:directory[fac].ref;
-    if(!list.includes(val)) list.push(val);
-    LS.set(DIR_KEY,directory); $("new_"+which).value=""; toggleAdd(which,false);
-    if(which==="perf") refreshPhysicians(val,$("s_ref").value); else refreshPhysicians($("s_perf").value,val);
-  }
-  toast("Saved to directory");
+$("s_facility").addEventListener("change",()=>{
+  const fac=$("s_facility").value.trim();
+  if(fac && !directory[fac]){ directory[fac]={proc:[],ref:[]}; LS.set(DIR_KEY,directory); fillDatalist($("dl_facility"),Object.keys(directory).sort()); }
+  render();
 });
+$("s_perf").addEventListener("input",render);
+$("s_perf").addEventListener("change",()=>{ rememberPhysician("perf"); render(); });
+$("s_ref").addEventListener("input",render);
+$("s_ref").addEventListener("change",()=>{ rememberPhysician("ref"); render(); });
 
 /* ===================== INDICATION ===================== */
 (function initInd(){

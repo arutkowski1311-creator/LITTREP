@@ -76,6 +76,12 @@ Review notes on `index.html` and their status.
 - ✅ **Patient report**: new "Understanding Your Procedure" copy; clinical context removed;
   MRN removed from the case-ref line.
 
+## Round 6 — directory
+- ✅ Pre-loaded the full **account list** (~56 facilities) into the facility directory
+  (type-ahead). Obvious spelling typos in the pasted names were corrected.
+- ✅ **Physician fields are now free-text** with type-ahead suggestions: type a performing or
+  referring physician name directly; typed names are remembered per facility.
+
 ## Distribution — options (see README / discussion)
 - Host `index.html` as a static page (GitHub Pages, Netlify, internal server) — it's a
   single self-contained file, so this is the lowest-friction path.
