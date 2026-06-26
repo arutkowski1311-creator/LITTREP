@@ -66,6 +66,16 @@ Review notes on `index.html` and their status.
 - ✅ Video section retitled **"Time-Lapse of Ablation."**
 - ✅ Leadstrip splits **Targets** and **Trajectories** into separate cells.
 
+## Round 5 — export & patient polish
+- ✅ **PDF imaging**: each image prints full page width, stacked one after another, native
+  aspect preserved; the imaging set starts on its own page.
+- ✅ **PDF video**: full page width, starts on its own page; discussion flows immediately
+  after the last visual.
+- ✅ **Deck filename**: exports as `Indication - Physician - Date.pptx`.
+- ✅ **Deck imaging**: one large image per slide, native proportions.
+- ✅ **Patient report**: new "Understanding Your Procedure" copy; clinical context removed;
+  MRN removed from the case-ref line.
+
 ## Distribution — options (see README / discussion)
 - Host `index.html` as a static page (GitHub Pages, Netlify, internal server) — it's a
   single self-contained file, so this is the lowest-friction path.

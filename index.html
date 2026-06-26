@@ -343,13 +343,26 @@
     .builder,.toast{display:none!important}
     .stage{max-height:none;overflow:visible;padding:0;background:#fff}
     .doc{box-shadow:none;max-width:100%;border-radius:0}
-    .zoomctl,.vhint,.imgtabs,.switchwrap,.pcontrols{display:none!important}
-    /* export the full image set, not just the active tab */
+    .zoomctl,.vhint,.imgtabs,.switchwrap,.pcontrols,.vidnote{display:none!important}
+    /* hide the interactive viewer; print the full image set instead */
     .viewer,#noimg,.legend{display:none!important}
-    #videoSection{display:none!important}
+    /* IMAGING: starts a new page; images full page width, stacked, large, aspect preserved */
+    #imagingSection{break-before:page;border:none;padding:0 0 8px;margin:0}
     #imgPrintAll{display:block!important}
-    section,.leadstrip,.meta,.sigwrap,.rx,.patient-legal,.fu-grid,.refs-list,.ref-item,.fu-card,.whybox{break-inside:avoid}
-    #imgPrintAll figure{break-inside:avoid}
+    #imgPrintAll .pgrid{display:block}
+    #imgPrintAll figure{border:none;background:none;border-radius:0;margin:0 0 10px;break-inside:avoid;page-break-inside:avoid}
+    #imgPrintAll img{width:100%;height:auto;max-height:none;background:#06090d}
+    #imgPrintAll figcaption{padding:5px 2px 0}
+    #imgPrintAll .pphase{margin:4px 0 8px}
+    /* VIDEO: starts a new page; full page width */
+    #videoSection{display:block!important;break-before:page;border:none;padding:0;margin:0}
+    .doc[data-view="patient"] #videoSection{display:none!important}
+    #videoSection .player{border:none;border-radius:0;background:#06090d}
+    #videoSection .pstage{aspect-ratio:16/9}
+    #videoSection video{width:100%;height:auto}
+    #videoSection .badge,#videoSection .tstamp{display:none!important}
+    /* keep small blocks intact; discussion flows right after the last visual */
+    .leadstrip,.meta,.targetcard,.sigwrap,.rx,.patient-legal,.fu-grid,.refs-list,.ref-item,.fu-card,.whybox{break-inside:avoid}
   }
   @media (max-width:980px){
     .app{grid-template-columns:1fr}
@@ -613,7 +626,7 @@
       </section>
 
       <!-- IMAGING -->
-      <section>
+      <section id="imagingSection">
         <div class="eyebrow">Imaging from the procedure</div>
         <h2 class="sec" id="r_imgHead">Treated area under MR thermometry</h2>
         <div class="imgtabs" id="imgTabs" role="group" aria-label="Imaging state"></div>
@@ -649,24 +662,27 @@
         <div id="novid" class="noimg" style="display:none;margin-top:14px">Drop the procedure clip in the builder to populate this player.</div>
       </section>
 
-      <!-- WHAT YOU'RE LOOKING AT (referring + patient) -->
+      <!-- WHAT YOU'RE LOOKING AT (referring) / UNDERSTANDING YOUR PROCEDURE (patient) -->
       <section class="v-refpt">
-        <div class="eyebrow">What you're looking at</div>
-        <h2 class="sec">The procedure, and how to read it</h2>
+        <div class="eyebrow v-ref">What you're looking at</div>
+        <h2 class="sec v-ref">The procedure, and how to read it</h2>
+        <div class="eyebrow v-pt">For you and your family</div>
+        <h2 class="sec v-pt">Understanding Your Procedure</h2>
         <div class="narrative v-ref">
           <p>Under continuous intraoperative <span class="term" data-k="thermometry">MR thermometry</span>, a <span class="term" data-k="probe">NeuroBlate laser probe</span> (<b id="t_probe1"></b>) was advanced along <b id="t_traj1"></b> trajectory to the target and <span class="term" data-k="litt">laser interstitial thermal therapy</span> was delivered through a small cranial opening rather than an open resection.</p>
           <p>Thermal dose was tracked in real time against <span class="term" data-k="tdt">thermal-damage-threshold (TDT) lines</span> — the yellow and blue contours above, which represent accumulated thermal dose rather than instantaneous temperature (yellow ≈ 43°C for 2 minutes, blue ≈ 43°C for 10 minutes). The console recorded <b id="t_energy1"></b> over <b id="t_laser1"></b> across <b id="t_pulses1"></b>, with coverage driven to the higher-dose blue contour through the target before cooldown and probe position monitored continuously on the source frames.</p>
           <p>What this reflects: an image-guided ablation executed with live temperature feedback at every pulse. The operator reads a real-time thermal map and steers dose to the planned margin rather than working blind. Clinical terms are clickable for a plain explanation.</p>
         </div>
         <div class="narrative v-pt">
-          <p>On <b id="t_date_p"></b>, at <b id="t_facility_p"></b>, the surgical team performed a procedure called <b>laser interstitial thermal therapy</b>, often shortened to LITT.</p>
-          <p>LITT treats a small target deep in the brain using a thin, MRI-guided laser fiber. Instead of open surgery, the fiber is placed through a very small opening and directed to the planned area, while the MRI guides the team throughout. The pictures and short replay above were recorded by the equipment during the procedure.</p>
-          <p>This page helps you picture what kind of procedure was done. It does not tell you how it turned out — the surgeon is the right person to explain what the results mean.</p>
+          <p>On <b id="t_date_p"></b>, your care team at <b id="t_facility_p"></b> performed Laser Interstitial Thermal Therapy (LITT).</p>
+          <p>LITT is a minimally invasive procedure that treats a targeted area within the brain using a thin laser fiber guided by MRI. Rather than performing traditional open brain surgery, the surgeon reaches the treatment area through a very small opening while continuously using MRI to guide the procedure and monitor the treatment in real time.</p>
+          <p>These images were recorded during your procedure. They are provided to help you better understand the treatment that was performed.</p>
+          <p>This report explains the procedure. It does not explain your results. Every patient's condition is different, and only your treating physician can interpret your imaging, discuss the outcome of your procedure, and explain what to expect next.</p>
         </div>
       </section>
 
-      <!-- CLINICAL CONTEXT (all views) -->
-      <section>
+      <!-- CLINICAL CONTEXT (clinician views only) -->
+      <section class="v-ref v-perf v-tb">
         <div class="eyebrow" id="r_disease_eyebrow">The clinical context</div>
         <h2 class="sec" id="r_disease_title"></h2>
         <div class="narrative"><p id="r_disease_body"></p></div>
@@ -1213,6 +1229,13 @@ function paintAudience(){
 }
 
 /* ===================== MAIN RENDER ===================== */
+function updateCaseref(){
+  const isPt=$("doc").dataset.view==="patient";
+  const now=new Date();
+  const stamp=now.toLocaleDateString("en-US",{month:"2-digit",day:"2-digit",year:"numeric"})+" "+now.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"});
+  const mrn=isPt?"":` · MRN ${$("i_mrn").value}`;
+  txt("r_caseref",`Case ref ${$("i_caseref").value}${mrn} · generated ${stamp}`);
+}
 function probeDiameter(label){ const m=label.match(/(\d(?:\.\d)?)\s*mm/i); return m?m[1]:label; }
 function laserWords(v){ const m=v.split(":"); if(m.length===2) return `${parseInt(m[0])}&nbsp;min&nbsp;${parseInt(m[1])}&nbsp;sec`; return v; }
 function txt(id,v){ const e=$(id); if(e) e.textContent=v; }
@@ -1224,9 +1247,7 @@ function render(){
   const perf = $("s_perf").value===ADD?"":$("s_perf").value;
   const ref = $("s_ref").value===ADD?"":$("s_ref").value;
   const fac = $("s_facility").value===ADD?"":$("s_facility").value;
-  const now=new Date();
-  const stamp=now.toLocaleDateString("en-US",{month:"2-digit",day:"2-digit",year:"numeric"})+" "+now.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"});
-  txt("r_caseref",`Case ref ${$("i_caseref").value} · MRN ${$("i_mrn").value} · generated ${stamp}`);
+  updateCaseref();
   txt("r_probe",probeDiameter(probe)); txt("r_probe_full",(robotic==="Used"?"Robotically Controlled ":"")+probe);
   txt("r_energy",energy); txt("r_laser",laser); txt("r_pulses",pulses); txt("r_targets_n",nTargets); txt("r_traj_n",traj);
   txt("r_facility",fac); txt("r_perf",perf); txt("r_ref",ref);
@@ -1396,7 +1417,7 @@ function setView(v){
   document.querySelectorAll(".audbtn").forEach(x=>x.setAttribute("aria-pressed", x.dataset.view===v?"true":"false"));
   $("doc").dataset.view=v;
   $("r_eyebrow").textContent=EYEBROWS[v]||"";
-  paintAudience(); renderImaging(); updateVideoNote(); hidePop();
+  paintAudience(); renderImaging(); updateVideoNote(); updateCaseref(); hidePop();
   $("doc").scrollIntoView({behavior:"smooth",block:"start"});
 }
 document.querySelectorAll(".audbtn").forEach(b=>b.onclick=()=>setView(b.dataset.view));
@@ -1533,26 +1554,23 @@ function buildDeck(){
   const CONTOUR_LEGEND="The colored contours are cumulative thermal-dose lines. Yellow marks the lower-dose threshold (~43°C for 2 min); blue marks the higher-dose threshold (~43°C for 10 min), the more confident zone of irreversible ablation.";
   function imgSlide(phaseKey, eyebrow, title, emptyNote){
     const ph=(S.images||[]).filter(im=>(im.phase||"intra")===phaseKey);
-    s=p.addSlide(); s.background={color:"FFFFFF"}; header(s,eyebrow,title);
     if(ph.length===0){
+      s=p.addSlide(); s.background={color:"FFFFFF"}; header(s,eyebrow,title);
       s.addShape(p.ShapeType.roundRect,{x:0.62,y:1.85,w:12.1,h:4.6,rectRadius:0.08,fill:{color:"FBFCFE"},line:{color:LINE,width:1,dashType:"dash"}});
       s.addText(emptyNote,{x:1.2,y:3.85,w:10.9,h:0.6,fontFace:BODY,fontSize:13,color:GREY,align:"center",italic:true});
       F(s); return;
     }
-    if(ph.length===1){
-      const im=ph[0];
-      try{ s.addImage({data:im.src,x:0.62,y:1.7,w:6.7,h:4.95,sizing:{type:"contain",w:6.7,h:4.95}}); }catch(e){}
-      s.addText(im.label||title,{x:7.6,y:1.9,w:5.1,h:0.5,fontFace:DISP,fontSize:16,color:NAVY,bold:true});
-      s.addText(imgCap(im)||(phaseKey==="intra"?CONTOUR_LEGEND:""),{x:7.6,y:2.5,w:5.1,h:3.8,fontFace:BODY,fontSize:13,color:INK2,valign:"top",lineSpacingMultiple:1.25});
-    } else {
-      const grid=ph.slice(0,4);
-      grid.forEach((im,i)=>{ const cx=0.62+(i%2)*6.2, cy=1.75+Math.floor(i/2)*2.55;
-        try{ s.addImage({data:im.src,x:cx,y:cy,w:5.9,h:2.0,sizing:{type:"contain",w:5.9,h:2.0}}); }catch(e){}
-        s.addText(im.label||(title+" "+(i+1)),{x:cx,y:cy+2.02,w:5.9,h:0.3,fontFace:MONO,fontSize:9,color:NAVY,bold:true,valign:"top"});
-        const cap=imgCap(im); if(cap) s.addText(cap,{x:cx,y:cy+2.3,w:5.9,h:0.22,fontFace:BODY,fontSize:8,color:INK2,valign:"top"}); });
-      if(phaseKey==="intra") s.addText(CONTOUR_LEGEND,{x:0.62,y:6.55,w:12.1,h:0.35,fontFace:BODY,fontSize:8,italic:true,color:GREY,valign:"top"});
-    }
-    F(s);
+    // one large image per slide, native proportions preserved
+    ph.forEach((im,idx)=>{
+      s=p.addSlide(); s.background={color:"FFFFFF"};
+      const slideTitle = ph.length>1 ? `${title} (${idx+1} of ${ph.length})` : title;
+      header(s,eyebrow,slideTitle);
+      try{ s.addImage({data:im.src,x:0.62,y:1.62,w:12.1,h:4.55,sizing:{type:"contain",w:12.1,h:4.55}}); }catch(e){}
+      if(im.label) s.addText(im.label,{x:0.62,y:6.24,w:12.1,h:0.24,fontFace:MONO,fontSize:9.5,color:NAVY,bold:true,valign:"top"});
+      const cap=imgCap(im)||(phaseKey==="intra"?CONTOUR_LEGEND:"");
+      if(cap) s.addText(cap,{x:0.62,y:6.48,w:12.1,h:0.4,fontFace:BODY,fontSize:8.5,italic:true,color:GREY,valign:"top",lineSpacingMultiple:1.05});
+      F(s);
+    });
   }
   imgSlide("pre","Imaging · Pre-operative","Pre-operative imaging","Add pre-operative imaging in the builder to populate this slide.");
   imgSlide("intra","Imaging · Intra-operative","Treated area under MR thermometry","Add intra-operative thermometry stills in the builder to populate this slide.");
@@ -1608,8 +1626,9 @@ function buildDeck(){
   }
   s.addText((S.ind.caveat||DEFAULT_CAVEAT),{x:0.62,y:6.55,w:12.1,h:0.4,fontFace:BODY,fontSize:8.5,italic:true,color:GREY,valign:"top",lineSpacingMultiple:1}); F(s);
 
-  const safe=(S.caseref||"case").replace(/[^A-Za-z0-9_-]/g,"_");
-  p.writeFile({fileName:"LITT_TumorBoard_"+safe+".pptx"}).then(()=>toast("Tumor board deck downloaded")).catch(()=>toast("Deck export failed"));
+  const clean=str=>(str||"").replace(/[\/\\:*?"<>|]+/g," ").replace(/\s+/g," ").trim();
+  const fname=[clean(S.detail||S.ind.label), clean(S.perf)||"Physician", clean(S.date)].filter(Boolean).join(" - ") || "LITT TumorBoard";
+  p.writeFile({fileName:fname+".pptx"}).then(()=>toast("Tumor board deck downloaded")).catch(()=>toast("Deck export failed"));
 }
 $("deckExportBtn").onclick=buildDeck;
 
