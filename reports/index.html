@@ -526,8 +526,9 @@ function go(view,keepFilter){
 // ---- BOOT ----
 function buildNav(){
   $("#nav").innerHTML=NAV.map(n=>`<a data-v="${n[0]}"><span class="ic">${n[2]}</span><span class="lbl">${n[1]}</span></a>`).join("");
-  $("#nav").querySelectorAll("a").forEach(a=>a.onclick=()=>go(a.dataset.v));
+  $("#nav").querySelectorAll("a").forEach(a=>a.onclick=()=>{location.hash=a.dataset.v;go(a.dataset.v);});
 }
+window.addEventListener("hashchange",()=>{const v=location.hash.slice(1);if(v&&NAV.some(n=>n[0]===v))go(v);});
 function hydrate(d){
   DATA=d||{items:[]};TAX=DATA.taxonomy||{indications:{},strategies:{}};
   $("#lastUpd").textContent=DATA.lastUpdated||"—";
@@ -536,7 +537,8 @@ function hydrate(d){
   $("#f-indication").innerHTML='<option value="">All indications</option>'+inds.map(k=>`<option value="${k}">${esc(indName(k))}</option>`).join("");
   const strats=[...new Set((DATA.items||[]).flatMap(i=>i.strategies||[]))].sort((a,b)=>stratName(a).localeCompare(stratName(b)));
   $("#f-strategy").innerHTML='<option value="">All strategies</option>'+strats.map(k=>`<option value="${k}">${esc(stratName(k))}</option>`).join("");
-  go("dashboard");
+  const start=location.hash.slice(1);
+  go(NAV.some(n=>n[0]===start)?start:"dashboard");
 }
 ["q","f-indication","f-strategy","f-direction","f-impact","f-biz"].forEach(id=>document.addEventListener("input",e=>{if(e.target.id===id)renderList();}));
 $("#f-sort").addEventListener("change",e=>{sortKey=e.target.value;sortDir=sortKey==="date"?-1:-1;renderList();});
