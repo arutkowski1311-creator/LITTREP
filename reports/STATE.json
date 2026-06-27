@@ -21,10 +21,10 @@
       "date": "2026-06-27",
       "mode": "surveillance",
       "window": "2026-04-27 to 2026-06-27",
-      "found": 6,
+      "found": 14,
       "added": 6,
-      "updated": 0,
-      "skipped": 0,
+      "updated": 1,
+      "skipped": 6,
       "reportPath": "reports/2026-06-27-surveillance.md"
     }
   ]
