@@ -18,5 +18,6 @@ two months without re-litigating earlier reports.
 | Date | Mode | Window | Added | Report |
 | --- | --- | --- | --- | --- |
 | 2026-06-26 | baseline | 2024-06-26 → 2026-06-26 | 31 | [2026-06-26-baseline.md](2026-06-26-baseline.md) |
+| 2026-06-27 | surveillance | 2026-04-27 → 2026-06-27 | 6 | [2026-06-27-surveillance.md](2026-06-27-surveillance.md) |
 
-**Database:** 31 findings · [`database.json`](database.json) · open [`dashboard.html`](dashboard.html) to browse.
+**Database:** 37 findings · [`database.json`](database.json) · open [`dashboard.html`](dashboard.html) to browse.
