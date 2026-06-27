@@ -16,7 +16,8 @@ You are running the **Clinical Intelligence Engine** defined in
 3. Determine **today's date** (use the current date provided in your context, or run
    `date +%F`).
 4. Determine the **mode** from the argument `$1`:
-   - `baseline` → window = **last 24 months** ending today.
+   - `baseline` → window = from the configured `baselineStartDate` in `STATE.json`
+     (currently **2020-01-01**) through today.
    - `surveillance` (default if no argument, or if STATE shows a prior baseline already ran)
      → window = **trailing 2 months** ending today.
    - If `$1` is empty and `STATE.json` shows no baseline has ever run, default to

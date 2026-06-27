@@ -56,9 +56,10 @@ executive report below apply identically to both.* Only the **scope of search** 
 
 The first run establishes the current state of the field.
 
-- **Window:** the **last 24 months (2 years)** of publications, clinical trial updates,
-  society guidelines, FDA communications, conference presentations, and reputable medical
-  news, measured back from the run date.
+- **Window:** the full **library since 2020-01-01** (configurable `baselineStartDate`) through
+  the run date — publications, clinical trial updates, society guidelines, FDA communications,
+  conference presentations, and reputable medical news. The first baseline established a
+  curated 2024–2026 core; a landmark backfill then extended verified coverage to 2020.
 - **Goal:** identify the developments that could realistically influence clinical
   decision-making, referral patterns, treatment algorithms, procedural techniques, or
   physician discussions across the full scope below.
