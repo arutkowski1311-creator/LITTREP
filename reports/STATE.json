@@ -21,11 +21,12 @@
       "date": "2026-06-27",
       "mode": "surveillance",
       "window": "2026-04-27 to 2026-06-27",
-      "found": 14,
-      "added": 6,
-      "updated": 1,
-      "skipped": 6,
-      "reportPath": "reports/2026-06-27-surveillance.md"
+      "found": 12,
+      "added": 10,
+      "updated": 2,
+      "skipped": 0,
+      "reportPath": "reports/2026-06-27-surveillance.md",
+      "note": "Reconciled run: deduplicated concurrent intra-day passes (merged 3 event-twins) into a single authoritative surveillance record. Database 31 -> 41 items. LITT-specific and epilepsy domains had no verifiable in-window items."
     }
   ]
 }

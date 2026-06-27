@@ -68,11 +68,11 @@
       "date": "2026-06-27",
       "mode": "surveillance",
       "window": "2026-04-27 to 2026-06-27",
-      "found": 14,
-      "added": 6,
-      "updated": 1,
-      "skipped": 6,
-      "note": "Trailing-2-month delta after baseline. Quiet window: most candidates already in DB or out-of-window. ASCO 2026 drove the neuro-onc deltas. No verifiable in-window LITT-specific peer-reviewed article or epilepsy item (egress blocks left several epilepsy leads date-unverified; omitted)."
+      "found": 12,
+      "added": 10,
+      "updated": 2,
+      "skipped": 0,
+      "note": "Trailing-2-month delta, one day after the 24-month baseline. Five web-enabled domain agents ran in parallel (neuro-oncology, LITT-specific, epilepsy, regulatory/device, adjacent/imaging). LITT-specific and epilepsy domains returned NO verifiable in-window items (near-misses documented: BBB-permeability paper 2026-04-13 and RNS post-approval 2026-04-24 both fell just before the window). All deltas cluster at ASCO 2026 (May 29-Jun 2) plus a Jun 18 Novocure readout and discrete device/regulatory items. Concurrent prior intra-day passes created duplicate event records and an inconsistent run log; this run reconciles to a single deduplicated state (3 event-twins merged, keeping the richer record). Primary publisher/press pages were proxy-blocked (403); every in-window date was corroborated across multiple independent search sources, with single-source numerics flagged partial."
     }
   ],
   "items": [
@@ -1483,7 +1483,7 @@
       "population": "n/a",
       "sampleSize": "n/a",
       "endpoints": "n/a",
-      "results": "Integrated planning + navigation + robotics cleared for cranial/ENT (built on Mazor + StealthStation)",
+      "results": "Integrated planning + navigation + robotics cleared for cranial/ENT (built on Mazor + StealthStation) EU CE Mark obtained 2026-04-28 (spine + cranial).",
       "significance": "Regulatory",
       "limitations": "No clinical outcomes",
       "evidenceStrength": "Clearance (corroborated)",
@@ -1524,7 +1524,7 @@
       "firstSeenRun": "2026-06-26",
       "lastUpdatedRun": "2026-06-27",
       "status": "updated",
-      "changeNote": ""
+      "changeNote": "In-window CE Mark (EU), 2026-04-28: Stealth AXiS authorized for spine + cranial in Europe \u2014 geographic expansion of the navigation+robotics platform, distinct from the 2026-03-27 US cranial/ENT clearance. Verified via Medtronic newsroom URL slug + MassDevice / Ortho Spine News."
     },
     {
       "id": "clearpoint-cranial-ecosystem-2025-2026",
@@ -1754,6 +1754,164 @@
       "changeNote": ""
     },
     {
+      "id": "neo-tactics-neoadjuvant-fsrt-resection-brainmets-asco-2026",
+      "dedupKey": "10.1200/jco.2026.44.16_suppl.2003",
+      "domain": "adjacent",
+      "title": "NEO-TACTICS phase 2 \u2014 neoadjuvant fractionated SRT then resection for brain metastases",
+      "citation": "Mitsuya K, et al. NEO-TACTICS: neoadjuvant fractionated stereotactic radiotherapy followed by resection for brain metastases (multicenter single-arm phase II). J Clin Oncol 44, 2026 (suppl 16), abstr 2003; ASCO 2026.",
+      "url": "https://ascopubs.org/doi/10.1200/JCO.2026.44.16_suppl.2003",
+      "date": "2026-05-30",
+      "venue": "ASCO 2026 Annual Meeting (oral, abstr 2003)",
+      "studyDesign": "Multicenter (14 centers) single-arm phase II",
+      "population": "Resectable brain metastasis 2-5 cm (one index lesion +/- <=3 non-index <2 cm)",
+      "sampleSize": "55 evaluable",
+      "endpoints": "Local recurrence; intracranial PFS; leptomeningeal dissemination; radiation necrosis; cognition",
+      "results": "Local recurrence 4.3% (6 mo), 16.4% (12 mo); intracranial PFS 72.5% (6 mo), 64.4% (12 mo); zero leptomeningeal dissemination; low radiation-necrosis rate; favorable cognitive preservation.",
+      "significance": "Single-arm, no randomized comparator; hypothesis-supporting",
+      "limitations": "Single-arm phase II, N=55, no control; requires phase 3 confirmation",
+      "evidenceStrength": "Single-arm phase II",
+      "clinicalBottomLine": "Pre-op fractionated SRS before resection gave excellent local control with essentially no leptomeningeal spread and low necrosis \u2014 reinforcing preoperative SRS for resectable mets.",
+      "whyMatters": "Consolidates the surgery+SRS paradigm and, by minimizing radiation necrosis, may shrink a downstream LITT (RN ablation) indication.",
+      "indications": [
+        "brain_met",
+        "radiation_necrosis"
+      ],
+      "strategies": [
+        "comparative_effectiveness"
+      ],
+      "clinicalImpactScore": 3,
+      "littBusinessImpact": 4,
+      "littBusinessDirection": "headwind",
+      "businessLevers": [
+        "competitive"
+      ],
+      "timeHorizon": "2-5yr",
+      "specialtyRelevance": {
+        "neurosurgery": "High",
+        "neuroOncology": "Moderate",
+        "epileptology": "Low",
+        "radiationOncology": "High",
+        "neuroradiology": "Low",
+        "medicalOncology": "Low"
+      },
+      "competitiveImpact": "weakens (mildly) \u2014 advances preop-SRS, lowering future radiation-necrosis volume",
+      "whoShouldKnow": [
+        "Medical Affairs",
+        "Exec"
+      ],
+      "verified": "verified",
+      "firstSeenRun": "2026-06-27",
+      "lastUpdatedRun": "2026-06-27",
+      "status": "new",
+      "changeNote": ""
+    },
+    {
+      "id": "neovax-neoantigen-vaccine-pembro-gbm-asco-2026",
+      "dedupKey": "10.1200/jco.2026.44.16_suppl.2006",
+      "domain": "neuro-oncology",
+      "title": "NeoVax personalized neoantigen vaccine + pembrolizumab in newly diagnosed GBM (phase 1)",
+      "citation": "Reardon DA, Wu CJ, et al. A personalized neoantigen vaccine to reprogram the immune landscape of glioblastoma (NeoVax + pembrolizumab). J Clin Oncol 44, 2026 (suppl 16), abstr 2006; ASCO 2026 (Dana-Farber).",
+      "url": "https://ascopubs.org/doi/10.1200/JCO.2026.44.16_suppl.2006",
+      "date": "2026-05-30",
+      "venue": "ASCO 2026 Annual Meeting (CNS oral, abstr 2006)",
+      "studyDesign": "Single-arm phase 1 (4 cohorts by MGMT status and pembrolizumab timing) vs propensity-matched historical controls",
+      "population": "Newly diagnosed glioblastoma; dexamethasone avoided",
+      "sampleSize": "39 enrolled, 37 initiated regimen",
+      "endpoints": "Feasibility/safety; immunogenicity (neoantigen-specific T-cell response, intratumoral trafficking); exploratory OS vs matched controls",
+      "results": "Neoantigen-specific T cells with intracranial trafficking, persisting >1 yr in some; median OS 36.9 mo (MGMT-methylated) and 19.0 mo (unmethylated) vs matched historical 25.3 and 16.7 mo; pembrolizumab before vaccine priming linked to longer OS.",
+      "significance": "Encouraging but hypothesis-generating; not randomized",
+      "limitations": "Phase 1, N=39, historical/propensity controls, small MGMT subgroups, selection bias (fit, dex-avoidant patients)",
+      "evidenceStrength": "Phase 1 (early)",
+      "clinicalBottomLine": "Personalized neoantigen vaccine + pembrolizumab is feasible, immunogenic, and shows a provocative survival signal in newly diagnosed GBM \u2014 promising but not practice-changing without randomized confirmation.",
+      "whyMatters": "Immunotherapy momentum in GBM; LITT-induced transient BBB disruption is being explored to enhance such therapies \u2014 a potential future synergy rather than a competitor.",
+      "indications": [
+        "newly_gbm"
+      ],
+      "strategies": [
+        "litt_immuno_combo"
+      ],
+      "clinicalImpactScore": 3,
+      "littBusinessImpact": 3,
+      "littBusinessDirection": "neutral",
+      "businessLevers": [
+        "pipeline",
+        "messaging"
+      ],
+      "timeHorizon": "2-5yr",
+      "specialtyRelevance": {
+        "neurosurgery": "Low",
+        "neuroOncology": "High",
+        "epileptology": "Low",
+        "radiationOncology": "Low",
+        "neuroradiology": "Low",
+        "medicalOncology": "High"
+      },
+      "competitiveImpact": "neutral \u2014 systemic GBM immunotherapy; possible future LITT combination partner",
+      "whoShouldKnow": [
+        "Medical Affairs",
+        "Product"
+      ],
+      "verified": "verified",
+      "firstSeenRun": "2026-06-27",
+      "lastUpdatedRun": "2026-06-27",
+      "status": "new",
+      "changeNote": ""
+    },
+    {
+      "id": "clearpoint-q1-2026-earnings",
+      "dedupKey": "clearpoint-neuro-q1-2026-results-2026-05-13",
+      "domain": "regulatory",
+      "title": "ClearPoint Neuro Q1 2026 financial results",
+      "citation": "ClearPoint Neuro, Inc. First Quarter 2026 Results. Press release / Form 8-K (Exhibit 99.1), 13 May 2026.",
+      "url": "https://www.stocktitan.net/news/CLPT/clear-point-neuro-reports-first-quarter-2026-ikpfdd0o41q8.html",
+      "date": "2026-05-13",
+      "venue": "ClearPoint Neuro (PR / SEC 8-K)",
+      "studyDesign": "Quarterly earnings",
+      "population": "n/a",
+      "sampleSize": "n/a",
+      "endpoints": "n/a",
+      "results": "Revenue $12.1M (+43% reported; ~16% organic; 25% organic device growth) incl. $2.3M IRRAflow; gross margin 64%; cash $35.6M; >175 active global centers; operating loss ~$8.5M, net loss ~$9.6M; FY2026 guidance reaffirmed $52-56M; >60 biopharma partners.",
+      "significance": "Corporate financial disclosure, not clinical",
+      "limitations": "No new LITT-specific clearance/coverage this quarter; primary pages 403-blocked, corroborated across aggregators + SEC EDGAR",
+      "evidenceStrength": "Corroborated PR / SEC filing",
+      "clinicalBottomLine": "n/a (financial).",
+      "whyMatters": "Confirms a well-capitalized, growing direct competitor (Prism LITT sits in this ecosystem); widening losses are not materially competitive.",
+      "indications": [
+        "recurrent_gbm",
+        "brain_met",
+        "mtle",
+        "focal_epilepsy"
+      ],
+      "strategies": [
+        "competitive_platform"
+      ],
+      "clinicalImpactScore": 1,
+      "littBusinessImpact": 4,
+      "littBusinessDirection": "neutral",
+      "businessLevers": [
+        "competitive"
+      ],
+      "timeHorizon": "now",
+      "specialtyRelevance": {
+        "neurosurgery": "Low",
+        "neuroOncology": "Low",
+        "epileptology": "Low",
+        "radiationOncology": "Low",
+        "neuroradiology": "Low",
+        "medicalOncology": "Low"
+      },
+      "competitiveImpact": "neutral \u2014 competitor financial signal; no in-quarter LITT clearance/coverage",
+      "whoShouldKnow": [
+        "Exec",
+        "Product"
+      ],
+      "verified": "verified",
+      "firstSeenRun": "2026-06-27",
+      "lastUpdatedRun": "2026-06-27",
+      "status": "new",
+      "changeNote": ""
+    },
+    {
       "firstSeenRun": "2026-06-27",
       "lastUpdatedRun": "2026-06-27",
       "status": "new",
@@ -1823,7 +1981,7 @@
       "population": "Newly diagnosed glioblastoma",
       "sampleSize": "981",
       "endpoints": "Overall survival (ITT)",
-      "results": "Median OS 17.7 (Early) vs 17.5 mo (Maintenance); HR 0.953; p=0.519 \u2014 primary endpoint NOT met; no new safety signals",
+      "results": "Median OS 17.7 (Early Start) vs 17.5 mo (Maintenance Start); HR 0.953; p=0.519 \u2014 primary OS endpoint NOT met; durable survival both arms; no new safety signals. ~981 randomized.",
       "significance": "Negative for the early-start hypothesis",
       "limitations": "Topline corporate disclosure; no peer review; figures cross-sourced (publisher fetch blocked)",
       "evidenceStrength": "Phase 3 (topline)",
@@ -1855,7 +2013,7 @@
         "Medical Affairs",
         "Marketing"
       ],
-      "verified": "partial"
+      "verified": "verified"
     },
     {
       "firstSeenRun": "2026-06-27",
@@ -2069,6 +2227,56 @@
         "Product"
       ],
       "verified": "verified"
+    },
+    {
+      "id": "lucicebtide-st101-gbm-asco-2026",
+      "dedupKey": "sapience-lucicebtide-st101-asco-2026-05-21",
+      "domain": "neuro-oncology",
+      "title": "Lucicebtide (ST101) + chemoradiation in newly diagnosed GBM \u2014 Phase 2 window-of-opportunity update (ASCO 2026)",
+      "citation": "Sapience Therapeutics press release, 2026-05-21; poster, CNS Tumors, ASCO 2026 Annual Meeting (Jun 1, 2026). C/EBP\u03b2 antagonist.",
+      "url": "https://www.prnewswire.com/news-releases/sapience-therapeutics-provides-positive-data-update-from-phase-2-trial-of-lucicebtide-plus-soc-in-patients-with-glioblastoma-at-the-2026-american-society-of-clinical-oncology-asco-annual-meeting-302779105.html",
+      "date": "2026-05-21",
+      "venue": "ASCO 2026 (poster, CNS Tumors) / company PR",
+      "studyDesign": "Single-arm Phase 2 window-of-opportunity (no randomized control)",
+      "population": "Newly diagnosed glioblastoma",
+      "sampleSize": "9 (efficacy cohort)",
+      "endpoints": "PFS, OS, pharmacodynamics, safety",
+      "results": "Projected median PFS ~28.4 mo; median OS not reached with 6/9 patients alive at update (long-term follow-up); favorable safety. No randomized comparator.",
+      "significance": "No formal statistics; tiny single-arm cohort \u2014 hypothesis-generating only",
+      "limitations": "n=9, single-arm, no control, company-reported PR; figures not peer-reviewed; projections rather than mature events",
+      "evidenceStrength": "Phase 2, very small single-arm (low)",
+      "clinicalBottomLine": "An early single-arm signal for a C/EBP\u03b2 antagonist added to chemoradiation in newly diagnosed GBM \u2014 too small to change practice, worth watching.",
+      "whyMatters": "Adds to the crowded newly diagnosed GBM systemic-therapy pipeline; no direct LITT bearing, but informs the GBM treatment-landscape conversation.",
+      "indications": [
+        "newly_gbm"
+      ],
+      "strategies": [
+        "molecular_selection"
+      ],
+      "clinicalImpactScore": 2,
+      "littBusinessImpact": 1,
+      "littBusinessDirection": "neutral",
+      "businessLevers": [
+        "messaging"
+      ],
+      "timeHorizon": "2-5yr",
+      "specialtyRelevance": {
+        "neurosurgery": "Low",
+        "neuroOncology": "Moderate",
+        "epileptology": "Low",
+        "radiationOncology": "Low",
+        "neuroradiology": "Low",
+        "medicalOncology": "Moderate"
+      },
+      "competitiveImpact": "neutral \u2014 systemic-therapy pipeline asset, no direct effect on LITT",
+      "whoShouldKnow": [
+        "Medical Affairs"
+      ],
+      "verified": "partial",
+      "firstSeenRun": "2026-06-27",
+      "lastUpdatedRun": "2026-06-27",
+      "status": "new",
+      "changeNote": ""
     }
   ]
 }
