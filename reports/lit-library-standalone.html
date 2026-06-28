@@ -72,6 +72,10 @@
   .metric .v{font-size:34px;font-weight:800;line-height:1.1;margin:4px 0 0;
     background:linear-gradient(180deg,#fff,#9fd9ff);-webkit-background-clip:text;background-clip:text;color:transparent}
   .metric .u{font-size:11px;color:var(--ink2)}
+  .metric{cursor:pointer;border-radius:10px;transition:.15s}
+  .metric:hover{background:rgba(43,212,255,.06)}
+  .card.clickable{cursor:pointer}
+  .card.clickable:hover{border-color:rgba(43,212,255,.45);box-shadow:0 0 18px rgba(43,212,255,.10)}
 
   /* Hero */
   .hero{display:grid;grid-template-columns:1.3fr 1fr;gap:10px;align-items:center;margin-top:14px;
@@ -237,16 +241,16 @@
         </div>
 
         <!-- indication focus -->
-        <div class="card">
+        <div class="card clickable" data-go="indications">
           <h2>Indication Focus <span class="more" data-go="indications">View all →</span></h2>
           <div class="donutwrap"><div id="indDonut"></div><div class="legend" id="indLegend" style="flex:1"></div></div>
         </div>
       </div>
 
       <div class="grid" style="grid-template-columns:1.3fr .9fr 1.25fr 1.05fr;margin-top:16px">
-        <div class="card"><h2>Literature Trending</h2><div id="trend"></div></div>
-        <div class="card"><h2>Top Journals <span class="more" data-go="literature">All →</span></h2><div class="ranklist" id="journals"></div></div>
-        <div class="card"><h2>Trials at a Glance <span class="more" data-go="trials">All →</span></h2>
+        <div class="card clickable" data-go="literature"><h2>Literature Trending <span class="more" data-go="literature">All →</span></h2><div id="trend"></div></div>
+        <div class="card clickable" data-go="literature"><h2>Top Journals <span class="more" data-go="literature">All →</span></h2><div class="ranklist" id="journals"></div></div>
+        <div class="card clickable" data-go="trials"><h2>Trials at a Glance <span class="more" data-go="trials">All →</span></h2>
           <div class="donutwrap"><div id="trialDonut"></div><div class="legend" id="trialLegend" style="flex:1"></div></div></div>
         <div class="card"><h2>Saved Searches</h2><div class="chips" id="saved"></div></div>
       </div>
@@ -254,7 +258,7 @@
       <div class="grid" style="grid-template-columns:1.1fr 1fr 1fr;margin-top:16px">
         <div class="card quote"><div class="q">"The goal of LITT is not just to treat the tumor, but to preserve what matters."
           <small>— Clinical Intelligence Hub</small></div></div>
-        <div class="card"><h2>Upcoming Events <span class="more" data-go="meetings">All →</span></h2><div class="feed" id="events"></div></div>
+        <div class="card clickable" data-go="meetings"><h2>Upcoming Events <span class="more" data-go="meetings">All →</span></h2><div class="feed" id="events"></div></div>
         <div class="card"><h2>Quick Links</h2><div class="chips" id="quick"></div></div>
       </div>
     </section>
@@ -3583,9 +3587,13 @@ function renderDashboard(){
   const trials=items.filter(isTrial).length, guides=items.filter(isGuideline).length;
   const practice=items.filter(i=>(+i.clinicalImpactScore||0)>=4).length;
   $("#metrics").innerHTML=[
-    ["New this run",newish,"Publications & updates"],["Trial updates",trials,"Tracked trials"],
-    ["Guideline changes",guides,"Guidelines / consensus"],["Practice impact",practice,"★★★★+ items"]
-  ].map(m=>`<div class="metric"><div class="k">${m[0]}</div><div class="v">${m[1]}</div><div class="u">${m[2]}</div></div>`).join("");
+    ["New this run",newish,"Publications & updates","new"],["Trial updates",trials,"Tracked trials","trials"],
+    ["Guideline changes",guides,"Guidelines / consensus","guidelines"],["Practice impact",practice,"★★★★+ items","impact"]
+  ].map(m=>`<div class="metric" data-act="${m[3]}" title="Open ${m[0]}"><div class="k">${m[0]}</div><div class="v">${m[1]}</div><div class="u">${m[2]}</div></div>`).join("");
+  $("#metrics").querySelectorAll(".metric").forEach(el=>el.onclick=()=>{const a=el.dataset.act;
+    if(a==="trials")go("trials");else if(a==="guidelines")go("guidelines");
+    else if(a==="new")openInList(it=>it.status==="new"||it.status==="updated","New this run","Items added or updated in the latest run.");
+    else openInList(it=>(+it.clinicalImpactScore||0)>=4,"High practice impact","Findings rated clinical impact ★★★★ and up.");});
 
   // whats new
   const feed=[...items].sort((a,b)=>(b.date||"").localeCompare(a.date||"")).slice(0,6);
