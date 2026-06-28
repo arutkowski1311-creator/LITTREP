@@ -33,6 +33,8 @@
   .b-head .brand{display:flex;align-items:center;gap:11px}
   .b-head .brand b{font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.2em;color:#fff}
   .b-head .brand span{font-size:9px;letter-spacing:.34em;color:var(--blue-2);display:block;margin-top:2px}
+  body.mode-liaison .b-head .brand b{color:var(--tdt-y)}
+  body.mode-liaison .b-head{border-bottom-color:var(--tdt-y)}
   .b-head .tag{font-family:var(--mono);font-size:10.5px;color:#7e9bb4;margin-top:11px;line-height:1.5}
 
   .b-body{padding:16px 22px 30px}
@@ -412,7 +414,7 @@
           <circle cx="24" cy="28" r="3.4"/><circle cx="50" cy="28" r="3"/><circle cx="70" cy="28" r="3"/><circle cx="96" cy="28" r="3.4"/>
           <circle cx="16" cy="35" r="3"/><circle cx="40" cy="35" r="2.5"/><circle cx="80" cy="35" r="2.5"/><circle cx="104" cy="35" r="3"/>
         </g></svg>
-        <div class="word"><b>BUILDER</b><span>LITT PROCEDURE SUMMARY</span></div>
+        <div class="word"><b id="b_brand">PHYSICIAN</b><span id="b_brandsub">REPORT GENERATOR</span></div>
       </div>
       <div class="tag" id="b_tag">Built for the clinical team. Pick the facility, physicians, and indication, set the probe and a few console numbers, drop in the images and clip. The clinical reasoning and references write themselves from the indication.</div>
     </div>
@@ -1283,6 +1285,8 @@ if(MODE==="physician"){
 }
 function saveProfile(){ if(MODE!=="physician") return; profile={facility:$("s_facility").value.trim(), perf:$("s_perf").value.trim()}; LS.set(PROFILE_KEY,profile); }
 (function setIntro(){
+  const brand=$("b_brand"); if(brand) brand.textContent = (MODE==="physician") ? "PHYSICIAN" : "INTERNAL";
+  document.title = (MODE==="physician") ? "Physician Report Generator — NeuroBlate LITT" : "Internal Report Generator — NeuroBlate LITT";
   const t=$("b_tag"); if(!t) return;
   t.textContent = (MODE==="physician")
     ? "Create a clear LITT procedure summary in a couple of minutes. Enter your facility and name once — they're remembered on this device — then choose the indication and add the procedure details and images. The clinical reasoning and references fill in automatically. Export a PDF for the referring physician, a patient summary, or a tumor-board deck."
