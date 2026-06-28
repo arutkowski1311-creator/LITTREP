@@ -196,6 +196,7 @@
   .doc[data-view="patient"] .v-refpt{display:block}
   .sec-off{display:none!important}
   .doc.no-ind .needs-ind{display:none!important}
+  body.mode-physician .liaison-only{display:none!important}
   /* patient view: no thermometry video */
   .doc[data-view="patient"] #videoSection{display:none!important}
   /* print/export image gallery (all phases) — hidden on screen, shown in print */
@@ -413,7 +414,7 @@
         </g></svg>
         <div class="word"><b>BUILDER</b><span>LITT PROCEDURE SUMMARY</span></div>
       </div>
-      <div class="tag">Built for the clinical team. Pick the facility, physicians, and indication, set the probe and a few console numbers, drop in the images and clip. The clinical reasoning and references write themselves from the indication.</div>
+      <div class="tag" id="b_tag">Built for the clinical team. Pick the facility, physicians, and indication, set the probe and a few console numbers, drop in the images and clip. The clinical reasoning and references write themselves from the indication.</div>
     </div>
 
     <div class="b-body">
@@ -526,11 +527,13 @@
         <div class="glabel">Sign-off</div>
         <div class="fld"><label>Performing physician (printed name)</label><input id="i_signname" value="" placeholder="Printed name"></div>
         <div class="fld"><label>Credentials / line</label><input id="i_signmeta" value="" placeholder="Specialty · facility"></div>
-        <div class="two" style="margin-top:6px">
-          <div class="fld"><label>Clinical liaison</label><input id="i_liaison_name" value="" placeholder="Liaison name"></div>
-          <div class="fld"><label>Liaison title</label><input id="i_liaison_title" value="" placeholder="Liaison title"></div>
+        <div class="liaison-only">
+          <div class="two" style="margin-top:6px">
+            <div class="fld"><label>Clinical liaison</label><input id="i_liaison_name" value="" placeholder="Liaison name"></div>
+            <div class="fld"><label>Liaison title</label><input id="i_liaison_title" value="" placeholder="Liaison title"></div>
+          </div>
+          <div style="font-family:var(--mono);font-size:10px;color:#5e7a93;margin-top:2px;line-height:1.4">Liaison signature appears on the performing-physician report only. The physician signs their own line.</div>
         </div>
-        <div style="font-family:var(--mono);font-size:10px;color:#5e7a93;margin-top:2px;line-height:1.4">Liaison signature appears on the performing-physician report only. The physician signs their own line.</div>
       </div>
 
       <!-- SAVE / LOAD -->
@@ -737,7 +740,7 @@
           <div class="sig-cap">Performing physician signature</div>
           <div class="sig-printed"><span id="r_signname"></span><span id="r_signmeta"></span></div>
         </div>
-        <div class="liaison v-perf" id="liaisonBlock">
+        <div class="liaison v-perf liaison-only" id="liaisonBlock">
           <div class="ll">Monteris clinical support</div>
           <div class="lsig" id="r_liaison_sig"></div>
           <div class="lmeta"><b id="r_liaison_name"></b><br><span id="r_liaison_title"></span></div>
@@ -1268,22 +1271,42 @@ let liaison = LS.get(LIA_KEY, {name:"", title:""});
 
 const $ = id => document.getElementById(id);
 
-/* ===================== DIRECTORY UI (facility select + type-able physicians) ===================== */
+/* ===================== MODE (physician vs liaison) — set by ?mode= in the URL ===================== */
+const MODE = (new URLSearchParams(location.search).get("mode")==="liaison") ? "liaison" : "physician";
+document.body.classList.add("mode-"+MODE);
+const PROFILE_KEY="nb_litt_profile";
+let profile = LS.get(PROFILE_KEY, {facility:"",perf:""});
+// Physician mode: facility is typed, not picked — swap the <select> for an <input>.
+if(MODE==="physician"){
+  const sel=$("s_facility");
+  if(sel && sel.tagName==="SELECT"){ const inp=document.createElement("input"); inp.id="s_facility"; inp.placeholder="Your facility"; sel.replaceWith(inp); }
+}
+function saveProfile(){ if(MODE!=="physician") return; profile={facility:$("s_facility").value.trim(), perf:$("s_perf").value.trim()}; LS.set(PROFILE_KEY,profile); }
+(function setIntro(){
+  const t=$("b_tag"); if(!t) return;
+  t.textContent = (MODE==="physician")
+    ? "Create a clear LITT procedure summary in a couple of minutes. Enter your facility and name once — they're remembered on this device — then choose the indication and add the procedure details and images. The clinical reasoning and references fill in automatically. Export a PDF for the referring physician, a patient summary, or a tumor-board deck."
+    : "Built for the clinical team. Pick the facility, physicians, and indication, set the probe and a few console numbers, drop in the images and clip. The clinical reasoning and references write themselves from the indication.";
+})();
+
+/* ===================== DIRECTORY UI ===================== */
 function fillFacilitySelect(){
-  const sel=$("s_facility"); if(!sel) return; const cur=sel.value;
+  const sel=$("s_facility"); if(!sel || sel.tagName!=="SELECT") return; const cur=sel.value;
   sel.innerHTML='<option value="">Select a facility…</option>'+Object.keys(directory).sort().map(i=>`<option value="${(i||'').replace(/"/g,'&quot;')}">${i}</option>`).join("");
   if(directory[cur]) sel.value=cur;
 }
 function fillDatalist(dl, items){ if(!dl) return; dl.innerHTML=(items||[]).map(i=>`<option value="${(i||'').replace(/"/g,'&quot;')}"></option>`).join(""); }
 function refreshFacilities(keep){
   fillFacilitySelect();
-  if(keep!==undefined) $("s_facility").value = directory[keep] ? keep : "";
+  if(keep!==undefined) $("s_facility").value = (MODE==="liaison") ? (directory[keep]?keep:"") : (keep||"");
   refreshPhysicians();
 }
 function refreshPhysicians(keepP,keepR){
-  const entry = directory[$("s_facility").value] || {proc:[],ref:[]};
-  fillDatalist($("dl_perf"), entry.proc);
-  fillDatalist($("dl_ref"), entry.ref);
+  if(MODE==="liaison"){
+    const entry = directory[$("s_facility").value] || {proc:[],ref:[]};
+    fillDatalist($("dl_perf"), entry.proc);
+    fillDatalist($("dl_ref"), entry.ref);
+  }
   if(keepP!==undefined) $("s_perf").value=keepP||"";
   if(keepR!==undefined) $("s_ref").value=keepR||"";
   render();
@@ -1295,17 +1318,23 @@ function rememberPhysician(which){
   const list = which==="perf"?directory[fac].proc:directory[fac].ref;
   if(!list.includes(val)){ list.push(val); LS.set(DIR_KEY,directory); fillDatalist($(which==="perf"?"dl_perf":"dl_ref"), list); }
 }
-// Selecting a facility loads that facility's known team into the type-able fields.
-$("s_facility").addEventListener("change",()=>{
-  const entry=directory[$("s_facility").value]||{proc:[],ref:[]};
-  fillDatalist($("dl_perf"),entry.proc); fillDatalist($("dl_ref"),entry.ref);
-  $("s_perf").value=entry.proc[0]||""; $("s_ref").value=entry.ref[0]||"";
-  render();
-});
-$("s_perf").addEventListener("input",render);
-$("s_perf").addEventListener("change",()=>{ rememberPhysician("perf"); render(); });
+if(MODE==="liaison"){
+  // Selecting a facility loads that facility's known team into the type-able fields.
+  $("s_facility").addEventListener("change",()=>{
+    const entry=directory[$("s_facility").value]||{proc:[],ref:[]};
+    fillDatalist($("dl_perf"),entry.proc); fillDatalist($("dl_ref"),entry.ref);
+    $("s_perf").value=entry.proc[0]||""; $("s_ref").value=entry.ref[0]||"";
+    render();
+  });
+} else {
+  // Physician mode: typed facility, remembered on this device.
+  $("s_facility").addEventListener("input",()=>{ saveProfile(); render(); });
+  $("s_facility").addEventListener("change",()=>{ saveProfile(); render(); });
+}
+$("s_perf").addEventListener("input",()=>{ saveProfile(); render(); });
+$("s_perf").addEventListener("change",()=>{ if(MODE==="liaison") rememberPhysician("perf"); saveProfile(); render(); });
 $("s_ref").addEventListener("input",render);
-$("s_ref").addEventListener("change",()=>{ rememberPhysician("ref"); render(); });
+$("s_ref").addEventListener("change",()=>{ if(MODE==="liaison") rememberPhysician("ref"); render(); });
 
 /* ===================== INDICATION ===================== */
 (function initInd(){
@@ -1787,7 +1816,12 @@ $("saveFileBtn").onclick=savePortable;
 
 /* ===================== INIT ===================== */
 $("i_liaison_name").value=liaison.name; $("i_liaison_title").value=liaison.title;
-refreshFacilities("");
+if(MODE==="liaison"){ refreshFacilities(""); }
+else {
+  $("s_facility").value=profile.facility||"";
+  $("s_perf").value=profile.perf||"";
+  if(profile.perf && !$("i_signname").value) $("i_signname").value=profile.perf;
+}
 renderTrajRows(); renderTargetUI();
 applyIndication();
 renderObservations(); renderThumbs(); renderImaging(); clearVideo();

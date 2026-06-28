@@ -98,6 +98,16 @@ Review notes on `index.html` and their status.
   and the indication-driven report sections stay hidden until one is chosen.
 - ✅ Case-ref line omits empty Case ref / MRN parts.
 
+## Round 9 — physician vs liaison mode
+- ✅ Two modes in one app, selected by the URL:
+  - **Physician** (default / bare URL): free-text facility and name, a physician-facing
+    intro, the Monteris liaison signature hidden, and the facility + name **remembered on the
+    device** (auto-fills on every visit; also pre-fills the sign-off name).
+  - **Liaison** (`?mode=liaison`): the 56-facility dropdown, blank start, liaison signature.
+- ✅ Persistence via `localStorage` (key `nb_litt_profile`) — works when loaded from a stable
+  URL or a Home-Screen install.
+- ⏳ PWA (installable, offline) deferred for later.
+
 ## Distribution — options (see README / discussion)
 - Host `index.html` as a static page (GitHub Pages, Netlify, internal server) — it's a
   single self-contained file, so this is the lowest-friction path.
