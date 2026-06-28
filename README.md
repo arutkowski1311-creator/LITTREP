@@ -34,11 +34,18 @@ This is an iterating prototype. A running list of requested changes lives in
 
 ## Clinical Intelligence Engine
 
+> **Canonical home: the [LITTLibrary](https://github.com/arutkowski1311-creator/LITTLibrary)
+> repo.** The "LIT Library — Clinical Intelligence Hub" dashboard, its database, and the
+> recurring scan now live there. The files under `reports/` and
+> `docs/clinical-intelligence-engine.md` in this repo are the origin/working copy; ongoing
+> updates should target LITTLibrary.
+
 A companion specification — [`docs/clinical-intelligence-engine.md`](docs/clinical-intelligence-engine.md) —
 defines a portable, model-agnostic workflow for generating recurring Medical Affairs
 intelligence briefings across neuro-oncology, epilepsy, and LITT. It runs in two stages
-(a 6-month baseline scan, then a 4-week surveillance scan for what's new) and standardizes
-how each publication is scored, interpreted, and rolled up into an executive report.
+(a baseline scan since 2020, then a trailing-2-month surveillance scan for what's new) and
+standardizes how each finding is mapped to indications and scored on two axes
+(clinical impact + LITT business impact) before being rolled up into an executive report.
 
 ## Important
 
