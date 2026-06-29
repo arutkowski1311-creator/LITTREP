@@ -749,12 +749,6 @@
         </div>
       </div>
 
-      <!-- DISCLAIMERS -->
-      <div class="rx">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink-3)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-        <div><b>Important:</b> The NeuroBlate System is a surgical tool and is not a treatment for any specific disease state or condition. This summary is for informational purposes only. It does not replace the formal operative report and does not describe clinical outcomes or results. The images and laser data document technique and intra-operative monitoring; they are not intended to make clinical or performance claims about Monteris products beyond intended use. <b>Rx Only.</b></div>
-      </div>
-
       <div class="patient-legal v-pt">
         <h3>Important</h3>
         <p>This report explains the procedure that was performed but does not provide your complete medical results, diagnosis, or treatment recommendations. For information about your specific findings, recovery, and follow-up care, please consult your treating physician.</p>
@@ -762,7 +756,13 @@
 
       <div class="foot">
         <div class="word"><b>MONTERIS&nbsp;MEDICAL</b></div>
-        <div class="legalmini">NeuroBlate® is a registered trademark of Monteris Medical. Generated for clinician reference. Process documentation only — not an outcomes report. Rx Only.</div>
+        <div class="legalmini">NeuroBlate® is a registered trademark of Monteris Medical. Rx Only.</div>
+      </div>
+
+      <!-- DISCLOSURE — bottom of every report -->
+      <div class="rx" style="margin-bottom:36px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink-3)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <div><b>Disclosure:</b> The NeuroBlate® System device is a surgical tool and is not a treatment for any specific disease state or condition. This procedure summary, including the images, are provided for informational purposes only. This summary does not replace the formal operative report for the LITT (Laser Interstitial Thermal Therapy) procedure or describe any clinical outcomes or results of the procedure. The images and laser data provided are not intended to provide clinical or performance claims about the Monteris products that exceed the intended use.</div>
       </div>
 
     </div>
@@ -1676,7 +1676,7 @@ function buildDeck(){
   const S=deckState();
   const NAVY="16233A",NAVY2="1B2A4A",BLUE="2F6FB0",BLUE2="6EA3D4",PALE="EEF3F9",LINE="D7DEE8",INK="1F2733",INK2="46505F",GREY="7A8694",YEL="E8B84B";
   const DISP="Space Grotesk",BODY="Inter",MONO="IBM Plex Mono";
-  const RX="The NeuroBlate System is a surgical tool and is not a treatment for any specific disease state or condition. For informational purposes only; does not replace the formal operative report and does not describe clinical outcomes. Rx Only.";
+  const RX="Disclosure: The NeuroBlate® System device is a surgical tool and is not a treatment for any specific disease state or condition. This procedure summary, including the images, are provided for informational purposes only. This summary does not replace the formal operative report for the LITT (Laser Interstitial Thermal Therapy) procedure or describe any clinical outcomes or results of the procedure. The images and laser data provided are not intended to provide clinical or performance claims about the Monteris products that exceed the intended use.";
   const p=new PptxGenJS(); p.layout="LAYOUT_WIDE"; const W=13.333;
   const dots=(s,x,y,c1,c2)=>{ const r=0.07,g=0.165; const pts=[[0,0],[1,0],[2,0],[0.5,0.87],[1.5,0.87],[1,1.74]];
     pts.forEach((pt,i)=>s.addShape(p.ShapeType.ellipse,{x:x+pt[0]*g,y:y+pt[1]*g,w:r,h:r,fill:{color:i%3===0?c2:c1},line:{type:"none"}})); };
@@ -1685,7 +1685,7 @@ function buildDeck(){
     s.addText(title,{x:1.25,y:0.7,w:11.4,h:0.55,fontFace:DISP,fontSize:24,color:NAVY,bold:true});
     s.addShape(p.ShapeType.line,{x:0.62,y:1.42,w:12.1,h:0,line:{color:LINE,width:1}}); };
   const footer=(s,n)=>{ s.addShape(p.ShapeType.line,{x:0.62,y:6.95,w:12.1,h:0,line:{color:LINE,width:0.75}});
-    s.addText(RX,{x:0.62,y:7.0,w:9.6,h:0.4,fontFace:BODY,fontSize:6.5,color:GREY,valign:"top",lineSpacingMultiple:1});
+    s.addText(RX,{x:0.62,y:6.98,w:9.55,h:0.5,fontFace:BODY,fontSize:5.5,color:GREY,valign:"top",lineSpacingMultiple:1});
     s.addText(`Case ${S.caseref}  ·  ${S.detail}`,{x:10.3,y:7.0,w:2.42,h:0.2,fontFace:MONO,fontSize:7,color:GREY,align:"right"});
     s.addText(String(n),{x:10.3,y:7.2,w:2.42,h:0.2,fontFace:MONO,fontSize:7,color:GREY,align:"right"}); };
   let pg=0; const F=s=>footer(s,++pg);
