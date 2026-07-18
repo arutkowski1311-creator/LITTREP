@@ -203,7 +203,7 @@
     <nav class="nav" id="nav"></nav>
     <div class="foot">
       <div>LAST UPDATED</div><div><b id="lastUpd">—</b></div>
-      <button class="btn" id="refresh"><span>⟳ Refresh Data</span></button>
+      <button class="btn" id="refresh" title="Reload the latest database.json (falls back to picking a file when opened offline)"><span>⟳ Refresh Data</span></button>
     </div>
   </aside>
 
@@ -573,7 +573,7 @@ function hydrate(d){
 }
 ["q","f-indication","f-strategy","f-direction","f-impact","f-biz"].forEach(id=>document.addEventListener("input",e=>{if(e.target.id===id)renderList();}));
 $("#f-sort").addEventListener("change",e=>{sortKey=e.target.value;sortDir=sortKey==="date"?-1:-1;renderList();});
-$("#refresh").onclick=()=>$("#file").click();
+$("#refresh").onclick=()=>{const b=$("#refresh");fetch("database.json",{cache:"no-store"}).then(r=>r.ok?r.json():Promise.reject()).then(d=>{hydrate(d);const t=b.innerHTML;b.innerHTML="<span>\u2713 Refreshed</span>";setTimeout(()=>{b.innerHTML=t;},1600);}).catch(()=>$("#file").click());};
 $("#file").addEventListener("change",e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();
   r.onload=()=>{try{hydrate(JSON.parse(r.result));}catch(err){alert("Invalid JSON: "+err.message);}};r.readAsText(f);});
 
