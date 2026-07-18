@@ -216,9 +216,9 @@
 
     <!-- DASHBOARD VIEW -->
     <section id="view-dashboard">
-      <div class="grid" style="grid-template-columns:1.55fr 1.15fr .95fr">
-        <!-- overview + hero -->
-        <div class="card" style="grid-row:span 2">
+      <div class="grid" style="grid-template-columns:1fr">
+        <!-- overview + hero (full width band) -->
+        <div class="card">
           <h2>Clinical Intelligence Overview</h2>
           <div class="metrics" id="metrics"></div>
           <div class="hero">
@@ -235,6 +235,9 @@
         </div>
 
         <!-- what's new -->
+      </div>
+
+      <div class="grid" style="grid-template-columns:1.5fr 1fr;margin-top:16px">
         <div class="card">
           <h2>What's New <span class="more" data-go="literature">View all →</span></h2>
           <div class="feed" id="feed"></div>
@@ -255,9 +258,7 @@
         <div class="card"><h2>Saved Searches</h2><div class="chips" id="saved"></div></div>
       </div>
 
-      <div class="grid" style="grid-template-columns:1.1fr 1fr 1fr;margin-top:16px">
-        <div class="card quote"><div class="q">"The goal of LITT is not just to treat the tumor, but to preserve what matters."
-          <small>— Clinical Intelligence Hub</small></div></div>
+      <div class="grid" style="grid-template-columns:1fr 1fr;margin-top:16px">
         <div class="card clickable" data-go="meetings"><h2>Upcoming Events <span class="more" data-go="meetings">All →</span></h2><div class="feed" id="events"></div></div>
         <div class="card"><h2>Quick Links</h2><div class="chips" id="quick"></div></div>
       </div>
@@ -3596,7 +3597,7 @@ function renderDashboard(){
     else openInList(it=>(+it.clinicalImpactScore||0)>=4,"High practice impact","Findings rated clinical impact ★★★★ and up.");});
 
   // whats new
-  const feed=[...items].sort((a,b)=>(b.date||"").localeCompare(a.date||"")).slice(0,6);
+  const feed=[...items].sort((a,b)=>(b.date||"").localeCompare(a.date||"")).slice(0,5);
   const catColor=d=>({litt:C.green,"neuro-oncology":C.blue,epilepsy:C.purple,regulatory:C.yellow,adjacent:C.teal}[d]||C.cyan);
   $("#feed").innerHTML=feed.map(it=>`<div class="row" data-id="${esc(it.id)}">
     <div class="ic" style="color:${catColor(it.domain)}">${isTrial(it)?'⚗':isGuideline(it)?'❑':it.domain==='regulatory'?'⚙':'▤'}</div>
