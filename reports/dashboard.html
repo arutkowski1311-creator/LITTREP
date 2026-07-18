@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Clinical Intelligence Dashboard — Neuro-Oncology / Epilepsy / LITT</title>
+<style>
+  :root{
+    --bg:#0f1419; --panel:#171e26; --panel2:#1f2935; --line:#2b3742;
+    --ink:#e7edf3; --mut:#9bb0c1; --acc:#4ea1ff; --good:#37c97a; --warn:#f0b429; --bad:#ef6262;
+    --chip:#243140;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  header{padding:18px 22px;border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:5}
+  h1{font-size:18px;margin:0 0 2px}
+  .sub{color:var(--mut);font-size:13px}
+  .wrap{max-width:1280px;margin:0 auto;padding:18px 22px}
+  .meta{display:flex;flex-wrap:wrap;gap:14px;color:var(--mut);font-size:13px;margin-top:8px}
+  .meta b{color:var(--ink)}
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:16px 0}
+  input[type=search],select{background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:14px}
+  input[type=search]{min-width:220px;flex:1}
+  .btn{background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer;font-size:13px}
+  .btn:hover{border-color:var(--acc)}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{text-align:left;padding:10px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--mut);font-weight:600;cursor:pointer;user-select:none;white-space:nowrap;position:sticky;top:74px;background:var(--bg)}
+  th:hover{color:var(--ink)}
+  tr.row:hover{background:var(--panel)}
+  tr.row{cursor:pointer}
+  .stars{color:var(--warn);white-space:nowrap;letter-spacing:1px}
+  .chip{display:inline-block;background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:1px 9px;font-size:11.5px;color:var(--mut);white-space:nowrap;margin:1px 2px}
+  .dom{font-size:12px;font-weight:600}
+  .dom.neuro-oncology{color:#7fb3ff}.dom.litt{color:#37c97a}.dom.epilepsy{color:#c79bff}
+  .dom.regulatory{color:#f0b429}.dom.adjacent{color:#ff9d6e}
+  .new{color:var(--good);font-weight:700}
+  .updated{color:var(--warn);font-weight:700}
+  .detail td{background:var(--panel)}
+  .detail dl{display:grid;grid-template-columns:180px 1fr;gap:6px 16px;margin:0}
+  .detail dt{color:var(--mut)}
+  .detail dd{margin:0}
+  .detail a{color:var(--acc);word-break:break-all}
+  .mono{font-variant-numeric:tabular-nums}
+  .empty{padding:40px;text-align:center;color:var(--mut)}
+  .biz{font-weight:700;white-space:nowrap}
+  .tailwind{color:var(--good)}.headwind{color:var(--bad)}.neutral{color:var(--mut)}
+  .bar{display:inline-block;height:6px;border-radius:3px;vertical-align:middle;margin-left:6px}
+  .ver-partial{color:var(--warn)}.ver-unverified{color:var(--bad)}
+  footer{color:var(--mut);font-size:12px;padding:18px 22px;border-top:1px solid var(--line);text-align:center}
+  code{background:var(--panel2);padding:1px 5px;border-radius:4px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Clinical Intelligence Dashboard</h1>
+  <div class="sub">Neuro-Oncology · Epilepsy · LITT — cumulative findings, mapped to indications &amp; scored for LITT business impact</div>
+  <div class="meta" id="meta"></div>
+</header>
+
+<div class="wrap">
+  <div class="controls">
+    <input type="search" id="q" placeholder="Search title, citation, results, takeaways…" />
+    <select id="domain"><option value="">All domains</option></select>
+    <select id="indication"><option value="">All indications</option></select>
+    <select id="strategy"><option value="">All strategies</option></select>
+    <select id="direction">
+      <option value="">Any direction</option>
+      <option value="tailwind">Tailwind (helps LITT)</option>
+      <option value="headwind">Headwind (hurts LITT)</option>
+      <option value="neutral">Neutral</option>
+    </select>
+    <select id="impact">
+      <option value="">All clinical impact</option>
+      <option value="5">★★★★★ only</option>
+      <option value="4">★★★★ and up</option>
+      <option value="3">★★★ and up</option>
+    </select>
+    <select id="biz">
+      <option value="">All business impact</option>
+      <option value="9">9–10 decisive</option>
+      <option value="7">7+ major</option>
+      <option value="5">5+ moderate</option>
+    </select>
+    <select id="specialty"><option value="">Any specialty (High)</option></select>
+    <select id="status"><option value="">All</option><option value="new">New this run</option><option value="updated">Updated</option></select>
+    <button class="btn" id="load">Load database file…</button>
+    <input type="file" id="file" accept="application/json" style="display:none" />
+  </div>
+
+  <table id="tbl">
+    <thead>
+      <tr>
+        <th data-k="clinicalImpactScore">Clinical</th>
+        <th data-k="title">Development</th>
+        <th data-k="domain">Domain</th>
+        <th data-k="indications">Indications</th>
+        <th data-k="littBusinessImpact">LITT business</th>
+        <th data-k="date">Date</th>
+      </tr>
+    </thead>
+    <tbody id="body"></tbody>
+  </table>
+  <div class="empty" id="empty" style="display:none"></div>
+</div>
+
+<footer>
+  Two-axis scoring — <b>Clinical Impact</b> (★ to the discipline) vs <b>LITT Business Impact</b> (0–10 magnitude + tailwind/headwind direction).
+  Generated by the Clinical Intelligence Engine · spec <code>docs/clinical-intelligence-engine.md</code> · data <code>reports/database.json</code><br/>
+  Internal medical-affairs reference only — not medical advice. Distinguishes established vs. promising vs. speculative evidence (see "verified" flag).
+</footer>
+
+<script>
+const SPECIALTIES = ["neurosurgery","neuroOncology","epileptology","radiationOncology","neuroradiology","medicalOncology"];
+let DATA = {items:[]}, TAX={indications:{},strategies:{}}, sortKey="littBusinessImpact", sortDir=-1;
+
+function stars(n){ n=Number(n)||0; return "★".repeat(n)+"☆".repeat(Math.max(0,5-n)); }
+function esc(s){ return (s==null?"":String(s)).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
+function indName(k){ return (TAX.indications||{})[k]||k; }
+function stratName(k){ return (TAX.strategies||{})[k]||k; }
+function dirSign(d){ return d==="tailwind"?"▲":d==="headwind"?"▼":"■"; }
+
+function render(){
+  const items = DATA.items||[];
+  const q = document.getElementById('q').value.toLowerCase().trim();
+  const dom = document.getElementById('domain').value;
+  const ind = document.getElementById('indication').value;
+  const strat = document.getElementById('strategy').value;
+  const dir = document.getElementById('direction').value;
+  const imp = Number(document.getElementById('impact').value)||0;
+  const bizMin = Number(document.getElementById('biz').value)||0;
+  const spec = document.getElementById('specialty').value;
+  const st = document.getElementById('status').value;
+
+  let rows = items.filter(it=>{
+    if(dom && it.domain!==dom) return false;
+    if(ind && !(it.indications||[]).includes(ind)) return false;
+    if(strat && !(it.strategies||[]).includes(strat)) return false;
+    if(dir && it.littBusinessDirection!==dir) return false;
+    if(imp && (Number(it.clinicalImpactScore)||0)<imp) return false;
+    if(bizMin && (Number(it.littBusinessImpact)||0)<bizMin) return false;
+    if(st && it.status!==st) return false;
+    if(spec){ const v=(it.specialtyRelevance||{})[spec]; if(v!=="High") return false; }
+    if(q){
+      const hay=[it.title,it.citation,it.results,it.clinicalBottomLine,it.whyMatters,it.venue,
+        (it.indications||[]).map(indName).join(" "),(it.strategies||[]).map(stratName).join(" ")].join(" ").toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+
+  rows.sort((a,b)=>{
+    let x=a[sortKey], y=b[sortKey];
+    if(sortKey==="clinicalImpactScore"||sortKey==="littBusinessImpact"){x=Number(x)||0;y=Number(y)||0;}
+    else {x=(x==null?"":String(x)).toLowerCase();y=(y==null?"":String(y)).toLowerCase();}
+    return x<y?-1*sortDir:x>y?1*sortDir:0;
+  });
+
+  const body=document.getElementById('body'); body.innerHTML="";
+  document.getElementById('empty').style.display = rows.length?"none":"block";
+  document.getElementById('empty').textContent = items.length? "No items match these filters." : "No data loaded. Place database.json next to this file, or use “Load database file…”.";
+
+  rows.forEach(it=>{
+    const tr=document.createElement('tr'); tr.className="row";
+    const dir=it.littBusinessDirection||"neutral";
+    const biz=Number(it.littBusinessImpact)||0;
+    const inds=(it.indications||[]).map(k=>`<span class="chip">${esc(indName(k))}</span>`).join("");
+    tr.innerHTML=`
+      <td class="stars" title="Clinical Impact (to the discipline)">${stars(it.clinicalImpactScore)}</td>
+      <td>${esc(it.title)} ${it.status==="new"?'<span class="new">• new</span>':it.status==="updated"?'<span class="updated">• updated</span>':''}
+          <div class="sub">${esc(it.venue||it.citation||"")}</div></td>
+      <td><span class="dom ${esc(it.domain)}">${esc(it.domain)}</span></td>
+      <td>${inds||'<span class="sub">—</span>'}</td>
+      <td><span class="biz ${dir}" title="LITT Business Impact ${biz}/10 — ${dir}">${dirSign(dir)} ${biz}/10</span>
+          <span class="bar ${dir}" style="width:${biz*7}px;background:currentColor"></span></td>
+      <td class="mono">${esc(it.date||"")}</td>`;
+    const det=document.createElement('tr'); det.className="detail"; det.style.display="none";
+    const verCls = it.verified==="partial"?"ver-partial":it.verified==="unverified"?"ver-unverified":"";
+    det.innerHTML=`<td colspan="6"><dl>
+      ${row("Citation",it.citation)}
+      ${it.url?row("Source",`<a href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.url)}</a>`,true):""}
+      ${row("Indications",(it.indications||[]).map(indName).join(" · "))}
+      ${row("Strategies / plays",(it.strategies||[]).map(stratName).join(" · "))}
+      ${row("Clinical impact",`${stars(it.clinicalImpactScore)} (${it.clinicalImpactScore}/5 — to the discipline)`,true)}
+      ${row("LITT business impact",`<span class="biz ${dir}">${dirSign(dir)} ${biz}/10 — ${esc(dir)}</span>`,true)}
+      ${row("Business levers",(it.businessLevers||[]).join(", "))}
+      ${row("Time horizon",it.timeHorizon)}
+      ${row("Competitive impact",it.competitiveImpact)}
+      ${row("Study design",it.studyDesign)}
+      ${row("Population",it.population)}
+      ${row("Sample size",it.sampleSize)}
+      ${row("Endpoints",it.endpoints)}
+      ${row("Results",it.results)}
+      ${row("Significance",it.significance)}
+      ${row("Limitations",it.limitations)}
+      ${row("Evidence strength",it.evidenceStrength)}
+      ${row("Clinical bottom line",it.clinicalBottomLine)}
+      ${row("Why it matters",it.whyMatters)}
+      ${row("Specialty relevance (High)",Object.entries(it.specialtyRelevance||{}).filter(([,v])=>v==="High").map(([k])=>k).join(", ")||"—")}
+      ${row("Who should know",(it.whoShouldKnow||[]).join(", "))}
+      ${verCls?`<dt>Verification</dt><dd class="${verCls}">${esc(it.verified)}</dd>`:row("Verification",it.verified)}
+      ${row("First seen / updated",`${esc(it.firstSeenRun||"")}${it.lastUpdatedRun&&it.lastUpdatedRun!==it.firstSeenRun?" → "+esc(it.lastUpdatedRun):""}`,true)}
+      ${it.changeNote?row("What changed",it.changeNote):""}
+    </dl></td>`;
+    tr.addEventListener('click',()=>{det.style.display=det.style.display==="none"?"table-row":"none";});
+    body.appendChild(tr); body.appendChild(det);
+  });
+}
+function row(k,v,raw){ if(v==null||v==="") return ""; return `<dt>${esc(k)}</dt><dd>${raw?v:esc(v)}</dd>`; }
+
+function fillSelect(id, pairs, head){
+  const el=document.getElementById(id);
+  el.innerHTML=`<option value="">${head}</option>`+pairs.map(([v,l])=>`<option value="${esc(v)}">${esc(l)}</option>`).join("");
+}
+
+function hydrate(d){
+  DATA=d||{items:[]}; TAX=DATA.taxonomy||{indications:{},strategies:{}};
+  const items=DATA.items||[];
+  const m=document.getElementById('meta');
+  const tail=items.filter(i=>i.littBusinessDirection==="tailwind").length;
+  const head=items.filter(i=>i.littBusinessDirection==="headwind").length;
+  const byDom={}; items.forEach(it=>byDom[it.domain]=(byDom[it.domain]||0)+1);
+  m.innerHTML=`<span><b>${items.length}</b> findings</span>
+    <span>Last updated <b>${esc(DATA.lastUpdated||"—")}</b></span>
+    <span><b>${(DATA.runs||[]).length}</b> runs</span>
+    <span class="tailwind">▲ ${tail} tailwind</span><span class="headwind">▼ ${head} headwind</span>
+    <span>${Object.entries(byDom).map(([k,v])=>`${esc(k)}: <b>${v}</b>`).join(" · ")}</span>`;
+
+  fillSelect('domain',[...new Set(items.map(it=>it.domain))].sort().map(d=>[d,d]),"All domains");
+  // indications & strategies present in data, labeled via taxonomy
+  const indKeys=[...new Set(items.flatMap(it=>it.indications||[]))].sort((a,b)=>indName(a).localeCompare(indName(b)));
+  fillSelect('indication',indKeys.map(k=>[k,indName(k)]),"All indications");
+  const stratKeys=[...new Set(items.flatMap(it=>it.strategies||[]))].sort((a,b)=>stratName(a).localeCompare(stratName(b)));
+  fillSelect('strategy',stratKeys.map(k=>[k,stratName(k)]),"All strategies");
+  fillSelect('specialty',SPECIALTIES.map(s=>[s,s]),"Any specialty (High)");
+  render();
+}
+
+document.querySelectorAll('th[data-k]').forEach(th=>th.addEventListener('click',()=>{
+  const k=th.dataset.k; if(sortKey===k) sortDir*=-1; else {sortKey=k; sortDir=(k==="title"||k==="domain"||k==="date"||k==="indications")?1:-1;}
+  render();
+}));
+['q','domain','indication','strategy','direction','impact','biz','specialty','status'].forEach(id=>document.getElementById(id).addEventListener('input',render));
+document.getElementById('load').addEventListener('click',()=>document.getElementById('file').click());
+document.getElementById('file').addEventListener('change',e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader(); r.onload=()=>{try{hydrate(JSON.parse(r.result));}catch(err){alert("Invalid JSON: "+err.message);}}; r.readAsText(f);
+});
+
+fetch('database.json').then(r=>r.ok?r.json():Promise.reject()).then(hydrate).catch(()=>hydrate({items:[]}));
+</script>
+</body>
+</html>
