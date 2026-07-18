@@ -3,7 +3,7 @@
   "specVersion": "1.0",
   "schemaVersion": 2,
   "generatedBy": "/clinical-scan",
-  "lastUpdated": "2026-06-27",
+  "lastUpdated": "2026-07-18",
   "taxonomy": {
     "indications": {
       "newly_gbm": "Newly diagnosed glioblastoma",
@@ -83,6 +83,16 @@
       "updated": 0,
       "skipped": 0,
       "note": "Curated landmark backfill extending the library to 2020 using verified references (LAANTERN registry, society guidelines/position statements, BBB-permeability mechanism, MTLE durability, REMASTer RCT, RN/combination evidence). Reliable citation-level provenance; not an exhaustive bibliography."
+    },
+    {
+      "date": "2026-07-18",
+      "mode": "surveillance",
+      "window": "2026-06-27 to 2026-07-18",
+      "found": 1,
+      "added": 1,
+      "updated": 0,
+      "skipped": 0,
+      "note": "3-week delta since last scan. Neuro-oncology/LITT and epilepsy/adjacent domains returned no verifiable in-window items; regulatory added the Zeta Surgical TMS 510(k) (2026-07-10, neutral for LITT). Publisher/FDA pages were egress-blocked (403), so several epilepsy leads (extratemporal LITT papers PMID 42284607, 41239947) could not be date-confirmed and were NOT added - re-verify next run."
     }
   ],
   "items": [
@@ -996,7 +1006,7 @@
       "verified": "partial",
       "firstSeenRun": "2026-06-26",
       "lastUpdatedRun": "2026-06-27",
-      "status": "updated",
+      "status": "carried",
       "changeNote": "ASCO 2026-05-31 extended follow-up (+21.3 mo data): median PFS deepened to 44.1 mo, TTNI not reached — durable benefit confirmed (figures partial, secondary-source)."
     },
     {
@@ -1533,7 +1543,7 @@
       "verified": "verified",
       "firstSeenRun": "2026-06-26",
       "lastUpdatedRun": "2026-06-27",
-      "status": "updated",
+      "status": "carried",
       "changeNote": "In-window CE Mark (EU), 2026-04-28: Stealth AXiS authorized for spine + cranial in Europe — geographic expansion of the navigation+robotics platform, distinct from the 2026-03-27 US cranial/ENT clearance. Verified via Medtronic newsroom URL slug + MassDevice / Ortho Spine News."
     },
     {
@@ -1812,7 +1822,7 @@
       "verified": "verified",
       "firstSeenRun": "2026-06-27",
       "lastUpdatedRun": "2026-06-27",
-      "status": "new",
+      "status": "carried",
       "changeNote": ""
     },
     {
@@ -1864,7 +1874,7 @@
       "verified": "verified",
       "firstSeenRun": "2026-06-27",
       "lastUpdatedRun": "2026-06-27",
-      "status": "new",
+      "status": "carried",
       "changeNote": ""
     },
     {
@@ -1918,13 +1928,13 @@
       "verified": "verified",
       "firstSeenRun": "2026-06-27",
       "lastUpdatedRun": "2026-06-27",
-      "status": "new",
+      "status": "carried",
       "changeNote": ""
     },
     {
       "firstSeenRun": "2026-06-27",
       "lastUpdatedRun": "2026-06-27",
-      "status": "new",
+      "status": "carried",
       "changeNote": "",
       "id": "roads-cs131-tiles-vs-srt-brainmets-asco2026",
       "dedupKey": "asco2026-lba2000-roads-gammatile",
@@ -1977,7 +1987,7 @@
     {
       "firstSeenRun": "2026-06-27",
       "lastUpdatedRun": "2026-06-27",
-      "status": "new",
+      "status": "carried",
       "changeNote": "",
       "id": "ttfields-trident-ef32-negative-2026",
       "dedupKey": "novocure-trident-ef32-topline-2026",
@@ -2028,7 +2038,7 @@
     {
       "firstSeenRun": "2026-06-27",
       "lastUpdatedRun": "2026-06-27",
-      "status": "new",
+      "status": "carried",
       "changeNote": "",
       "id": "nccn-csf-liquid-biopsy-biopsy-infeasible-hgg-2026",
       "dedupKey": "nccn-cns-v2.2026-csf-genomic-profiling",
@@ -2083,7 +2093,7 @@
     {
       "firstSeenRun": "2026-06-27",
       "lastUpdatedRun": "2026-06-27",
-      "status": "new",
+      "status": "carried",
       "changeNote": "",
       "id": "jcog1703-macs-carmustine-wafer-negative-asco2026",
       "dedupKey": "asco2026-2001-jcog1703-macs",
@@ -2133,7 +2143,7 @@
     {
       "firstSeenRun": "2026-06-27",
       "lastUpdatedRun": "2026-06-27",
-      "status": "new",
+      "status": "carried",
       "changeNote": "",
       "id": "zeta-surgical-navigation-510k-2026",
       "dedupKey": "fda-k253663-zeta-navigation",
@@ -2188,7 +2198,7 @@
     {
       "firstSeenRun": "2026-06-27",
       "lastUpdatedRun": "2026-06-27",
-      "status": "new",
+      "status": "carried",
       "changeNote": "",
       "id": "clearpoint-focused-ultrasound-partnership-2026",
       "dedupKey": "clearpoint-fus-sungkyunkwan-2026",
@@ -2285,7 +2295,7 @@
       "verified": "partial",
       "firstSeenRun": "2026-06-27",
       "lastUpdatedRun": "2026-06-27",
-      "status": "new",
+      "status": "carried",
       "changeNote": ""
     },
     {
@@ -3195,6 +3205,55 @@
       "whoShouldKnow": [
         "Medical Affairs"
       ]
+    },
+    {
+      "id": "zeta-tms-robotic-navigation-510k-2026",
+      "dedupKey": "zeta-tms-510k-2026-07",
+      "domain": "regulatory",
+      "title": "Zeta Surgical — FDA 510(k) clearance for AI robotic TMS navigation system",
+      "citation": "Zeta Surgical press release; corroborated by Medical Device Network, MobiHealthNews, Surgical Robotics Technology.",
+      "url": "https://www.medicaldevice-network.com/news/fda-clears-zeta-surgical-robotic-tms-navigation-system/",
+      "date": "2026-07-10",
+      "venue": "FDA 510(k) / Zeta Surgical",
+      "studyDesign": "Regulatory clearance (Class II stereotaxic device)",
+      "population": "n/a",
+      "sampleSize": "n/a",
+      "endpoints": "n/a",
+      "results": "AI robotic system positioning TMS coils from 3D imaging (sub-1mm / sub-1 degree, pinless, no anesthesia) for psychiatric TMS (depression, OCD, PTSD, addiction). Zeta's 2nd cranial clearance of 2026 after the May 1 frameless navigation clearance (biopsy/EVD/rhizotomy). Reported K-number K261471 UNVERIFIED at FDA source.",
+      "significance": "Regulatory; neuromodulation (TMS), not ablation",
+      "limitations": "No LITT/ablation overlap; K-number unverified at accessdata.fda.gov",
+      "evidenceStrength": "Clearance (corroborated across outlets; K-number unverified)",
+      "clinicalBottomLine": "A competitor-adjacent cranial navigation/robotics platform is commercializing - in psychiatry, not ablation.",
+      "whyMatters": "Signals Zeta's low-cost, pinless, frameless cranial nav/robotics platform gaining momentum; the ablation-adjacent piece is its May biopsy/navigation clearance (already tracked). Watch trajectory toward stereotaxy that precedes LITT.",
+      "indications": [],
+      "strategies": [
+        "competitive_platform"
+      ],
+      "clinicalImpactScore": 1,
+      "littBusinessImpact": 3,
+      "littBusinessDirection": "neutral",
+      "businessLevers": [
+        "competitive"
+      ],
+      "timeHorizon": "2-5yr",
+      "specialtyRelevance": {
+        "neurosurgery": "Low",
+        "neuroOncology": "Low",
+        "epileptology": "Low",
+        "radiationOncology": "Low",
+        "neuroradiology": "Low",
+        "medicalOncology": "Low"
+      },
+      "competitiveImpact": "neutral - TMS/psychiatry navigation; watch Zeta's platform trajectory toward ablation-adjacent stereotaxy",
+      "whoShouldKnow": [
+        "Exec",
+        "Product"
+      ],
+      "verified": "partial",
+      "firstSeenRun": "2026-07-18",
+      "lastUpdatedRun": "2026-07-18",
+      "status": "new",
+      "changeNote": ""
     }
   ]
 }

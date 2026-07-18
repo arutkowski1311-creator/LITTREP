@@ -30,6 +30,7 @@ two months without re-litigating earlier reports.
 | 2026-06-26 | baseline | 2024-06-26 → 2026-06-26 | 31 | [2026-06-26-baseline.md](2026-06-26-baseline.md) |
 | 2026-06-27 | surveillance | 2026-04-27 → 2026-06-27 | 10 | [2026-06-27-surveillance.md](2026-06-27-surveillance.md) |
 | 2026-06-27 | baseline-backfill | 2020-01-01 → 2026-06-27 | 17 | _(landmark backfill — see STATE.json)_ |
+| 2026-07-18 | surveillance | 2026-06-27 → 2026-07-18 | 1 | [2026-07-18-surveillance.md](2026-07-18-surveillance.md) |
 
-**Database:** 58 findings spanning **2020–2026** · [`database.json`](database.json) · open
+**Database:** 59 findings spanning **2020–2026** · [`database.json`](database.json) · open
 [`index.html`](index.html) to browse.
